@@ -8,8 +8,9 @@
   },
   "scripts": {
     "start": "node index.js",
+    "start:dev": "nodemon --watch server --watch index.js index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "nodemon --watch server --watch index.js index.js"
+    "lint": "eslint server index.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,9 @@
     "express": "^4.13.4"
   },
   "devDependencies": {
+    "eslint": "^2.12.0",
+    "eslint-config-airbnb-base": "^3.0.1",
+    "eslint-plugin-import": "^1.8.1",
     "nodemon": "^1.9.2"
   }
 }
