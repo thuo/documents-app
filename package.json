@@ -1,0 +1,30 @@
+{
+  "name": "documents-api",
+  "version": "1.0.0",
+  "description": "Document Management System API",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "nodemon --watch server --watch index.js index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andela-hthuo/documents-api.git"
+  },
+  "author": "Humphrey Thuo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andela-hthuo/documents-api/issues"
+  },
+  "homepage": "https://github.com/andela-hthuo/documents-api#readme",
+  "dependencies": {
+    "express": "^4.13.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.9.2"
+  }
+}
