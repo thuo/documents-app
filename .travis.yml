@@ -3,6 +3,8 @@ node_js:
   - "6.2"
 services:
   - mongodb
+after_script:
+  - npm run report-coverage
 addons:
   apt:
     sources:
