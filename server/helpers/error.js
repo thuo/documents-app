@@ -25,7 +25,6 @@ function preprocessMongooseError(err) {
   if (err.name === 'ValidationError') {
     const messages = Object.keys(err.errors).reduce(
       (accumulated, key) => {
-        /* eslint-disable no-param-reassign */
         accumulated[key] = err.errors[key].message;
         return accumulated;
       },

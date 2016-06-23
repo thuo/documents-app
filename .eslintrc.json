@@ -1,8 +1,12 @@
 {
-    "env": {
-        "node": true,
-        "es6": true,
-        "mocha": true
-    },
-    "extends": "airbnb-base"
+  "env": {
+    "node": true,
+    "es6": true,
+    "mocha": true
+  },
+  "extends": "airbnb-base",
+  "rules": {
+    "no-underscore-dangle": ["error", { "allow": ["_id"] }],
+    "no-param-reassign" : ["error", { "props": false }]
+  }
 }

@@ -1,10 +1,12 @@
-/* eslint-disable global-require, new-cap */
+const AuthMiddleware = require('../middleware/auth');
 
+/* eslint-disable global-require, new-cap */
 module.exports = (express) => {
   const router = express.Router();
+  router.use(AuthMiddleware.parseToken);
 
-  ['./users'].forEach((module) => {
-    require(module)(router);
+  ['users', 'auth'].forEach((module) => {
+    require(`./${module}`)(router);
   });
 
   return router;

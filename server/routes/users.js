@@ -1,4 +1,5 @@
 const Users = require('../controllers/users');
+const UsersMiddleware = require('../middleware/users');
 const methodNotAllowed = require('../helpers/error').callbacks.methodNotAllowed;
 
 module.exports = (router) => {
@@ -9,7 +10,7 @@ module.exports = (router) => {
 
   router.route('/users/:userId')
     .get(Users.get)
-    .put(Users.update)
-    .delete(Users.delete)
+    .put(UsersMiddleware.requireCurrentUser, Users.update)
+    .delete(UsersMiddleware.requireCurrentUser, Users.delete)
     .all(methodNotAllowed);
 };

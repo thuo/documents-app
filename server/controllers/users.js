@@ -45,7 +45,6 @@ module.exports = {
         error.callbacks.resourceNotFound(req, res);
         return;
       }
-      /* eslint-disable no-param-reassign */
       user.email = req.body.email || user.email;
       user.username = req.body.username || user.username;
       user.name.first = req.body.first_name || user.name.first;

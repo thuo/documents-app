@@ -6,6 +6,7 @@ const production = process.env.NODE_ENV === 'production';
 const testing = process.env.NODE_ENV === 'testing';
 const development = !(production || testing);
 const port = process.env.PORT || 3000;
+const secretKey = process.env.SECRET_KEY || '3ctC0L16ZkjYrhSslcg+qzP2t5VkOoEU';
 
 
 module.exports = {
@@ -17,4 +18,5 @@ module.exports = {
   mongodbUri,
   testingMongodbUri,
   port,
+  secretKey,
 };
