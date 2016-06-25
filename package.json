@@ -25,11 +25,11 @@
   },
   "homepage": "https://github.com/andela-hthuo/documents-api#readme",
   "dependencies": {
+    "async": "^2.0.0-rc.6",
     "bcrypt": "^0.8.7",
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
     "jsonwebtoken": "^7.0.1",
-    "mocha-lcov-reporter": "^1.2.0",
     "mongoose": "^4.5.0",
     "morgan": "^1.7.0"
   },

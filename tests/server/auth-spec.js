@@ -1,6 +1,6 @@
 const request = require('supertest');
 const app = require('../../server/app');
-const usersSeed = require('./helpers/seeds/users');
+const users = require('./helpers/seeds/users');
 require('./helpers/database');
 
 describe('Login', () => {
@@ -9,10 +9,18 @@ describe('Login', () => {
       request(app)
         .post('/api/login')
         .send({
-          email: usersSeed[0].email,
+          email: users[0].email,
           password: 'raboof',
         })
         .expect(200, done);
+    });
+  });
+
+  describe('DELETE /login', () => {
+    it('is not allowed', (done) => {
+      request(app)
+        .get('/api/login')
+        .expect(405, done);
     });
   });
 });

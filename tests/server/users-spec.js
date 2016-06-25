@@ -1,21 +1,15 @@
 const request = require('supertest');
 const app = require('../../server/app');
-const usersSeed = require('./helpers/seeds/users');
-const config = require('../../server/config');
-const jwt = require('jsonwebtoken');
+const users = require('./helpers/seeds/users');
+const token = require('./helpers/token');
 require('./helpers/database');
 
-
 describe('Users', () => {
-  let token;
+  const tokens = {};
 
   before((done) => {
-    token = jwt.sign(JSON.stringify({
-      _id: usersSeed[0]._id,
-      email: usersSeed[0].email,
-      username: usersSeed[0].username,
-      name: usersSeed[0].name,
-    }), config.secretKey);
+    tokens.admin = token.generate(users[0]);
+    tokens.user = token.generate(users[2]);
     done();
   });
 
@@ -23,7 +17,15 @@ describe('Users', () => {
     it('returns an array of all users', (done) => {
       request(app)
         .get('/api/users')
+        .set('X-Access-Token', tokens.admin)
         .expect(200, done);
+    });
+
+    it('is only accessible to admins', (done) => {
+      request(app)
+        .get('/api/users')
+        .set('X-Access-Token', tokens.user)
+        .expect(403, done);
     });
   });
 
@@ -45,7 +47,7 @@ describe('Users', () => {
       request(app)
         .post('/api/users')
         .send({
-          username: usersSeed[0].username,
+          username: users[0].username,
           email: 'email@example.com',
           password: 'qazwsxedc',
           first_name: 'Foo',
@@ -59,7 +61,7 @@ describe('Users', () => {
         .post('/api/users')
         .send({
           username: 'qwerty',
-          email: usersSeed[0].email,
+          email: users[0].email,
           password: 'qazwsxedc',
           first_name: 'Foo',
           last_name: 'Bar',
@@ -82,9 +84,9 @@ describe('Users', () => {
   });
 
   describe('GET /users/:id', () => {
-    it('updates user details', (done) => {
+    it('returns user', (done) => {
       request(app)
-        .get(`/api/users/${usersSeed[0]._id}`)
+        .get(`/api/users/${users[0]._id}`)
         .expect(200, done);
     });
 
@@ -98,8 +100,8 @@ describe('Users', () => {
   describe('PUT /users/:id', () => {
     it('updates user details', (done) => {
       request(app)
-        .put(`/api/users/${usersSeed[0]._id}`)
-        .set('X-Access-Token', token)
+        .put(`/api/users/${users[0]._id}`)
+        .set('X-Access-Token', tokens.admin)
         .send({
           first_name: 'Antman',
         })
@@ -108,8 +110,8 @@ describe('Users', () => {
 
     it('restricts user from updating another user', (done) => {
       request(app)
-        .put(`/api/users/${usersSeed[1]._id}`)
-        .set('X-Access-Token', token)
+        .put(`/api/users/${users[1]._id}`)
+        .set('X-Access-Token', tokens.admin)
         .send({
           first_name: 'Antman',
         })
@@ -120,16 +122,16 @@ describe('Users', () => {
   describe('DELETE /users/:id', () => {
     it('deletes user', (done) => {
       request(app)
-        .delete(`/api/users/${usersSeed[0]._id}`)
-        .set('X-Access-Token', token)
+        .delete(`/api/users/${users[0]._id}`)
+        .set('X-Access-Token', tokens.admin)
         .send()
         .expect(200, done);
     });
 
     it('restricts user from deleting another user', (done) => {
       request(app)
-        .delete(`/api/users/${usersSeed[1]._id}`)
-        .set('X-Access-Token', token)
+        .delete(`/api/users/${users[1]._id}`)
+        .set('X-Access-Token', tokens.user)
         .send()
         .expect(403, done);
     });

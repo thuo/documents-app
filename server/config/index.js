@@ -7,6 +7,10 @@ const testing = process.env.NODE_ENV === 'testing';
 const development = !(production || testing);
 const port = process.env.PORT || 3000;
 const secretKey = process.env.SECRET_KEY || '3ctC0L16ZkjYrhSslcg+qzP2t5VkOoEU';
+const admin = {
+  email: process.env.ADMIN_EMAIL || 'admin@example.com',
+  password: process.env.ADMIN_PASSWORD || 'xe6zboNeiLrTfQ',
+};
 
 
 module.exports = {
@@ -19,4 +23,5 @@ module.exports = {
   testingMongodbUri,
   port,
   secretKey,
+  admin,
 };

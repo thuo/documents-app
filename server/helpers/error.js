@@ -43,14 +43,19 @@ function preprocessMongooseError(err) {
     const error = `\`${err.value}\` is not a valid ${type}`;
     return { status: 400, body: { error } };
   }
+  if (err.name === 'CustomError') {
+    return { status: err.status, body: { error: err.error } };
+  }
   return { status: 500, body: err };
 }
 
-const mongoose = {
-  send(err, res) {
-    return send(err, res, preprocessMongooseError);
-  },
-};
+const mongoose = { send(err, res) {
+  return send(err, res, preprocessMongooseError);
+} };
+
+const unauthorized = { send(errorMessage, res) {
+  return send({ error: errorMessage }, res, 403);
+} };
 
 const callbacks = {
   methodNotAllowed(req, res) {
@@ -65,4 +70,4 @@ const callbacks = {
   },
 };
 
-module.exports = { send, mongoose, callbacks };
+module.exports = { send, mongoose, callbacks, unauthorized };

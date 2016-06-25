@@ -3,7 +3,8 @@ const error = require('../helpers/error');
 
 module.exports = {
   create(req, res) {
-    User.create(
+    const role = 'user';
+    User.createWithRole(
       {
         email: req.body.email,
         password: req.body.password,
@@ -12,23 +13,30 @@ module.exports = {
           first: req.body.first_name,
           last: req.body.last_name,
         },
+        role,
       },
       (err, user) => {
         if (error.mongoose.send(err, res)) return;
-        res.status(201).json(user);
+        res.status(201).json({
+          _id: user._id,
+          email: user.email,
+          username: user.username,
+          name: user.name,
+          role: { title: role },
+        });
       }
     );
   },
 
   all(req, res) {
-    User.find({}, (err, users) => {
+    User.findWithRole({}, (err, users) => {
       if (error.mongoose.send(err, res)) return;
       res.json(users);
     });
   },
 
   get(req, res) {
-    User.findById(req.params.userId, (err, user) => {
+    User.findByIdWithRole(req.params.userId, (err, user) => {
       if (error.mongoose.send(err, res)) return;
       if (!user) {
         error.callbacks.resourceNotFound(req, res);
@@ -39,7 +47,7 @@ module.exports = {
   },
 
   update(req, res) {
-    User.findById(req.params.userId, (findError, user) => {
+    User.findByIdWithRole(req.params.userId, (findError, user) => {
       if (error.mongoose.send(findError, res)) return;
       if (!user) {
         error.callbacks.resourceNotFound(req, res);
@@ -49,8 +57,8 @@ module.exports = {
       user.username = req.body.username || user.username;
       user.name.first = req.body.first_name || user.name.first;
       user.name.last = req.body.last_name || user.name.last;
-      user.save((saveError, savedUser) =>
-        error.mongoose.send(saveError, res) || res.json(savedUser)
+      user.save((saveError) =>
+        error.mongoose.send(saveError, res) || res.json(user)
       );
     });
   },
@@ -61,6 +69,19 @@ module.exports = {
       res.json({
         message: 'User deleted.',
       });
+    });
+  },
+
+  updateRole(req, res) {
+    User.findByIdWithRole(req.params.userId, (findError, user) => {
+      if (error.mongoose.send(findError, res)) return;
+      if (!user) {
+        error.callbacks.resourceNotFound(req, res);
+        return;
+      }
+      user.updateRole(req.body.role, (updateError, savedUser) =>
+        error.mongoose.send(updateError, res) || res.json(savedUser)
+      );
     });
   },
 };

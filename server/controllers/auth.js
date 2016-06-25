@@ -15,8 +15,8 @@ module.exports = {
         error: 'Password is required',
       }, res, 400);
     }
-    User.findOne({ email: req.body.email })
-      .select('+password')
+    User.findOne({ email: req.body.email }, '+password')
+      .populate('role', '-_id')
       .exec((err, user) => {
         if (error.mongoose.send(err)) return;
         if (!user) {
@@ -37,6 +37,7 @@ module.exports = {
             email: user.email,
             username: user.username,
             name: user.name,
+            role: user.role,
           }),
           config.secretKey
         );
