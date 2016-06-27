@@ -14,6 +14,37 @@ describe('Login', () => {
         })
         .expect(200, done);
     });
+
+    it('requires email to be provided', (done) => {
+      request(app)
+        .post('/api/login')
+        .send({ password: 'raboof' })
+        .expect(400, done);
+    });
+
+    it('requires password to be provided', (done) => {
+      request(app)
+        .post('/api/login')
+        .send({ email: users[0].email })
+        .expect(400, done);
+    });
+
+    it('requires email that belongs to existing user', (done) => {
+      request(app)
+        .post('/api/login')
+        .send({ email: 'example@example.com', password: 'raboof' })
+        .expect(401, done);
+    });
+
+    it('only returns token if the password matches the email', (done) => {
+      request(app)
+        .post('/api/login')
+        .send({
+          email: users[0].email,
+          password: 'password',
+        })
+        .expect(401, done);
+    });
   });
 
   describe('DELETE /login', () => {

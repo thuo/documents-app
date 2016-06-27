@@ -9,11 +9,13 @@ module.exports = {
       error.send({
         error: 'Email is required',
       }, res, 400);
+      return;
     }
     if (!req.body.password) {
       error.send({
         error: 'Password is required',
       }, res, 400);
+      return;
     }
     User.findOne({ email: req.body.email }, '+password')
       .populate('role', '-_id')
