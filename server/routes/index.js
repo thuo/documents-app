@@ -5,7 +5,7 @@ module.exports = (express) => {
   const router = express.Router();
   router.use(AuthMiddleware.parseToken);
 
-  ['users', 'auth'].forEach((module) => {
+  ['users', 'auth', 'documents'].forEach((module) => {
     require(`./${module}`)(router);
   });
 
