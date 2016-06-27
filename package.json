@@ -12,7 +12,8 @@
     "test": "NODE_ENV=testing mocha \"tests/**/*spec.js\"",
     "lint": "eslint server index.js",
     "cover": "NODE_ENV=testing istanbul cover _mocha -- \"tests/**/*spec.js\"",
-    "report-coverage": "npm run cover && codeclimate-test-reporter < coverage/lcov.info"
+    "codeclimate": "npm run cover && codeclimate-test-reporter < coverage/lcov.info",
+    "codecov": "npm run cover && cat coverage/lcov.info | codecov"
   },
   "repository": {
     "type": "git",
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "codeclimate-test-reporter": "^0.3.3",
+    "codecov.io": "^0.1.6",
     "eslint": "^2.12.0",
     "eslint-config-airbnb-base": "^3.0.1",
     "eslint-plugin-import": "^1.8.1",

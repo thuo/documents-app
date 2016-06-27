@@ -1,6 +1,6 @@
 # Documents API
 
 [![Build Status](https://travis-ci.org/andela-hthuo/documents-api.svg?branch=develop)](https://travis-ci.org/andela-hthuo/documents-api)
-[![Test Coverage](https://codeclimate.com/github/andela-hthuo/documents-api/badges/coverage.svg)](https://codeclimate.com/github/andela-hthuo/documents-api/coverage)
+[![codecov](https://codecov.io/gh/andela-hthuo/documents-api/branch/develop/graph/badge.svg)](https://codecov.io/gh/andela-hthuo/documents-api/branch/develop)
 [![Code Climate](https://codeclimate.com/github/andela-hthuo/documents-api/badges/gpa.svg)](https://codeclimate.com/github/andela-hthuo/documents-api)
 [![Dependency Status](https://david-dm.org/andela-hthuo/documents-api.svg)](https://david-dm.org/andela-hthuo/documents-api)
