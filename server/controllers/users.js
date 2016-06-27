@@ -84,4 +84,34 @@ module.exports = {
       );
     });
   },
+
+  updatePassword(req, res) {
+    if (!req.body.old_password) {
+      error.send({
+        error: 'Old password is required',
+      }, res, 400);
+      return;
+    }
+    User.findById(req.decoded._id, '+password', (findError, user) => {
+      if (error.mongoose.send(findError, res)) return;
+      if (!user.comparePassword(req.body.old_password)) {
+        error.unauthorized.send('Unauthorized. Incorrect old password', res);
+        return;
+      }
+      user.password = req.body.password;
+      user.save((saveError, savedUser) => {
+        if (error.mongoose.send(saveError, res)) return;
+        savedUser.populate('role', '-_id', (updateError, populatedUser) =>
+          error.mongoose.send(updateError, res) || res.json({
+          // we're doing this to avoid sending back the password
+            _id: populatedUser._id,
+            email: populatedUser.email,
+            username: populatedUser.username,
+            name: populatedUser.name,
+            role: populatedUser.role,
+          })
+        );
+      });
+    });
+  },
 };

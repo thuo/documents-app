@@ -119,6 +119,40 @@ describe('Users', () => {
     });
   });
 
+  describe('PUT users/:id/password', () => {
+    it('requires the old password', (done) => {
+      request(app)
+        .put(`/api/users/${users[2]._id}/password`)
+        .set('X-Access-Token', tokens.user)
+        .send({ password: 'drowssap' })
+        .expect(400, done);
+    });
+
+    it('requires the the new password', (done) => {
+      request(app)
+        .put(`/api/users/${users[2]._id}/password`)
+        .set('X-Access-Token', tokens.user)
+        .send({ old_password: 'raboof' })
+        .expect(400, done);
+    });
+
+    it('only allows to change their own passwords', (done) => {
+      request(app)
+        .put(`/api/users/${users[2]._id}/password`)
+        .set('X-Access-Token', tokens.admin)
+        .send({ old_password: 'raboof', password: 'drowssap' })
+        .expect(403, done);
+    });
+
+    it('changes the password', (done) => {
+      request(app)
+        .put(`/api/users/${users[2]._id}/password`)
+        .set('X-Access-Token', tokens.user)
+        .send({ old_password: 'raboof', password: 'drowssap' })
+        .expect(200, done);
+    });
+  });
+
   describe('DELETE /users/:id', () => {
     it('deletes user', (done) => {
       request(app)

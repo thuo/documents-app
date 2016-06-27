@@ -15,6 +15,11 @@ module.exports = (router) => {
     .delete(UsersMiddleware.requireCurrentUser, Users.delete)
     .all(methodNotAllowed);
 
+  router.route('/users/:userId/password')
+    // only admins can change a user's role
+    .put(UsersMiddleware.requireCurrentUser, Users.updatePassword)
+    .all(methodNotAllowed);
+
   router.route('/users/:userId/role')
     // only admins can change a user's role
     .put(UsersMiddleware.requireAdmin, Users.updateRole)
