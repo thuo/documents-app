@@ -1,4 +1,5 @@
 const request = require('supertest');
+const expect = require('chai').expect;
 const app = require('../../server/app');
 const users = require('./helpers/seeds/users');
 const token = require('./helpers/token');
@@ -19,7 +20,11 @@ describe('Roles', () => {
         .put(`/api/users/${users[1]._id}/role`)
         .set('X-Access-Token', tokens.user)
         .send({ role: 'user' })
-        .expect(403, done);
+        .expect(403)
+        .end((err, res) => {
+          expect(res.body.error).to.contain('Unauthorized. Requires admin.');
+          done();
+        });
     });
 
     it('restricts removal of a lone admin', (done) => {
@@ -27,7 +32,12 @@ describe('Roles', () => {
         .put(`/api/users/${users[0]._id}/role`)
         .set('X-Access-Token', tokens.admin)
         .send({ role: 'user' })
-        .expect(403, done);
+        .expect(403)
+        .end((err, res) => {
+          expect(res.body.error)
+            .to.contain("Unauthorized. Can't remove the only admin");
+          done();
+        });
     });
 
     it('only accepts valid roles', (done) => {
@@ -35,7 +45,11 @@ describe('Roles', () => {
         .put(`/api/users/${users[1]._id}/role`)
         .set('X-Access-Token', tokens.admin)
         .send({ role: 'hacker' })
-        .expect(400, done);
+        .expect(400)
+        .end((err, res) => {
+          expect(res.body.error).to.contain('is not a valid role');
+          done();
+        });
     });
 
     it("updates user's role", (done) => {
@@ -43,7 +57,11 @@ describe('Roles', () => {
         .put(`/api/users/${users[1]._id}/role`)
         .set('X-Access-Token', tokens.admin)
         .send({ role: 'admin' })
-        .expect(200, done);
+        .expect(200)
+        .end((err, res) => {
+          expect(res.body.role.title).to.equal('admin');
+          done();
+        });
     });
   });
 });

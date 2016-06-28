@@ -36,6 +36,7 @@
     "morgan": "^1.7.0"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
     "codeclimate-test-reporter": "^0.3.3",
     "codecov.io": "^0.1.6",
     "eslint": "^2.12.0",

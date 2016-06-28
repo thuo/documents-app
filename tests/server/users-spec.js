@@ -1,4 +1,5 @@
 const request = require('supertest');
+const expect = require('chai').expect;
 const app = require('../../server/app');
 const users = require('./helpers/seeds/users');
 const token = require('./helpers/token');
@@ -18,14 +19,22 @@ describe('Users', () => {
       request(app)
         .get('/api/users')
         .set('X-Access-Token', tokens.admin)
-        .expect(200, done);
+        .expect(200)
+        .end((err, res) => {
+          expect(res.body).to.be.an('array');
+          done();
+        });
     });
 
     it('is only accessible to admins', (done) => {
       request(app)
         .get('/api/users')
         .set('X-Access-Token', tokens.user)
-        .expect(403, done);
+        .expect(403)
+        .end((err, res) => {
+          expect(res.body.error).to.contain('Unauthorized. Requires admin.');
+          done();
+        });
     });
   });
 
@@ -40,7 +49,14 @@ describe('Users', () => {
           first_name: 'Foo',
           last_name: 'Bar',
         })
-        .expect(201, done);
+        .expect(201)
+        .end((err, res) => {
+          expect(res.body.username).to.equal('username');
+          expect(res.body.email).to.equal('example@example.com');
+          expect(res.body.name.first).to.equal('Foo');
+          expect(res.body.name.last).to.equal('Bar');
+          done();
+        });
     });
 
     it('rejects usernames already in use', (done) => {
@@ -53,7 +69,11 @@ describe('Users', () => {
           first_name: 'Foo',
           last_name: 'Bar',
         })
-        .expect(409, done);
+        .expect(409)
+        .end((err, res) => {
+          expect(res.body.error).to.contain('already in use');
+          done();
+        });
     });
 
     it('rejects emails already in use', (done) => {
@@ -66,7 +86,11 @@ describe('Users', () => {
           first_name: 'Foo',
           last_name: 'Bar',
         })
-        .expect(409, done);
+        .expect(409)
+        .end((err, res) => {
+          expect(res.body.error).to.contain('already in use');
+          done();
+        });
     });
 
     it('only accepts valid emails and usernames', (done) => {
@@ -79,7 +103,12 @@ describe('Users', () => {
           first_name: 'Foo',
           last_name: 'Bar',
         })
-        .expect(400, done);
+        .expect(400)
+        .end((err, res) => {
+          expect(res.body.error).to.contain('User validation failed');
+          expect(res.body.messages).to.contain.all.keys('email', 'username');
+          done();
+        });
     });
   });
 
@@ -87,13 +116,25 @@ describe('Users', () => {
     it('returns user', (done) => {
       request(app)
         .get(`/api/users/${users[0]._id}`)
-        .expect(200, done);
+        .expect(200)
+        .end((err, res) => {
+          expect(res.body._id).to.equal(users[0]._id.toString());
+          expect(res.body.username).to.equal(users[0].username);
+          expect(res.body.email).to.equal(users[0].email);
+          expect(res.body.name.first).to.equal(users[0].name.first);
+          expect(res.body.name.last).to.equal(users[0].name.last);
+          done();
+        });
     });
 
     it('only accepts valid user ids', (done) => {
       request(app)
         .get('/api/users/1')
-        .expect(400, done);
+        .expect(400)
+        .end((err, res) => {
+          expect(res.body.error).to.contain('is not a valid resource id');
+          done();
+        });
     });
   });
 
@@ -105,7 +146,12 @@ describe('Users', () => {
         .send({
           first_name: 'Antman',
         })
-        .expect(200, done);
+        .expect(200)
+        .end((err, res) => {
+          expect(res.body._id).to.equal(users[0]._id.toString());
+          expect(res.body.name.first).to.equal('Antman');
+          done();
+        });
     });
 
     it('restricts user from updating another user', (done) => {
@@ -115,7 +161,11 @@ describe('Users', () => {
         .send({
           first_name: 'Antman',
         })
-        .expect(403, done);
+        .expect(403)
+        .end((err, res) => {
+          expect(res.body.error).to.contain('Unauthorized');
+          done();
+        });
     });
   });
 
@@ -125,7 +175,11 @@ describe('Users', () => {
         .put(`/api/users/${users[2]._id}/password`)
         .set('X-Access-Token', tokens.user)
         .send({ password: 'drowssap' })
-        .expect(400, done);
+        .expect(400)
+        .end((err, res) => {
+          expect(res.body.error).to.equal('Old password is required');
+          done();
+        });
     });
 
     it('requires the the new password', (done) => {
@@ -133,7 +187,12 @@ describe('Users', () => {
         .put(`/api/users/${users[2]._id}/password`)
         .set('X-Access-Token', tokens.user)
         .send({ old_password: 'raboof' })
-        .expect(400, done);
+        .expect(400)
+        .end((err, res) => {
+          expect(res.body.error).to.contain('User validation failed');
+          expect(res.body.messages).to.contain.all.keys('password');
+          done();
+        });
     });
 
     it('only allows to change their own passwords', (done) => {
@@ -141,7 +200,11 @@ describe('Users', () => {
         .put(`/api/users/${users[2]._id}/password`)
         .set('X-Access-Token', tokens.admin)
         .send({ old_password: 'raboof', password: 'drowssap' })
-        .expect(403, done);
+        .expect(403)
+        .end((err, res) => {
+          expect(res.body.error).to.contain("User id in token doesn't match");
+          done();
+        });
     });
 
     it('changes the password', (done) => {
@@ -149,7 +212,11 @@ describe('Users', () => {
         .put(`/api/users/${users[2]._id}/password`)
         .set('X-Access-Token', tokens.user)
         .send({ old_password: 'raboof', password: 'drowssap' })
-        .expect(200, done);
+        .expect(200)
+        .end((err, res) => {
+          expect(res.body._id).to.equal(users[2]._id.toString());
+          done();
+        });
     });
   });
 
@@ -159,7 +226,11 @@ describe('Users', () => {
         .delete(`/api/users/${users[0]._id}`)
         .set('X-Access-Token', tokens.admin)
         .send()
-        .expect(200, done);
+        .expect(200)
+        .end((err, res) => {
+          expect(res.body.message).to.contain('User deleted.');
+          done();
+        });
     });
 
     it('restricts user from deleting another user', (done) => {
@@ -167,7 +238,11 @@ describe('Users', () => {
         .delete(`/api/users/${users[1]._id}`)
         .set('X-Access-Token', tokens.user)
         .send()
-        .expect(403, done);
+        .expect(403)
+        .end((err, res) => {
+          expect(res.body.error).to.contain("User id in token doesn't match");
+          done();
+        });
     });
   });
 });

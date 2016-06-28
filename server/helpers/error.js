@@ -14,8 +14,8 @@ function send(err, res, statusOrPreprocessor) {
 function preprocessMongooseError(err) {
   if (err.name === 'MongoError' && err.code === 11000) {
     const error = err.message.replace(
-      /(.+) index: (.+)_\d+ dup key: { : "(.+)" }/,
-      'The $2 `$3` is alreay in use'
+      /(.+)\s+index:.*\W(\w+)_\d+\s+dup key:\s+{\s+:\s+"(.+)"\s+}/,
+      'The $2 `$3` is already in use'
     );
     return {
       status: 409,
@@ -60,7 +60,8 @@ const unauthorized = { send(errorMessage, res) {
 const callbacks = {
   methodNotAllowed(req, res) {
     res.status(405).json({
-      error: `Method \`${req.method}\` not allowed on resource \`${req.originalUrl}\``,
+      error: `Method \`${req.method}\` `
+        + `not allowed on resource \`${req.originalUrl}\``,
     });
   },
   resourceNotFound(req, res) {
