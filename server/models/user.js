@@ -29,8 +29,16 @@ const UserSchema = new Schema({
     },
   },
   name: {
-    first: String,
-    last: String,
+    first: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    last: {
+      type: String,
+      required: true,
+      trim: true,
+    },
   },
   role: {
     type: Schema.Types.ObjectId,
@@ -146,6 +154,7 @@ if (!config.env.testing) {
       email: config.admin.email,
       password: config.admin.password,
       role: 'admin',
+      name: { first: 'Default', last: 'Admin' },
     });
   });
 }
