@@ -225,7 +225,6 @@ describe('Users API endpoints', () => {
       request(app)
         .delete(`/api/users/${users[0]._id}`)
         .set('X-Access-Token', tokens.admin)
-        .send()
         .expect(200)
         .end((err, res) => {
           expect(res.body.message).to.contain('User deleted.');
@@ -237,10 +236,20 @@ describe('Users API endpoints', () => {
       request(app)
         .delete(`/api/users/${users[1]._id}`)
         .set('X-Access-Token', tokens.user)
-        .send()
         .expect(403)
         .end((err, res) => {
           expect(res.body.error).to.contain("User id in token doesn't match");
+          done();
+        });
+    });
+
+    it("doesn't allow deletion of a lone admin", (done) => {
+      request(app)
+        .delete(`/api/users/${users[1]._id}`)
+        .set('X-Access-Token', token.generate(users[1]))
+        .expect(403)
+        .end((err, res) => {
+          expect(res.body.error).to.contain("Can't delete the only admin");
           done();
         });
     });

@@ -64,7 +64,7 @@ module.exports = {
   },
 
   delete(req, res) {
-    User.remove({ _id: req.params.userId }, (err) => {
+    User.removeIfNotLoneAdmin({ _id: req.params.userId }, (err) => {
       if (error.mongoose.send(err, res)) return;
       res.json({
         message: 'User deleted.',

@@ -95,6 +95,38 @@ UserSchema.statics.findByRole = function findByRole(title, callback) {
   });
 };
 
+UserSchema.statics.removeIfNotLoneAdmin = function removeIfNotLoneAdmin(id,
+  callback) {
+  this.findByIdWithRole(id, (findError, user) => {
+    if (findError) {
+      callback(findError, null);
+      return;
+    }
+    // No need for many checks for non-admin
+    if (user.role.title !== 'admin') {
+      this.findByIdAndRemove(user._id, callback);
+      return;
+    }
+
+    // There has to be at least another admin otherwise don't delete an admin
+    this.findByRole('admin', (err, admins) => {
+      if (admins && admins.length > 1) {
+        // Found other more than 1 admins which means there's another admin
+        // other than the one being deleted; so, we can go ahead and delete
+        // the admin.
+        this.findByIdAndRemove(user._id, callback);
+        return;
+      }
+
+      callback(err || {
+        name: 'CustomError',
+        error: "Unauthorized. Can't delete the only admin",
+        status: 403,
+      }, null);
+    });
+  });
+};
+
 UserSchema.methods.updateRole = function updateRole(title, callback) {
   Role.findByTitle(title, (roleError, role) => {
     if (roleError) {
