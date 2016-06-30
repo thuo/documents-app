@@ -41,6 +41,24 @@ describe('Documents API endpoints', () => {
           done();
         });
     });
+
+    it('can filter by publish date', (done) => {
+      const fourHrsAgo = new Date(Date.now() - 14400000);
+      const oneHrAgo = new Date(Date.now() - 3600000);
+      request(app)
+        .get(`/api/documents?published_after=${fourHrsAgo.toLocaleString()}` +
+          `&published_before=${oneHrAgo.toLocaleString()}`)
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body).to.not.be.empty;
+          expect(res.body.every((doc) =>
+            new Date(doc.createdAt) >= fourHrsAgo
+            && new Date(doc.createdAt) <= oneHrAgo
+            && doc.access.read === 'public'
+          )).to.be.true;
+          done();
+        });
+    });
   });
 
   describe('GET /users/:userId/documents', () => {

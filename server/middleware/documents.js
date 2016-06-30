@@ -16,6 +16,22 @@ function prepareDocumentsQuery(req, res, next) {
   next();
 }
 
+function parsePublishDateFilters(req, res, next) {
+  const createdAtConditions = [];
+  const createdBefore = new Date(req.query.published_before);
+  if (!isNaN(createdBefore.getTime())) {
+    createdAtConditions.push({ createdAt: { $lte: createdBefore } });
+  }
+  const createdAfter = new Date(req.query.published_after);
+  if (!isNaN(createdAfter.getTime())) {
+    createdAtConditions.push({ createdAt: { $gte: createdAfter } });
+  }
+  if (createdAtConditions.length) {
+    req.documentsQuery.$and = createdAtConditions;
+  }
+  next();
+}
+
 function parseSkipAndLimit(req, res, next) {
   req.query.skip = parseInt(req.query.skip);
   req.query.limit = parseInt(req.query.limit);
@@ -112,7 +128,11 @@ function requireOwner(req, res, next) {
 }
 
 const authenticatedFindDocument = [AuthMiddleware.authenticate, findDocument];
-const documentsQueryPrep = [prepareDocumentsQuery, parseSkipAndLimit];
+const documentsQueryPrep = [
+  prepareDocumentsQuery,
+  parsePublishDateFilters,
+  parseSkipAndLimit,
+];
 
 module.exports = {
   findDocument,
