@@ -5,7 +5,7 @@ const users = require('./helpers/seeds/users');
 const token = require('./helpers/token');
 require('./helpers/database');
 
-describe('Users', () => {
+describe('Users API endpoints', () => {
   const tokens = {};
 
   before((done) => {

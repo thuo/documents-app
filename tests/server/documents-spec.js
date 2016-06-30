@@ -6,7 +6,7 @@ const documents = require('./helpers/seeds/documents');
 const token = require('./helpers/token');
 require('./helpers/database');
 
-describe('Documents', () => {
+describe('Documents API endpoints', () => {
   const tokens = {};
 
   before((done) => {

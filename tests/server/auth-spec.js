@@ -4,7 +4,7 @@ const app = require('../../server/app');
 const users = require('./helpers/seeds/users');
 require('./helpers/database');
 
-describe('Login', () => {
+describe('Login API endpoint', () => {
   describe('POST /login', () => {
     it('returns a token', (done) => {
       request(app)
