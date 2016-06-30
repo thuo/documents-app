@@ -13,8 +13,17 @@ function prepareDocumentsQuery(req, res, next) {
   } else {
     req.documentsQuery = { 'access.read': 'public' };
   }
-  req.query.skip = Number(req.query.skip);
-  req.query.limit = Number(req.query.limit);
+  next();
+}
+
+function parseSkipAndLimit(req, res, next) {
+  req.query.skip = parseInt(req.query.skip);
+  req.query.limit = parseInt(req.query.limit);
+  next();
+}
+
+function addUserToDocumentsQuery(req, res, next) {
+  req.documentsQuery.owner = req.params.userId;
   next();
 }
 
@@ -103,10 +112,12 @@ function requireOwner(req, res, next) {
 }
 
 const authenticatedFindDocument = [AuthMiddleware.authenticate, findDocument];
+const documentsQueryPrep = [prepareDocumentsQuery, parseSkipAndLimit];
 
 module.exports = {
-  prepareDocumentsQuery,
   findDocument,
+  prepareDocumentsQuery: documentsQueryPrep,
+  prepareUsersDocumentsQuery: [...documentsQueryPrep, addUserToDocumentsQuery],
   requireReadAccess: [findDocument, requireReadAccess],
   requireWriteAccess: [...authenticatedFindDocument, requireWriteAccess],
   requireAdminOrOwner: [...authenticatedFindDocument, requireAdminOrOwner],

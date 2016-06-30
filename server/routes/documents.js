@@ -20,6 +20,6 @@ module.exports = (router) => {
     .all(methodNotAllowed);
 
   router.route('/users/:userId/documents')
-    .get(DocumentsMiddleware.prepareDocumentsQuery, Documents.allByOwner)
+    .get(DocumentsMiddleware.prepareUsersDocumentsQuery, Documents.all)
     .all(methodNotAllowed);
 };

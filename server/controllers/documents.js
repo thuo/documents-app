@@ -32,19 +32,6 @@ module.exports = {
       });
   },
 
-  allByOwner(req, res) {
-    req.documentsQuery.owner = req.params.userId;
-    Document.find(req.documentsQuery)
-      .skip(req.query.skip)
-      .limit(req.query.limit)
-      .sort('-createdAt')
-      .deepPopulate('owner.role')
-      .exec((err, docs) => {
-        if (error.mongoose.send(err, res)) return;
-        res.status(200).json(docs);
-      });
-  },
-
   get(req, res) {
     res.status(200).json(req.document);
   },
