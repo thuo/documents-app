@@ -35,8 +35,8 @@ describe('Roles', () => {
           .put(`/api/users/${users[1]._id}/role`)
           .set('X-Access-Token', tokens.user)
           .send({ role: 'user' })
-          .expect(403)
           .end((err, res) => {
+            expect(res.status).to.equal(403);
             expect(res.body.error).to.contain('Unauthorized. Requires admin.');
             done();
           });
@@ -47,8 +47,8 @@ describe('Roles', () => {
           .put(`/api/users/${users[0]._id}/role`)
           .set('X-Access-Token', tokens.admin)
           .send({ role: 'user' })
-          .expect(403)
           .end((err, res) => {
+            expect(res.status).to.equal(403);
             expect(res.body.error)
               .to.contain("Unauthorized. Can't remove the only admin");
             done();
@@ -60,8 +60,8 @@ describe('Roles', () => {
           .put(`/api/users/${users[1]._id}/role`)
           .set('X-Access-Token', tokens.admin)
           .send({ role: 'hacker' })
-          .expect(400)
           .end((err, res) => {
+            expect(res.status).to.equal(400);
             expect(res.body.error).to.contain('is not a valid role');
             done();
           });
@@ -72,8 +72,8 @@ describe('Roles', () => {
           .put(`/api/users/${users[1]._id}/role`)
           .set('X-Access-Token', tokens.admin)
           .send({ role: 'admin' })
-          .expect(200)
           .end((err, res) => {
+            expect(res.status).to.equal(200);
             expect(res.body.role.title).to.equal('admin');
             done();
           });

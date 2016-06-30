@@ -13,8 +13,8 @@ describe('Login API endpoint', () => {
           email: users[0].email,
           password: 'raboof',
         })
-        .expect(200)
         .end((err, res) => {
+          expect(res.status).to.equal(200);
           expect(res.body.token).to.be.a('string');
           done();
         });
@@ -24,8 +24,8 @@ describe('Login API endpoint', () => {
       request(app)
         .post('/api/login')
         .send({ password: 'raboof' })
-        .expect(400)
         .end((err, res) => {
+          expect(res.status).to.equal(400);
           expect(res.body.error).to.equal('Email is required');
           done();
         });
@@ -35,8 +35,8 @@ describe('Login API endpoint', () => {
       request(app)
         .post('/api/login')
         .send({ email: users[0].email })
-        .expect(400)
         .end((err, res) => {
+          expect(res.status).to.equal(400);
           expect(res.body.error).to.equal('Password is required');
           done();
         });
@@ -46,8 +46,8 @@ describe('Login API endpoint', () => {
       request(app)
         .post('/api/login')
         .send({ email: 'example@example.com', password: 'raboof' })
-        .expect(401)
         .end((err, res) => {
+          expect(res.status).to.equal(401);
           expect(res.body.error).to.equal("Email doesn't match any user");
           done();
         });
@@ -60,8 +60,8 @@ describe('Login API endpoint', () => {
           email: users[0].email,
           password: 'password',
         })
-        .expect(401)
         .end((err, res) => {
+          expect(res.status).to.equal(401);
           expect(res.body.error).to.equal("Email and password don't match");
           done();
         });
@@ -72,8 +72,8 @@ describe('Login API endpoint', () => {
     it('is not allowed', (done) => {
       request(app)
         .delete('/api/login')
-        .expect(405)
         .end((err, res) => {
+          expect(res.status).to.equal(405);
           expect(res.body.error)
             .to.contain('Method `DELETE` not allowed on resource');
           done();
