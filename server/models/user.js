@@ -95,6 +95,16 @@ UserSchema.statics.findByRole = function findByRole(title, callback) {
   });
 };
 
+UserSchema.statics.findByRoleId = function findByRole(roleId, callback) {
+  Role.findById(roleId, (err, role) => {
+    if (err) {
+      callback(err, null);
+      return;
+    }
+    this.findWithRole({ role: role._id }, callback);
+  });
+};
+
 UserSchema.statics.removeIfNotLoneAdmin = function removeIfNotLoneAdmin(id,
   callback) {
   this.findByIdWithRole(id, (findError, user) => {
