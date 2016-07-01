@@ -1,0 +1,19 @@
+{
+  "name": "Documents API",
+  "description": "Document Management System API",
+  "repository": "https://github.com/andela-hthuo/documents-api",
+  "env": {
+    "SECRET_TOKEN": {
+      "description": "A secret key for verifying signed tokens.",
+      "generator": "secret"
+    },
+    "MONGODB_URI": {
+      "description": "The URI to the mongodb database to use.",
+      "required": true
+    },
+    "NODE_ENV": {
+      "description": "The kind of environment to run the app in.",
+      "value": "production"
+    }
+  }
+}
