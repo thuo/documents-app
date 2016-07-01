@@ -16,7 +16,7 @@ describe('Documents API endpoints', () => {
   });
 
   describe('GET /documents', () => {
-    it('returns an array of all documents', (done) => {
+    it('returns an array of public documents', (done) => {
       request(app)
         .get('/api/documents')
         .end((err, res) => {
@@ -24,6 +24,21 @@ describe('Documents API endpoints', () => {
           expect(res.body).to.be.an('array');
           expect(res.body.every((doc) =>
             doc.access.read === 'public'
+          )).to.be.true;
+          done();
+        });
+    });
+
+    it('returns non-public accessible documents to logged in users', (done) => {
+      request(app)
+        .get('/api/documents')
+        .set('X-Access-Token', tokens.user)
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body).to.be.an('array');
+          expect(res.body.some((doc) =>
+            doc.access.read === 'private'
+            || doc.access.read === 'authenticated'
           )).to.be.true;
           done();
         });
@@ -79,6 +94,19 @@ describe('Documents API endpoints', () => {
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.empty;
+          done();
+        });
+    });
+
+    it('can filter by contents', (done) => {
+      request(app)
+        .get('/api/documents?contains=ipsum')
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body).to.not.be.empty;
+          res.body.forEach((doc) => {
+            expect(`${doc.title} ${doc.content}`).to.match(/ipsum/i);
+          });
           done();
         });
     });

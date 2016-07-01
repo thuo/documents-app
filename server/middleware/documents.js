@@ -39,6 +39,19 @@ function parseAccessFilter(req, res, next) {
   next();
 }
 
+function parseContentFilter(req, res, next) {
+  if (req.query.contains) {
+    if (!req.documentsQuery.$and) {
+      req.documentsQuery.$and = [];
+    }
+    const regex = new RegExp(req.query.contains, 'i');
+    req.documentsQuery.$and.push({
+      $or: [{ title: regex }, { content: regex }],
+    });
+  }
+  next();
+}
+
 function parseSkipAndLimit(req, res, next) {
   req.query.skip = parseInt(req.query.skip);
   req.query.limit = parseInt(req.query.limit);
@@ -139,6 +152,7 @@ const documentsQueryPrep = [
   prepareDocumentsQuery,
   parsePublishDateFilters,
   parseAccessFilter,
+  parseContentFilter,
   parseSkipAndLimit,
 ];
 
