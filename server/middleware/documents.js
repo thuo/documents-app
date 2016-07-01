@@ -32,6 +32,13 @@ function parsePublishDateFilters(req, res, next) {
   next();
 }
 
+function parseAccessFilter(req, res, next) {
+  if (req.query.read_access) {
+    req.documentsQuery['access.read'] = req.query.read_access;
+  }
+  next();
+}
+
 function parseSkipAndLimit(req, res, next) {
   req.query.skip = parseInt(req.query.skip);
   req.query.limit = parseInt(req.query.limit);
@@ -131,6 +138,7 @@ const authenticatedFindDocument = [AuthMiddleware.authenticate, findDocument];
 const documentsQueryPrep = [
   prepareDocumentsQuery,
   parsePublishDateFilters,
+  parseAccessFilter,
   parseSkipAndLimit,
 ];
 

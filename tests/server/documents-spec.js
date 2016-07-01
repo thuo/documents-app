@@ -59,6 +59,29 @@ describe('Documents API endpoints', () => {
           done();
         });
     });
+
+    it('can filter by read access', (done) => {
+      request(app)
+        .get('/api/documents?read_access=authenticated')
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body).to.not.be.empty;
+          expect(res.body.every((doc) =>
+            doc.access.read === 'authenticated'
+          )).to.be.true;
+          done();
+        });
+    });
+
+    it('returns empty array for invalid read access', (done) => {
+      request(app)
+        .get('/api/documents?read_access=nobody')
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body).to.be.empty;
+          done();
+        });
+    });
   });
 
   describe('GET /users/:userId/documents', () => {
