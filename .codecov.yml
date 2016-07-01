@@ -14,7 +14,10 @@ coverage:
   status:
     # Learn more at https://codecov.io/docs#yaml_default_commit_status
     project: true
-    patch: true
+    patch:
+      default:
+        target: 80
+        threshold: null
     changes: true
 
 comment:
