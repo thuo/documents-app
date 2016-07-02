@@ -101,11 +101,12 @@ A default admin user is created with the email in **`ADMIN_EMAIL`** and the pass
   If no authentication is provided, the list only includes public documents; if authentication is provided the list includes all documents that are not private documents belonging to other users.
 
   ##### Query string options
-  * *skip* - Number of documents to skip
-  * *limit* - Number of documents to return
-  * *published_before* - Only return documents created before this date and time
-  * *published_after* - Only return documents created before this date and time
-  * *read_access* - Only return documents with this level of read access
+  * *skip* - Number of documents to skip. (If the value is not a number, it will be ignored)
+  * *limit* - Number of documents to return. (If the value is not a number, it will be ignored)
+  * *published_before* - Only return documents created before this date and time. (If the value is not a valid JavaScript date string, it will be ignored)
+  * *published_after* - Only return documents created before this date and time. (If the value is not a valid JavaScript date string, it will be ignored)
+  * *read_access* - Only return documents with this level of read access. (Invalid `read_access` e.g `any` will return an empty list of
+  documents as the value will be compared directly and won't match any document)
   * *contains* - Only return documents that contain this text
 
   You can combined multiple options to obtain more specific filter criteria e.g to get first 10 documents published on a certain date, combine `limit=10`, `published_after=$START_OF_DAY` and `published_before=$END_OF_DAY`.
