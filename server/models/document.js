@@ -6,12 +6,12 @@ const DocumentSchema = new Schema({
   title: {
     type: String,
     unique: true,
-    trime: true,
+    trim: true,
     required: [true, 'Title is required'],
   },
   content: {
     type: String,
-    trime: true,
+    trim: true,
     required: [true, 'Content is required'],
   },
   owner: {
