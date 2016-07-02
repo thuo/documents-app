@@ -4,6 +4,10 @@ const error = require('../helpers/error');
 
 function prepareDocumentsQuery(req, res, next) {
   if (req.decoded) {
+    // An authenticated in user can access all documents that are not private
+    // or the user is the owner
+    // The document access condition may be overriden by a `read_access` query
+    // parameter together with the `parseAccessFilter()` middleware function.
     req.documentsQuery = {
       $or: [
         { 'access.read': { $ne: 'private' } },
@@ -11,6 +15,9 @@ function prepareDocumentsQuery(req, res, next) {
       ],
     };
   } else {
+    // An unauthenticated can only access public documents
+    // Once again, This may be overriden by a `read_access` query parameter
+    // together with the `parseAccessFilter()` middleware function.
     req.documentsQuery = { 'access.read': 'public' };
   }
   next();
@@ -34,6 +41,8 @@ function parsePublishDateFilters(req, res, next) {
 
 function parseAccessFilter(req, res, next) {
   if (req.query.read_access) {
+    // This will override the `access.read` property set by
+    // `prepareDocumentsQuery()`
     req.documentsQuery['access.read'] = req.query.read_access;
   }
   next();
@@ -41,6 +50,8 @@ function parseAccessFilter(req, res, next) {
 
 function parseContentFilter(req, res, next) {
   if (req.query.contains) {
+    // Make the `req.documentsQuery.$and.push` work the same way whether there's
+    // an $and property already or not.
     if (!req.documentsQuery.$and) {
       req.documentsQuery.$and = [];
     }

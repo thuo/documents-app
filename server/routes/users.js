@@ -16,7 +16,7 @@ module.exports = (router) => {
     .all(methodNotAllowed);
 
   router.route('/users/:userId/password')
-    // only admins can change a user's role
+    // a user can only change their own password
     .put(UsersMiddleware.requireCurrentUser, Users.updatePassword)
     .all(methodNotAllowed);
 

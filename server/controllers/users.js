@@ -18,6 +18,8 @@ module.exports = {
       (err, user) => {
         if (error.mongoose.send(err, res)) return;
         res.status(201).json({
+          // can't send the `user` object directly because it
+          // contains the password hash
           _id: user._id,
           email: user.email,
           username: user.username,
@@ -92,6 +94,8 @@ module.exports = {
       }, res, 400);
       return;
     }
+    // password needs to be selected when `user.comparePassword()` is going
+    // to be used
     User.findById(req.decoded._id, '+password', (findError, user) => {
       if (error.mongoose.send(findError, res)) return;
       if (!user.comparePassword(req.body.old_password)) {
@@ -103,7 +107,8 @@ module.exports = {
         if (error.mongoose.send(saveError, res)) return;
         savedUser.populate('role', '-_id', (updateError, populatedUser) =>
           error.mongoose.send(updateError, res) || res.json({
-          // we're doing this to avoid sending back the password
+            // can't send the `populatedUser` object directly because it
+            // contains the password hash
             _id: populatedUser._id,
             email: populatedUser.email,
             username: populatedUser.username,

@@ -13,6 +13,9 @@ function send(err, res, statusOrPreprocessor) {
 
 function preprocessMongooseError(err) {
   if (err.name === 'MongoError' && err.code === 11000) {
+    // Convert a message like "E11000 duplicate key error collection:
+    // documents.documents index: title_1 dup key: { : "Title" }" into
+    // "The title `Title` is already in use"
     const error = err.message.replace(
       /(.+)\s+index:.*\W(\w+)_\d+\s+dup key:\s+{\s+:\s+"(.+)"\s+}/,
       'The $2 `$3` is already in use'

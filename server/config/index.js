@@ -4,6 +4,7 @@ const mongodbUri = process.env.MONGODB_URI
   || 'mongodb://localhost:27017/documents';
 const production = process.env.NODE_ENV === 'production';
 const testing = process.env.NODE_ENV === 'testing';
+// if no/unknown NODE_ENV was specified, default to development
 const development = !(production || testing);
 const port = process.env.PORT || 3000;
 const secretKey = process.env.SECRET_KEY || '3ctC0L16ZkjYrhSslcg+qzP2t5VkOoEU';

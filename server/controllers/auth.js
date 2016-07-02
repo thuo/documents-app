@@ -17,6 +17,8 @@ module.exports = {
       }, res, 400);
       return;
     }
+    // password needs to be selected when `user.comparePassword()` is going
+    // to be used
     User.findOne({ email: req.body.email }, '+password')
       .populate('role', '-_id')
       .exec((err, user) => {
@@ -35,6 +37,8 @@ module.exports = {
         }
         const token = jwt.sign(
           JSON.stringify({
+            // can't send the `user` object directly because it contains
+            // the password hash
             _id: user._id,
             email: user.email,
             username: user.username,

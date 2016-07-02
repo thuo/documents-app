@@ -21,6 +21,8 @@ module.exports = {
   },
 
   all(req, res) {
+    // `req.documentsQuery` is set by the middleware in middleware/documents.js
+    // depending on the token and/or the query params.
     Document.find(req.documentsQuery)
       .skip(req.query.skip)
       .limit(req.query.limit)
