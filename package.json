@@ -8,8 +8,12 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "nodemon --watch server --watch index.js index.js"
+    "start-dev": "nodemon --watch server --watch index.js index.js",
+    "test": "NODE_ENV=testing mocha \"tests/**/*spec.js\"",
+    "lint": "eslint server index.js",
+    "cover": "NODE_ENV=testing istanbul cover _mocha -- \"tests/**/*spec.js\"",
+    "codeclimate": "npm run cover && codeclimate-test-reporter < coverage/lcov.info",
+    "codecov": "npm run cover && cat coverage/lcov.info | codecov"
   },
   "repository": {
     "type": "git",
@@ -22,9 +26,29 @@
   },
   "homepage": "https://github.com/andela-hthuo/documents-api#readme",
   "dependencies": {
-    "express": "^4.13.4"
+    "async": "^2.0.0-rc.6",
+    "bcrypt": "^0.8.7",
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4",
+    "jsonwebtoken": "^7.0.1",
+    "mongoose": "^4.5.0",
+    "mongoose-deep-populate": "^3.0.0",
+    "morgan": "^1.7.0"
   },
   "devDependencies": {
-    "nodemon": "^1.9.2"
+    "chai": "^3.5.0",
+    "codeclimate-test-reporter": "^0.3.3",
+    "codecov.io": "^0.1.6",
+    "eslint": "^2.12.0",
+    "eslint-config-airbnb-base": "^3.0.1",
+    "eslint-plugin-import": "^1.8.1",
+    "istanbul": "^0.4.4",
+    "mocha": "^2.5.3",
+    "nodemon": "^1.9.2",
+    "supertest": "^1.2.0"
+  },
+  "engines": {
+    "node": "6.2.1",
+    "npm": "3.9.3"
   }
 }

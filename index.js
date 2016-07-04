@@ -1,8 +1,17 @@
-'use strict';
+const app = require('./server/app');
+const config = require('./server/config');
+const db = require('./server/database')(config.mongodbUri);
 
-const app = require('./server/app'),
-  port = process.env.PORT || 3000;
+/* eslint-disable no-console */
+db.on('error', (err) => {
+  console.error('Database connection failed.');
+  console.error(err);
+});
 
-app.listen(port, () => {
-  console.log('Listening on port ' + port);
+db.once('open', () => {
+  console.log('Database connection established.');
+});
+
+app.listen(config.port, () => {
+  console.log(`Listening on port ${config.port}`);
 });
