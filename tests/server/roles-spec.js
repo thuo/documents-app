@@ -141,6 +141,19 @@ describe('Roles', () => {
             done();
           });
       });
+
+      it('returns an error for non-existent roles', (done) => {
+        request(app)
+          .put('/api/roles/576fbef00d0186116ecad619')
+          .set('X-Access-Token', tokens.admin)
+          .send({ description: 'Administrator' })
+          .end((err, res) => {
+            expect(res.status).to.equal(404);
+            expect(res.body.error).to
+              .contain('576fbef00d0186116ecad619` not found');
+            done();
+          });
+      });
     });
 
     describe('GET roles/:id/users', () => {

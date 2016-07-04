@@ -160,6 +160,21 @@ describe('Documents API endpoints', () => {
         });
     });
 
+    it('requires title and content', (done) => {
+      request(app)
+        .post('/api/documents')
+        .set('X-Access-Token', tokens.user)
+        .send({})
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
+          expect(res.body.error).to.contain('Document validation failed');
+          expect(res.body.messages).to.contain.all.keys('title', 'content');
+          expect(res.body.messages.title).to.contain('Title is required');
+          expect(res.body.messages.content).to.contain('Content is required');
+          done();
+        });
+    });
+
     it('only accepts unique titles', (done) => {
       request(app)
         .post('/api/documents')
@@ -230,6 +245,18 @@ describe('Documents API endpoints', () => {
           expect(res.status).to.equal(200);
           expect(res.body._id).to.equal(documents[2]._id.toString());
           expect(res.body.access.read).to.equal('private');
+          done();
+        });
+    });
+
+    it('returns an error for non-existent documents', (done) => {
+      request(app)
+        .get('/api/documents/576dd108a16fb32a30eeb609')
+        .set('X-Access-Token', tokens.user)
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          expect(res.body.error).to
+            .contain('576dd108a16fb32a30eeb609` not found');
           done();
         });
     });

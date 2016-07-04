@@ -107,6 +107,11 @@ describe('Users API endpoints', () => {
           expect(res.status).to.equal(400);
           expect(res.body.error).to.contain('User validation failed');
           expect(res.body.messages).to.contain.all.keys('email', 'username');
+          expect(res.body.messages.email).to
+            .contain('not a valid email address');
+          expect(res.body.messages.username).to
+            .contain('A username can only contain alphanumeric characters ' +
+               'or an underscore');
           done();
         });
     });
@@ -133,6 +138,17 @@ describe('Users API endpoints', () => {
         .end((err, res) => {
           expect(res.status).to.equal(400);
           expect(res.body.error).to.contain('is not a valid resource id');
+          done();
+        });
+    });
+
+    it('returns an error for non-existent users', (done) => {
+      request(app)
+        .get('/api/users/576fbef00d0186116ecad619')
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          expect(res.body.error).to
+            .contain('576fbef00d0186116ecad619` not found');
           done();
         });
     });
@@ -195,7 +211,7 @@ describe('Users API endpoints', () => {
         });
     });
 
-    it('only allows to change their own passwords', (done) => {
+    it('only allows users to change their own passwords', (done) => {
       request(app)
         .put(`/api/users/${users[2]._id}/password`)
         .set('X-Access-Token', tokens.admin)
@@ -203,6 +219,18 @@ describe('Users API endpoints', () => {
         .end((err, res) => {
           expect(res.status).to.equal(403);
           expect(res.body.error).to.contain("User id in token doesn't match");
+          done();
+        });
+    });
+
+    it('requires the correct old password', (done) => {
+      request(app)
+        .put(`/api/users/${users[2]._id}/password`)
+        .set('X-Access-Token', tokens.user)
+        .send({ old_password: 'password', password: 'drowssap' })
+        .end((err, res) => {
+          expect(res.status).to.equal(403);
+          expect(res.body.error).to.contain('Incorrect old password');
           done();
         });
     });
