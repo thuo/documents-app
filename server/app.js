@@ -3,7 +3,6 @@ const app = express();
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const router = require('./routes')(express);
-const resourceNotFound = require('./helpers/error').callbacks.resourceNotFound;
 const config = require('./config');
 
 app.use(bodyParser.json());
@@ -14,7 +13,5 @@ if (!config.env.testing) {
 }
 
 app.use('/api', router);
-
-app.use(resourceNotFound);
 
 module.exports = app;

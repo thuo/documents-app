@@ -1,15 +1,20 @@
 {
-  "env": {
-    "node": true,
-    "es6": true,
-    "mocha": true
-  },
-  "extends": "airbnb-base",
+  "extends": "airbnb",
+  "plugins": [
+      "react"
+  ],
   "rules": {
     "no-underscore-dangle": ["error", { "allow": ["_id"] }],
     "no-param-reassign": ["error", { "props": false }],
     "no-unused-expressions": "off",
     "max-len": ["error", 80, { "ignoreUrls": true }],
     "radix": ["error", "as-needed"]
+  },
+  "settings": {
+    "import/resolver": {
+      "webpack" : {
+        "config": "webpack.dev.config.js"
+      }
+    }
   }
 }
