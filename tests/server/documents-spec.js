@@ -326,7 +326,7 @@ describe('Documents API endpoints', () => {
         });
     });
 
-    it('allows owner to delete document access settings', (done) => {
+    it('allows owner to update document access settings', (done) => {
       request(app)
         .put(`/api/documents/${documents[3]._id}/access`)
         .set('X-Access-Token', tokens.user)
