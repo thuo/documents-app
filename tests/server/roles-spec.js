@@ -126,6 +126,7 @@ describe('Roles', () => {
             expect(res.status).to.equal(200);
             expect(res.body._id).to.equal(roles[0]._id.toString());
             expect(res.body.title).to.equal(roles[0].title);
+            expect(res.body.description).to.equal('Administrator');
             done();
           });
       });
