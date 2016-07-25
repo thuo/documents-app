@@ -22,7 +22,7 @@ module.exports = {
     User.findOne({ email: req.body.email }, '+password')
       .populate('role', '-_id')
       .exec((err, user) => {
-        if (error.mongoose.send(err)) return;
+        if (error.mongoose.send(err, res)) return;
         if (!user) {
           error.send({
             error: "Email doesn't match any user",
