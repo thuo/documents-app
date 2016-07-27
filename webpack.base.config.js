@@ -1,3 +1,4 @@
+/* istanbul ignore next */
 const path = require('path');
 const webpack = require('webpack');
 const appPath = path.join(__dirname, 'client');

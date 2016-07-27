@@ -1,3 +1,13 @@
 {
-  "presets": ["es2015", "react"]
+  "presets": ["es2015", "react"],
+  "env": {
+    "testing": {
+      "plugins": [
+        ["babel-plugin-webpack-alias", {
+          "config": "webpack.base.config.js",
+          "findConfig": true
+        }]
+      ]
+    }
+  }
 }

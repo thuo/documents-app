@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { fetchDocuments } from 'app/actions';
 import Document from 'app/components/Document';
 
-class DocumentList extends React.Component {
+export class DocumentList extends React.Component {
   componentDidMount() {
     this.props.fetchDocuments();
   }
@@ -28,12 +28,12 @@ class DocumentList extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
   documents: state.documents,
   error: state.error.error,
 });
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
   fetchDocuments: () => dispatch(fetchDocuments()),
 });
 

@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
 import { DOCUMENTS_SUCCESS, DOCUMENTS_FAILURE } from 'app/actions';
 
-function documents(state = [], action) {
+export function documents(state = [], action) {
   switch (action.type) {
     case DOCUMENTS_FAILURE:
       return [];
@@ -13,7 +13,7 @@ function documents(state = [], action) {
   }
 }
 
-function error(state = {}, action) {
+export function error(state = {}, action) {
   switch (action.type) {
     case DOCUMENTS_FAILURE:
       return action.error;
