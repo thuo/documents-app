@@ -4,6 +4,9 @@ import { browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from './store/configureStore';
 import Root from './containers/Root';
+import 'react-mdl/extra/material';
+import 'react-mdl/extra/material.css';
+import 'react-mdl/extra/css/material.teal-red.min.css';
 import './styles/style.css';
 
 const store = configureStore();

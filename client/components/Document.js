@@ -1,10 +1,21 @@
 import React, { PropTypes } from 'react';
+import { CardText, Card, CardTitle, CardActions, Button } from 'react-mdl';
+
+const style = {
+  margin: '1em',
+  minHeight: 'auto',
+};
 
 const Document = props => (
-  <div className="document">
-    <h1>{props.title}</h1>
-    <p>{props.content}</p>
-  </div>
+  <Card shadow={0} style={style}>
+    <CardTitle>{props.title}</CardTitle>
+    <CardText>
+      <p>{props.content}</p>
+    </CardText>
+    <CardActions>
+      <Button colored>View</Button>
+    </CardActions>
+  </Card>
 );
 
 Document.propTypes = {
