@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Layout, Content } from 'react-mdl';
-import NavBar from './NavBar';
+import NavBar from 'app/containers/NavBar';
 
 const App = props => (
   <Layout fixedHeader>

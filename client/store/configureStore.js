@@ -1,6 +1,8 @@
 import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
 import { createStore, applyMiddleware, compose } from 'redux';
+import { browserHistory } from 'react-router';
+import { routerMiddleware } from 'react-router-redux';
 import rootReducer from 'app/reducers';
 import { DevTools } from 'app/containers/Root';
 import apiMiddleware from 'app/middleware/api';
@@ -10,7 +12,11 @@ export default function configureStore(initialState) {
     return createStore(
       rootReducer,
       initialState,
-      applyMiddleware(thunk, apiMiddleware)
+      applyMiddleware(
+        thunk,
+        apiMiddleware,
+        routerMiddleware(browserHistory)
+      )
     );
   }
 
@@ -20,7 +26,12 @@ export default function configureStore(initialState) {
     rootReducer,
     initialState,
     compose(
-      applyMiddleware(thunk, apiMiddleware, createLogger()),
+      applyMiddleware(
+        thunk,
+        apiMiddleware,
+        routerMiddleware(browserHistory),
+        createLogger()
+      ),
       DevTools.instrument()
     )
   );
