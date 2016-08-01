@@ -3,7 +3,6 @@ import { mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import mockStore from '../helpers/mockStore';
-import '../helpers/setup';
 import {
   DocumentList, mapStateToProps, mapDispatchToProps,
 } from 'app/containers/DocumentList';
@@ -18,10 +17,12 @@ describe('DocumentList container', () => {
         title: 'doc',
         content: 'document',
       }];
-      mount(<DocumentList
-        fetchDocuments={fetchDocuments}
-        documents={documents}
-      />);
+      mount(
+        <DocumentList
+          fetchDocuments={fetchDocuments}
+          documents={documents}
+        />
+      );
       expect(fetchDocuments.calledOnce).to.be.true;
     });
 

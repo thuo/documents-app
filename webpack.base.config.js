@@ -26,7 +26,10 @@ module.exports = {
       loaders: ['babel'],
     }, {
       test: /\.css$/,
-      include: appPath,
+      include: [
+        appPath,
+        path.join(__dirname, 'node_modules/react-mdl/extra'),
+      ],
       loaders: ['style', 'css'],
     }],
   },

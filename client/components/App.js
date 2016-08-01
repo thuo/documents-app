@@ -1,9 +1,14 @@
 import React, { PropTypes } from 'react';
+import { Layout, Content } from 'react-mdl';
+import NavBar from './NavBar';
 
 const App = props => (
-  <div className="container">
-    {props.children}
-  </div>
+  <Layout fixedHeader>
+    <NavBar />
+    <Content component="main" className="app-container">
+      {props.children}
+    </Content>
+  </Layout>
 );
 
 App.propTypes = {

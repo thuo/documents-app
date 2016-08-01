@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { fetchDocuments } from 'app/actions';
 import Document from 'app/components/Document';
+import { FABButton, Icon } from 'react-mdl';
 
 export class DocumentList extends React.Component {
   componentDidMount() {
@@ -10,19 +11,42 @@ export class DocumentList extends React.Component {
 
   render() {
     if (this.props.error) {
+      const errorStyle = {
+        textAlign: 'center',
+        maxWidth: '892px',
+        margin: '2em auto',
+      };
       return (
         <h2
-          style={{ textAlign: 'center', maxWidth: '892px', margin: '2em auto' }}
-        >
+          style={errorStyle} >
           {this.props.error}
         </h2>
       );
     }
+    const fabStyle = {
+      position: 'fixed',
+      right: '1em',
+      bottom: '1em',
+      zIndex: 1000,
+    };
+    const style = {
+      marginBottom: '6em',
+    };
     return (
-      <div>
+      <div style={style}>
         {this.props.documents.map(doc =>
           <Document {...doc} key={doc._id} />
         )}
+        <FABButton
+          ripple
+          colored
+          accent
+          className="mdl-shadow--4dp"
+          id="add"
+          style={fabStyle} >
+          <Icon name="add" />
+          <span className="visuallyhidden">Add</span>
+        </FABButton>
       </div>
     );
   }

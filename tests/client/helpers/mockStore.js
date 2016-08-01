@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import * as api from 'app/middleware/api';
+import api from 'app/middleware/api';
 
-const middleware = [thunk, api.default];
+const middleware = [thunk, api];
 export default configureMockStore(middleware);
