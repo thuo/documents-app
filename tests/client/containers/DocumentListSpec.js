@@ -6,7 +6,7 @@ import mockStore from '../helpers/mockStore';
 import {
   DocumentList, mapStateToProps, mapDispatchToProps,
 } from 'app/containers/DocumentList';
-import * as actions from 'app/actions';
+import * as actions from 'app/actions/DocumentActions';
 
 describe('DocumentList container', () => {
   describe('DocumentList', () => {
@@ -42,8 +42,8 @@ describe('DocumentList container', () => {
     let store;
     beforeEach(() => {
       store = mockStore({
-        documents: ['documents'],
-        error: {
+        documents: {
+          list: ['documents'],
           error: 'Oops!',
         },
       });

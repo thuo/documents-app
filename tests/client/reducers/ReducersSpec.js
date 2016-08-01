@@ -1,44 +1,27 @@
 import { expect } from 'chai';
-import * as actions from 'app/actions';
-import { documents, error } from 'app/reducers';
+import * as types from 'app/actions/ActionTypes';
+import { documents } from 'app/reducers/documents';
 
 describe('Reducers', () => {
   describe('documents', () => {
+    const initialState = { list: [], error: null };
+
     it('returns the initial state', () => {
-      expect(documents(undefined, {})).to.eql([]);
+      expect(documents(undefined, {})).to.eql(initialState);
     });
 
     it('handles DOCUMENTS_SUCCESS', () => {
-      expect(documents([], {
-        type: actions.DOCUMENTS_SUCCESS,
+      expect(documents(initialState, {
+        type: types.DOCUMENTS_SUCCESS,
         response: ['documents'],
-      })).to.eql(['documents']);
+      })).to.eql({ list: ['documents'], error: null });
     });
 
     it('handles DOCUMENTS_FAILURE', () => {
-      expect(documents(['documents'], {
-        type: actions.DOCUMENTS_FAILURE,
-        response: { error: 'error' },
-      })).to.eql([]);
-    });
-  });
-  describe('error', () => {
-    it('returns the initial state', () => {
-      expect(error(undefined, {})).to.eql({});
-    });
-
-    it('handles DOCUMENTS_SUCCESS', () => {
-      expect(error({ error: 'error' }, {
-        type: actions.DOCUMENTS_SUCCESS,
-        response: ['documents'],
-      })).to.eql({});
-    });
-
-    it('handles DOCUMENTS_FAILURE', () => {
-      expect(error({}, {
-        type: actions.DOCUMENTS_FAILURE,
+      expect(documents({ list: [], error: null }, {
+        type: types.DOCUMENTS_FAILURE,
         error: { error: 'error' },
-      })).to.eql({ error: 'error' });
+      })).to.eql({ list: [], error: 'error' });
     });
   });
 });
