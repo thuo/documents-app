@@ -3,9 +3,7 @@ import { mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import mockStore from '../helpers/mockStore';
-import {
-  DocumentList, mapStateToProps, mapDispatchToProps,
-} from 'app/containers/DocumentList';
+import * as DocumentList from 'app/containers/DocumentList';
 import * as actions from 'app/actions/DocumentActions';
 
 describe('DocumentList container', () => {
@@ -18,7 +16,7 @@ describe('DocumentList container', () => {
         content: 'document',
       }];
       mount(
-        <DocumentList
+        <DocumentList.DocumentList
           fetchDocuments={fetchDocuments}
           documents={documents}
         />
@@ -29,7 +27,7 @@ describe('DocumentList container', () => {
     it('renders error', () => {
       const fetchDocuments = sinon.spy();
       mount(
-        <DocumentList
+        <DocumentList.DocumentList
           fetchDocuments={fetchDocuments}
           error="Oops!"
         />
@@ -50,7 +48,7 @@ describe('DocumentList container', () => {
     });
 
     it('mapStateToProps', () => {
-      const props = mapStateToProps(store.getState());
+      const props = DocumentList.mapStateToProps(store.getState());
       expect(props).to.eql({
         documents: ['documents'],
         error: 'Oops!',
@@ -58,7 +56,7 @@ describe('DocumentList container', () => {
     });
 
     it('mapDispatchToProps', () => {
-      const props = mapDispatchToProps(store.dispatch);
+      const props = DocumentList.mapDispatchToProps(store.dispatch);
       sinon.spy(actions, 'fetchDocuments');
       props.fetchDocuments().then(() => {
         expect(actions.fetchDocuments.calledOnce);

@@ -1,15 +1,10 @@
 import { expect } from 'chai';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import * as actions from 'app/actions/DocumentActions';
 import * as types from 'app/actions/ActionTypes';
-import * as api from 'app/middleware/api';
 import mock from '../helpers/mockAgent';
+import mockStore from '../helpers/mockStore';
 
-const middlewares = [thunk, api.default];
-const mockStore = configureMockStore(middlewares);
-
-describe('Documents actions creators', () => {
+describe('Documents action creators', () => {
   afterEach(() => {
     mock.clearRoutes();
   });
