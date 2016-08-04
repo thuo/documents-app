@@ -1,10 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { push } from 'react-router-redux';
-import mockStore from '../helpers/mockStore';
-import mock from '../helpers/mockAgent';
 import * as LogIn from 'app/containers/auth/LogIn';
-import * as actions from 'app/actions/ActionTypes';
 
 describe('LogIn', () => {
   describe('validate', () => {

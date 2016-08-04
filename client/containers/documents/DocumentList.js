@@ -1,8 +1,10 @@
 import React, { PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
+import { FABButton, Icon } from 'react-mdl';
 import { fetchDocuments } from 'app/actions/DocumentActions';
 import Document from 'app/components/documents/Document';
-import { FABButton, Icon } from 'react-mdl';
 
 export class DocumentList extends React.Component {
   componentDidMount() {
@@ -42,7 +44,8 @@ export class DocumentList extends React.Component {
           accent
           className="mdl-shadow--4dp"
           id="add"
-          style={fabStyle} >
+          style={fabStyle}
+          onClick={() => { this.props.pushToHistory('/documents/add'); }}>
           <Icon name="add" />
           <span className="visuallyhidden">Add</span>
         </FABButton>
@@ -56,14 +59,16 @@ export const mapStateToProps = state => ({
   error: state.documents.error,
 });
 
-export const mapDispatchToProps = dispatch => ({
-  fetchDocuments: () => dispatch(fetchDocuments()),
-});
+export const mapDispatchToProps = dispatch => bindActionCreators({
+  pushToHistory: push,
+  fetchDocuments,
+}, dispatch);
 
 DocumentList.propTypes = {
   documents: PropTypes.array,
   error: PropTypes.string,
   fetchDocuments: PropTypes.func.isRequired,
+  pushToHistory: PropTypes.func.isRequired,
 };
 
 export default connect(
