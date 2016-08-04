@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { fetchDocuments } from 'app/actions';
+import { fetchDocuments } from 'app/actions/DocumentActions';
 import Document from 'app/components/Document';
 import { FABButton, Icon } from 'react-mdl';
 
@@ -17,8 +17,7 @@ export class DocumentList extends React.Component {
         margin: '2em auto',
       };
       return (
-        <h2
-          style={errorStyle} >
+        <h2 style={errorStyle}>
           {this.props.error}
         </h2>
       );
@@ -53,8 +52,8 @@ export class DocumentList extends React.Component {
 }
 
 export const mapStateToProps = state => ({
-  documents: state.documents,
-  error: state.error.error,
+  documents: state.documents.list,
+  error: state.documents.error,
 });
 
 export const mapDispatchToProps = dispatch => ({

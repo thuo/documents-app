@@ -1,8 +1,8 @@
 import { API } from 'app/middleware/api';
 
-export const DOCUMENTS_REQUEST = 'DOCUMENTS_REQUEST';
-export const DOCUMENTS_SUCCESS = 'DOCUMENTS_SUCCESS';
-export const DOCUMENTS_FAILURE = 'DOCUMENTS_FAILURE';
+import {
+  DOCUMENTS_REQUEST, DOCUMENTS_SUCCESS, DOCUMENTS_FAILURE,
+} from './ActionTypes';
 
 export function fetchDocuments() {
   return {

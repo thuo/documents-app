@@ -38,6 +38,7 @@
     "bcrypt": "^0.8.7",
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
+    "humps": "^1.1.0",
     "jsonwebtoken": "^7.0.1",
     "mongoose": "^4.5.0",
     "mongoose-deep-populate": "^3.0.0",

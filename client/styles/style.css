@@ -1,5 +1,6 @@
 .app-container {
   max-width: 892px;
   display: block;
-  margin: 1em auto;
+  margin: 0 auto;
+  padding: 1em;
 }
