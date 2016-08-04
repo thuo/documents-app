@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import mockStore from '../helpers/mockStore';
-import * as DocumentList from 'app/containers/DocumentList';
+import * as DocumentList from 'app/containers/documents/DocumentList';
 import * as actions from 'app/actions/DocumentActions';
 
 describe('DocumentList container', () => {

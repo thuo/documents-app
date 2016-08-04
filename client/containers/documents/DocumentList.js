@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { fetchDocuments } from 'app/actions/DocumentActions';
-import Document from 'app/components/Document';
+import Document from 'app/components/documents/Document';
 import { FABButton, Icon } from 'react-mdl';
 
 export class DocumentList extends React.Component {
