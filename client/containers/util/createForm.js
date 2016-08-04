@@ -77,7 +77,8 @@ const createForm = (submit, validate) => Component => {
       );
     }
   };
-  Form.displayName = `Form(${Component.name})`;
+  const displayName = Component.displayName || Component.name || 'Component';
+  Form.displayName = `Form(${displayName})`;
   return Form;
 };
 

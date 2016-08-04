@@ -42,6 +42,9 @@ describe('SignUp', () => {
           signUp: sinon.spy(() => Promise.resolve()),
           logIn: sinon.spy(() => Promise.resolve()),
           push: sinon.spy(() => Promise.resolve()),
+          location: { query: {
+            next: '/documents',
+          } },
         },
       };
       const values = {
@@ -58,6 +61,9 @@ describe('SignUp', () => {
           email: values.email,
           password: values.password,
         }).calledOnce).to.be.true;
+        expect(context.props.push.withArgs(
+          context.props.location.query.next
+        ).calledOnce).to.be.true;
       }).then(done, done);
     });
 
