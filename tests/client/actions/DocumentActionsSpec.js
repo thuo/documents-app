@@ -45,4 +45,50 @@ describe('Documents action creators', () => {
       });
     });
   });
+
+  describe('addDocument()', () => {
+    it('dispatches DOCUMENTS_ADD_SUCCESS when adding document succeeds', () => {
+      const response = { title: 'document' };
+      mock.post('/api/documents', () => ({
+        body: response,
+      }));
+
+      const expectedActions = [
+        { type: types.DOCUMENTS_ADD_REQUEST },
+        { type: types.DOCUMENTS_ADD_SUCCESS, response },
+      ];
+      const store = mockStore({
+        authenticatedUser: {
+          token: 'token',
+        },
+      });
+
+      return store.dispatch(actions.addDocument()).then(() => {
+        expect(store.getActions()).to.eql(expectedActions);
+      });
+    });
+
+    it('dispatches DOCUMENTS_ADD_FAILURE when addding document fails', () => {
+      const error = { error: 'error' };
+      mock.post('/api/documents', () => ({
+        status: 401,
+        response: {
+          body: error,
+        },
+      }));
+
+      const expectedActions = [
+        { type: types.DOCUMENTS_ADD_REQUEST },
+        { type: types.DOCUMENTS_ADD_FAILURE, error },
+      ];
+      const store = mockStore({
+        authenticatedUser: {
+          token: 'token',
+        },
+      });
+      return store.dispatch(actions.addDocument()).then(() => {
+        expect(store.getActions()).to.eql(expectedActions);
+      });
+    });
+  });
 });

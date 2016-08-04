@@ -8,11 +8,12 @@ import createForm from 'app/containers/util/createForm';
 export const submit = (values, ctx) => new Promise((resolve, reject) => {
   const props = ctx.props;
   props.signUp(values).then(() => {
-    const { error } = ctx.props;
+    const { error, location } = ctx.props;
     if (!error) {
       const { email, password } = values;
       props.logIn({ email, password }).then(() => {
-        props.push('/');
+        const nextLocation = location.query.next || '/';
+        props.push(nextLocation);
         resolve();
       });
     } else {
