@@ -1,6 +1,7 @@
 import {
   DOCUMENTS_SUCCESS, DOCUMENTS_FAILURE,
   DOCUMENTS_ADD_SUCCESS, DOCUMENTS_ADD_FAILURE,
+  DOCUMENT_GET_SUCCESS, DOCUMENT_GET_FAILURE,
 } from 'app/actions/ActionTypes';
 
 export function documents(state = { list: [], error: null }, action) {
@@ -18,6 +19,13 @@ export function documents(state = { list: [], error: null }, action) {
     case DOCUMENTS_ADD_SUCCESS:
       return {
         list: [action.response, ...state.list],
+        error: state.error,
+      };
+    case DOCUMENT_GET_SUCCESS:
+      return {
+        list: [action.response, ...state.list.filter(doc =>
+          doc._id !== action.response._id
+        )],
         error: state.error,
       };
     default:

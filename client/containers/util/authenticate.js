@@ -8,7 +8,7 @@ const authenticate = Component => {
       return (<Component {...props} />);
     }
     return (
-      <h2>
+      <h2 className="mdl-typography--text-center">
         <Link to={`/login?next=${props.route.path}`}>Log in</Link>{' or '}
         <Link to={`/signup?next=${props.route.path}`}>sign up</Link> to continue
       </h2>

@@ -1,6 +1,25 @@
 .app-container {
+  width: 98%;
   max-width: 892px;
   display: block;
   margin: 0 auto;
-  padding: 1em;
+  padding: 0.75em 1%;
+}
+
+.app-container .mdl-card {
+  width: 95%;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.pointer:hover {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+.mdl-textfield {
+  width: 100%;
 }

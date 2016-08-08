@@ -4,11 +4,21 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { FABButton, Icon } from 'react-mdl';
 import { fetchDocuments } from 'app/actions/DocumentActions';
-import Document from 'app/components/documents/Document';
+import DocumentListItem from 'app/components/documents/DocumentListItem';
 
 export class DocumentList extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.handleDocumentClick = this.handleDocumentClick.bind(this);
+  }
+
   componentDidMount() {
     this.props.fetchDocuments();
+  }
+
+  handleDocumentClick(documentId) {
+    this.props.pushToHistory(`/documents/${documentId}`);
   }
 
   render() {
@@ -28,7 +38,7 @@ export class DocumentList extends React.Component {
       position: 'fixed',
       right: '1em',
       bottom: '1em',
-      zIndex: 1000,
+      zIndex: 2,
     };
     const style = {
       marginBottom: '6em',
@@ -36,7 +46,11 @@ export class DocumentList extends React.Component {
     return (
       <div style={style}>
         {this.props.documents.map(doc =>
-          <Document {...doc} key={doc._id} />
+          <DocumentListItem
+            {...doc}
+            key={doc._id}
+            onDocumentClick={this.handleDocumentClick}
+          />
         )}
         <FABButton
           ripple
