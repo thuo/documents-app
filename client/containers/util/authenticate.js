@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import AppError from 'app/components/error/AppError';
 
 const authenticate = Component => {
   const Authenticate = props => {
@@ -8,10 +9,10 @@ const authenticate = Component => {
       return (<Component {...props} />);
     }
     return (
-      <h2 className="mdl-typography--text-center">
+      <AppError>
         <Link to={`/login?next=${props.route.path}`}>Log in</Link>{' or '}
         <Link to={`/signup?next=${props.route.path}`}>sign up</Link> to continue
-      </h2>
+      </AppError>
     );
   };
 

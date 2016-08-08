@@ -1,9 +1,10 @@
 import React from 'react';
+import AppError from './AppError';
 
 const NotFound = () => (
-  <h2 style={{ textAlign: 'center', maxWidth: '892px', margin: '2em auto' }}>
+  <AppError>
     Not Found
-  </h2>
+  </AppError>
 );
 
 
