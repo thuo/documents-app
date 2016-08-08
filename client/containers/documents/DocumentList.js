@@ -5,6 +5,7 @@ import { push } from 'react-router-redux';
 import { FABButton, Icon } from 'react-mdl';
 import { fetchDocuments } from 'app/actions/DocumentActions';
 import DocumentListItem from 'app/components/documents/DocumentListItem';
+import AppError from 'app/components/error/AppError';
 
 export class DocumentList extends React.Component {
 
@@ -23,15 +24,8 @@ export class DocumentList extends React.Component {
 
   render() {
     if (this.props.error) {
-      const errorStyle = {
-        textAlign: 'center',
-        maxWidth: '892px',
-        margin: '2em auto',
-      };
       return (
-        <h2 style={errorStyle}>
-          {this.props.error}
-        </h2>
+        <AppError>{this.props.error}</AppError>
       );
     }
     const fabStyle = {

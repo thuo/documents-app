@@ -6,7 +6,7 @@ import AddDocument from 'app/containers/documents/AddDocument';
 import DocumentPage from 'app/containers/documents/DocumentPage';
 import SignUp from 'app/containers/auth/SignUp';
 import LogIn from 'app/containers/auth/LogIn';
-import NotFound from 'app/components/NotFound';
+import NotFound from 'app/components/error/NotFound';
 
 export default (
   <Route path="/" component={App}>
