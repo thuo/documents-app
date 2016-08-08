@@ -36,7 +36,7 @@ export const AddDocument = authenticate(createForm(
   validate
 )(DocumentForm));
 
-export const mapStateToProps = state => ({ error: state.addDocumentError });
+export const mapStateToProps = state => state.addDocument;
 
 export const mapDispatchToProps = dispatch => bindActionCreators({
   pushToHistory: push,

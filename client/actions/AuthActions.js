@@ -1,5 +1,4 @@
-import { API } from 'app/middleware/api';
-import humps from 'humps';
+import { API, Schemas } from 'app/middleware/api';
 
 import {
   SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE,
@@ -12,7 +11,8 @@ export function signUp(user) {
       types: [SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE],
       payload: request => request
         .post('/api/users')
-        .send(humps.decamelizeKeys(user)),
+        .send(user),
+      schema: Schemas.USER,
     },
   };
 }

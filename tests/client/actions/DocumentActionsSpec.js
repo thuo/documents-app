@@ -12,12 +12,28 @@ describe('Documents action creators', () => {
   describe('fetchDocuments()', () => {
     it('dispatches DOCUMENTS_SUCCESS when fetching documents succeeds', () => {
       mock.get('/api/documents', () => ({
-        body: ['documents'],
+        body: [
+          { _id: 1, title: 'document', owner: {
+            _id: 1, username: 'username',
+          } },
+        ],
       }));
 
       const expectedActions = [
-        { type: types.DOCUMENTS_REQUEST },
-        { type: types.DOCUMENTS_SUCCESS, response: ['documents'] },
+        { type: types.DOCUMENTS_REQUEST }, {
+          type: types.DOCUMENTS_SUCCESS,
+          response: { entities: {
+            documents: { 1: {
+              _id: 1,
+              owner: 1,
+              title: 'document',
+            } },
+            users: { 1: {
+              _id: 1,
+              username: 'username',
+            } },
+          }, result: [1] },
+        },
       ];
       const store = mockStore({ documents: [] });
 
@@ -48,14 +64,28 @@ describe('Documents action creators', () => {
 
   describe('addDocument()', () => {
     it('dispatches DOCUMENTS_ADD_SUCCESS when adding document succeeds', () => {
-      const response = { title: 'document' };
+      const response = { _id: 1, title: 'document', owner: {
+        _id: 1, username: 'username',
+      } };
       mock.post('/api/documents', () => ({
         body: response,
       }));
 
       const expectedActions = [
-        { type: types.DOCUMENTS_ADD_REQUEST },
-        { type: types.DOCUMENTS_ADD_SUCCESS, response },
+        { type: types.DOCUMENTS_ADD_REQUEST }, {
+          type: types.DOCUMENTS_ADD_SUCCESS,
+          response: { entities: {
+            documents: { 1: {
+              _id: 1,
+              owner: 1,
+              title: 'document',
+            } },
+            users: { 1: {
+              _id: 1,
+              username: 'username',
+            } },
+          }, result: 1 },
+        },
       ];
       const store = mockStore({
         authenticatedUser: {

@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import * as SignUp from 'app/containers/auth/SignUp';
+import { decamelizeKeys } from 'humps';
 
 describe('SignUp', () => {
   describe('validate', () => {
@@ -56,7 +57,9 @@ describe('SignUp', () => {
         confirmPassword: 'password',
       };
       SignUp.submit(values, context).then(() => {
-        expect(context.props.signUp.withArgs(values).calledOnce).to.be.true;
+        expect(
+          context.props.signUp.withArgs(decamelizeKeys(values)).calledOnce
+        ).to.be.true;
         expect(context.props.logIn.withArgs({
           email: values.email,
           password: values.password,
@@ -87,7 +90,7 @@ describe('SignUp', () => {
 
   describe('mapStateToProps', () => {
     it('maps state to props', () => {
-      expect(SignUp.mapStateToProps({ signUpError: 'error' })).to.eql({
+      expect(SignUp.mapStateToProps({ signUp: { error: 'error' } })).to.eql({
         error: 'error',
       });
     });

@@ -1,4 +1,4 @@
-import { API } from 'app/middleware/api';
+import { API, Schemas } from 'app/middleware/api';
 
 import {
   DOCUMENTS_REQUEST, DOCUMENTS_SUCCESS, DOCUMENTS_FAILURE,
@@ -11,6 +11,7 @@ export function fetchDocuments() {
     [API]: {
       types: [DOCUMENTS_REQUEST, DOCUMENTS_SUCCESS, DOCUMENTS_FAILURE],
       payload: (request) => request.get('/api/documents'),
+      schema: Schemas.DOCUMENT_ARRAY,
     },
   };
 }
@@ -25,6 +26,7 @@ export function addDocument(doc) {
         .post('/api/documents')
         .set('X-Access-Token', getState().authenticatedUser.token)
         .send(doc),
+      schema: Schemas.DOCUMENT,
     },
   });
 }
@@ -41,12 +43,13 @@ export function fetchDocument(documentId) {
           'X-Access-Token',
           getState().authenticatedUser && getState().authenticatedUser.token
         ),
+      schema: Schemas.DOCUMENT,
     },
   });
 }
 
 function shouldFetchDocument(state, documentId) {
-  return !state.documents.list.find(doc => doc._id === documentId);
+  return !state.entities.documents[documentId];
 }
 
 export function fetchDocumentIfNeeded(documentId) {

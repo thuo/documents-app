@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { FABButton, Icon } from 'react-mdl';
@@ -62,15 +61,17 @@ export class DocumentList extends React.Component {
   }
 }
 
-export const mapStateToProps = state => ({
-  documents: state.documents.list,
-  error: state.documents.error,
-});
+export const mapStateToProps = state => {
+  const { documentList, entities } = state;
+  const documents = documentList.documents.map(docId => {
+    const doc = Object.assign({}, entities.documents[docId]);
+    doc.owner = entities.users[doc.owner];
+    return doc;
+  });
+  const error = documentList.error;
+  return { documents, error };
+};
 
-export const mapDispatchToProps = dispatch => bindActionCreators({
-  pushToHistory: push,
-  fetchDocuments,
-}, dispatch);
 
 DocumentList.propTypes = {
   documents: PropTypes.array,
@@ -80,6 +81,8 @@ DocumentList.propTypes = {
 };
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps, {
+    pushToHistory: push,
+    fetchDocuments,
+  }
 )(DocumentList);

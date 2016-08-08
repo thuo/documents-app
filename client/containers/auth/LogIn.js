@@ -1,4 +1,3 @@
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { logIn } from 'app/actions/AuthActions';
@@ -14,7 +13,7 @@ export const submit = (values, ctx) => new Promise((resolve, reject) => {
       props.push(nextLocation);
       resolve();
     } else {
-      ctx.showSnackbar(error);
+      ctx.showSnackbar(error.error);
       reject(error);
     }
   });
@@ -38,13 +37,10 @@ export const LogIn = createForm(
   validate
 )(LogInForm);
 
-export const mapStateToProps = state => ({ error: state.loginError });
-
-export const mapDispatchToProps = dispatch => bindActionCreators({
-  logIn, push,
-}, dispatch);
+export const mapStateToProps = state => state.logIn;
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps, {
+    logIn, push,
+  }
 )(LogIn);

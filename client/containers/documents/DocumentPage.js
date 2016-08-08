@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { fetchDocumentIfNeeded } from 'app/actions/DocumentActions';
 import Document from 'app/components/documents/Document';
+import AppError from 'app/components/error/AppError';
 
 export class DocumentList extends React.Component {
 
@@ -11,9 +11,9 @@ export class DocumentList extends React.Component {
   }
 
   render() {
-    const { document: doc } = this.props;
-    if (!doc) {
-      return <p> error </p>;
+    const { doc, error } = this.props;
+    if (!doc._id) {
+      return <AppError>{(error && error.error) || 'Loading...'}</AppError>;
     }
     return (
       <Document
@@ -24,19 +24,20 @@ export class DocumentList extends React.Component {
   }
 }
 
-export const mapStateToProps = (state, ownProps) => ({
-  document: state.documents.list.find(doc =>
-    doc._id === ownProps.params.documentId
-  ),
-  error: state.getDocumentError,
-});
-
-export const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchDocumentIfNeeded,
-}, dispatch);
+export const mapStateToProps = (state, ownProps) => {
+  const { entities, documentPage } = state;
+  const { params: { documentId } } = ownProps;
+  const doc = Object.assign({}, entities.documents[documentId]);
+  doc.owner = entities.users[doc.owner];
+  const error = documentPage.error;
+  return { doc, error };
+};
 
 DocumentList.propTypes = {
-  document: PropTypes.object,
+  doc: PropTypes.object,
+  error: PropTypes.shape({
+    error: PropTypes.string,
+  }),
   fetchDocumentIfNeeded: PropTypes.func.isRequired,
   params: PropTypes.shape({
     documentId: PropTypes.string,
@@ -44,6 +45,7 @@ DocumentList.propTypes = {
 };
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps, {
+    fetchDocumentIfNeeded,
+  }
 )(DocumentList);
