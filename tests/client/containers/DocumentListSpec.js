@@ -2,9 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import mockStore from '../helpers/mockStore';
 import * as DocumentList from 'app/containers/documents/DocumentList';
-import * as actions from 'app/actions/DocumentActions';
 
 describe('DocumentList container', () => {
   describe('DocumentList', () => {
@@ -14,6 +12,13 @@ describe('DocumentList container', () => {
         _id: 1,
         title: 'doc',
         content: 'document',
+        owner: {
+          _id: 1,
+          name: {
+            first: 'Name',
+            last: 'Name',
+          },
+        },
       }];
       mount(
         <DocumentList.DocumentList
@@ -36,31 +41,38 @@ describe('DocumentList container', () => {
     });
   });
 
-  describe('mapStateToProps and mapDispatchToProps', () => {
-    let store;
-    beforeEach(() => {
-      store = mockStore({
-        documents: {
-          list: ['documents'],
-          error: 'Oops!',
+  describe('mapStateToProps', () => {
+    it('maps state to props', () => {
+      const state = {
+        documentList: { documents: [1], error: null },
+        entities: {
+          documents: {
+            1: {
+              _id: 1,
+              title: 'title',
+              owner: 1,
+            },
+          },
+          users: {
+            1: {
+              _id: 1,
+              username: 'user',
+            },
+          },
         },
-      });
-    });
-
-    it('mapStateToProps', () => {
-      const props = DocumentList.mapStateToProps(store.getState());
-      expect(props).to.eql({
-        documents: ['documents'],
-        error: 'Oops!',
-      });
-    });
-
-    it('mapDispatchToProps', () => {
-      const props = DocumentList.mapDispatchToProps(store.dispatch);
-      sinon.spy(actions, 'fetchDocuments');
-      props.fetchDocuments().then(() => {
-        expect(actions.fetchDocuments.calledOnce);
-      });
+      };
+      const expectedProps = {
+        documents: [{
+          _id: 1,
+          title: 'title',
+          owner: {
+            _id: 1,
+            username: 'user',
+          },
+        }],
+        error: null,
+      };
+      expect(DocumentList.mapStateToProps(state)).to.eql(expectedProps);
     });
   });
 });

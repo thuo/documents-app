@@ -1,26 +1,48 @@
 import {
-  SIGN_UP_SUCCESS, SIGN_UP_FAILURE,
-  LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT,
+  SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE,
+  LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT,
 } from 'app/actions/ActionTypes';
 import getUserFromToken from 'app/utils/getUserFromToken';
 
-export function signUpError(state = null, action) {
+export function signUp(state = { loading: false, error: null }, action) {
   switch (action.type) {
+    case SIGN_UP_REQUEST:
+      return {
+        loading: true,
+        error: null,
+      };
     case SIGN_UP_SUCCESS:
-      return null;
+      return {
+        loading: false,
+        error: null,
+      };
     case SIGN_UP_FAILURE:
-      return action.error;
+      return {
+        loading: false,
+        error: action.error,
+      };
     default:
       return state;
   }
 }
 
-export function loginError(state = null, action) {
+export function logIn(state = { loading: false, error: null }, action) {
   switch (action.type) {
+    case LOGIN_REQUEST:
+      return {
+        loading: true,
+        error: null,
+      };
     case LOGIN_SUCCESS:
-      return null;
+      return {
+        loading: false,
+        error: null,
+      };
     case LOGIN_FAILURE:
-      return action.error.error;
+      return {
+        loading: false,
+        error: action.error,
+      };
     default:
       return state;
   }

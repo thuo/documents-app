@@ -1,13 +1,13 @@
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { signUp, logIn } from 'app/actions/AuthActions';
 import SignUpForm from 'app/components/auth/SignUpForm';
 import createForm from 'app/containers/util/createForm';
+import humps from 'humps';
 
 export const submit = (values, ctx) => new Promise((resolve, reject) => {
   const props = ctx.props;
-  props.signUp(values).then(() => {
+  props.signUp(humps.decamelizeKeys(values)).then(() => {
     const { error, location } = ctx.props;
     if (!error) {
       const { email, password } = values;
@@ -55,13 +55,10 @@ export const SignUp = createForm(
   validate
 )(SignUpForm);
 
-export const mapStateToProps = state => ({ error: state.signUpError });
-
-export const mapDispatchToProps = dispatch => bindActionCreators({
-  signUp, logIn, push,
-}, dispatch);
+export const mapStateToProps = state => state.signUp;
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps, {
+    signUp, logIn, push,
+  }
 )(SignUp);

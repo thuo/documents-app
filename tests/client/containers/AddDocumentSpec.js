@@ -63,9 +63,9 @@ describe('AddDocument', () => {
 
   describe('mapStateToProps', () => {
     it('maps state to props', () => {
-      expect(AddDocument.mapStateToProps(
-        { addDocumentError: 'error' }
-      )).to.eql({ error: 'error' });
+      expect(AddDocument.mapStateToProps({
+        addDocument: { error: 'error', loading: false },
+      })).to.eql({ error: 'error', loading: false });
     });
   });
 });

@@ -1,13 +1,16 @@
 import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
-import { documents, addDocumentError } from './documents';
-import { signUpError, authenticatedUser, loginError } from './auth';
+import { documentList, addDocument, documentPage } from './documents';
+import { signUp, authenticatedUser, logIn } from './auth';
+import entities from './entities';
 
 export default combineReducers({
-  documents,
-  addDocumentError,
-  signUpError,
-  loginError,
+  entities,
+  documentList,
+  addDocument,
+  documentPage,
+  signUp,
+  logIn,
   authenticatedUser,
   routing,
 });

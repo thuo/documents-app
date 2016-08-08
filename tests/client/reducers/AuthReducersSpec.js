@@ -4,47 +4,55 @@ import * as reducers from 'app/reducers/auth';
 import { generate } from '../../server/helpers/token';
 
 describe('Auth reducers', () => {
-  describe('signUpError reducer', () => {
-    const initialState = null;
+  describe('signUp reducer', () => {
+    const initialState = { error: null, loading: false };
 
     it('returns the initial state', () => {
-      expect(reducers.signUpError(undefined, {})).to.eql(initialState);
+      expect(reducers.signUp(undefined, {})).to.eql(initialState);
     });
 
     it('handles SIGN_UP_SUCCESS', () => {
-      expect(reducers.signUpError({ error: 'error' }, {
+      expect(reducers.signUp({ error: 'error' }, {
         type: types.SIGN_UP_SUCCESS,
-        response: { username: 'username' },
-      })).to.eql(null);
+        response: { result: 1 },
+      })).to.eql({
+        error: null,
+        loading: false,
+      });
     });
 
     it('handles SIGN_UP_FAILURE', () => {
-      expect(reducers.signUpError(initialState, {
+      const error = { error: 'error' };
+      expect(reducers.signUp(initialState, {
         type: types.SIGN_UP_FAILURE,
-        error: { error: 'error' },
-      })).to.eql({ error: 'error' });
+        error,
+      })).to.eql({ error, loading: false });
     });
   });
 
-  describe('loginError reducer', () => {
-    const initialState = null;
+  describe('logIn reducer', () => {
+    const initialState = { error: null, loading: false };
 
     it('returns the initial state', () => {
-      expect(reducers.loginError(undefined, {})).to.eql(initialState);
+      expect(reducers.logIn(undefined, {})).to.eql(initialState);
     });
 
     it('handles LOGIN_SUCCESS', () => {
-      expect(reducers.loginError({ error: 'error' }, {
+      expect(reducers.logIn({ error: 'error' }, {
         type: types.LOGIN_SUCCESS,
-        response: { username: 'username' },
-      })).to.eql(null);
+        response: { result: 1 },
+      })).to.eql({
+        error: null,
+        loading: false,
+      });
     });
 
     it('handles LOGIN_FAILURE', () => {
-      expect(reducers.loginError(initialState, {
+      const error = { error: 'error' };
+      expect(reducers.logIn(initialState, {
         type: types.LOGIN_FAILURE,
-        error: { error: 'error' },
-      })).to.eql('error');
+        error,
+      })).to.eql({ error, loading: false });
     });
   });
 
@@ -64,9 +72,10 @@ describe('Auth reducers', () => {
     });
 
     it('handles LOGIN_FAILURE', () => {
+      const error = { error: 'error' };
       expect(reducers.authenticatedUser(initialState, {
         type: types.LOGIN_FAILURE,
-        error: { error: 'error' },
+        error,
       })).to.eql(null);
     });
 

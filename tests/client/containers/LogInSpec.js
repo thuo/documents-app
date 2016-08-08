@@ -49,7 +49,7 @@ describe('LogIn', () => {
       const context = {
         props: {
           logIn: sinon.spy(() => Promise.resolve()),
-          error: 'error',
+          error: { error: 'error' },
         },
         showSnackbar: sinon.spy(),
       };
@@ -60,7 +60,7 @@ describe('LogIn', () => {
       LogIn.submit(values, context).catch(() => {
         expect(context.props.logIn.withArgs(values).calledOnce).to.be.true;
         expect(
-          context.showSnackbar.withArgs(context.props.error).calledOnce
+          context.showSnackbar.withArgs(context.props.error.error).calledOnce
         ).to.be.true;
       }).then(done, done);
     });
@@ -68,7 +68,7 @@ describe('LogIn', () => {
 
   describe('mapStateToProps', () => {
     it('maps state to props', () => {
-      expect(LogIn.mapStateToProps({ loginError: 'error' })).to.eql({
+      expect(LogIn.mapStateToProps({ logIn: { error: 'error' } })).to.eql({
         error: 'error',
       });
     });

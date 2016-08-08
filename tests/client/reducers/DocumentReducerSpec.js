@@ -3,61 +3,66 @@ import * as types from 'app/actions/ActionTypes';
 import * as reducers from 'app/reducers/documents';
 
 describe('Documents reducers', () => {
-  describe('documents reducer', () => {
-    const initialState = { list: [], error: null };
+  describe('documentList reducer', () => {
+    const initialState = { documents: [], error: null, loading: false };
 
     it('returns the initial state', () => {
-      expect(reducers.documents(undefined, {})).to.eql(initialState);
+      expect(reducers.documentList(undefined, {})).to.eql(initialState);
     });
 
     it('handles DOCUMENTS_SUCCESS', () => {
-      const response = ['documents'];
-      expect(reducers.documents(initialState, {
+      const response = { result: [1] };
+      expect(reducers.documentList(initialState, {
         type: types.DOCUMENTS_SUCCESS,
         response,
-      })).to.eql({ list: response, error: null });
+      })).to.eql({ documents: response.result, error: null, loading: false });
     });
 
     it('handles DOCUMENTS_FAILURE', () => {
       const error = { error: 'error' };
-      expect(reducers.documents({ list: [], error: null }, {
+      expect(reducers.documentList({
+        documents: [], error: null, loading: false,
+      }, {
         type: types.DOCUMENTS_FAILURE,
         error,
-      })).to.eql({ list: [], error: 'error' });
+      })).to.eql({ documents: [], error: 'error', loading: false });
     });
 
     it('handles DOCUMENTS_ADD_SUCCESS', () => {
-      const response = { title: 'document' };
-      const state = { list: [{ title: 'one' }], error: null };
-      expect(reducers.documents(state, {
+      const response = { result: 1 };
+      const state = { documents: [1], error: null, loading: false };
+      expect(reducers.documentList(state, {
         type: types.DOCUMENTS_ADD_SUCCESS,
         response,
       })).to.eql({
-        list: [response, ...state.list],
+        documents: [response.result, ...state.documents],
         error: state.error,
+        loading: state.loading,
       });
     });
   });
 
-  describe('addDocumentError reducer', () => {
-    const initialState = null;
+  describe('addDocument', () => {
+    const initialState = { document: null, error: null, loading: false };
 
     it('returns the initial state', () => {
-      expect(reducers.addDocumentError(undefined, {})).to.eql(initialState);
+      expect(reducers.addDocument(undefined, {})).to.eql(initialState);
     });
 
     it('handles DOCUMENTS_ADD_SUCCESS', () => {
-      expect(reducers.addDocumentError(initialState, {
+      const response = { result: 1 };
+      expect(reducers.addDocument(initialState, {
         type: types.DOCUMENTS_ADD_SUCCESS,
-      })).to.eql(null);
+        response,
+      })).to.eql({ error: null, loading: false, document: response.result });
     });
 
     it('handles DOCUMENTS_ADD_FAILURE', () => {
       const error = { error: 'error' };
-      expect(reducers.addDocumentError(null, {
+      expect(reducers.addDocument({ error: null }, {
         type: types.DOCUMENTS_ADD_FAILURE,
         error,
-      })).to.eql(error);
+      })).to.eql({ error, loading: false, document: null });
     });
   });
 });

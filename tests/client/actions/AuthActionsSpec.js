@@ -12,12 +12,25 @@ describe('Auth action creators', () => {
   describe('signUp()', () => {
     it('dispatches SIGN_UP_SUCCESS when signing up succeeds', () => {
       mock.post('/api/users', () => ({
-        body: { username: 'username' },
+        body: {
+          _id: 1,
+          username: 'username',
+        },
       }));
 
       const expectedActions = [
-        { type: types.SIGN_UP_REQUEST },
-        { type: types.SIGN_UP_SUCCESS, response: { username: 'username' } },
+        { type: types.SIGN_UP_REQUEST }, {
+          type: types.SIGN_UP_SUCCESS,
+          response: {
+            result: 1,
+            entities: { users: {
+              1: {
+                _id: 1,
+                username: 'username',
+              },
+            } },
+          },
+        },
       ];
       const store = mockStore({ signUpError: null });
 
