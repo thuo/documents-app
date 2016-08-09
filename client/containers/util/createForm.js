@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Snackbar } from 'react-mdl';
 
 const createForm = (submit, validate) => Component => {
   const Form = class extends React.Component {
     constructor(props) {
       super(props);
+      const values = this.props.defaultValues || {};
       this.state = {
-        values: {},
-        errors: validate({}),
+        values,
+        errors: validate(values),
         isSnackbarActive: false,
         snackbarText: '',
       };
@@ -67,6 +68,7 @@ const createForm = (submit, validate) => Component => {
             onSubmit={this.handleSubmit}
             errors={errors}
             values={values}
+            {...this.props}
           />
           <Snackbar
             active={isSnackbarActive}
@@ -79,6 +81,9 @@ const createForm = (submit, validate) => Component => {
   };
   const displayName = Component.displayName || Component.name || 'Component';
   Form.displayName = `Form(${displayName})`;
+  Form.propTypes = {
+    defaultValues: PropTypes.object,
+  };
   return Form;
 };
 

@@ -6,7 +6,7 @@ import {
 const DocumentForm = props => (
   <form onSubmit={props.onSubmit}>
     <Card shadow={0}>
-      <CardTitle>Add document</CardTitle>
+      <CardTitle>{props.title || 'Add document'}</CardTitle>
       <CardText>
         <Grid>
           <Cell col={12}>
@@ -33,7 +33,18 @@ const DocumentForm = props => (
         </Grid>
       </CardText>
       <CardActions>
-        <Button colored onClick={props.onSubmit}>Save</Button>
+        <Button colored onClick={props.onSubmit}>
+          {props.buttonText || 'Save'}
+        </Button>
+        {props.onCancel &&
+          <Button
+            colored
+            onClick={e => {
+              e.preventDefault();
+              props.onCancel();
+            }}>
+            Cancel
+          </Button>}
       </CardActions>
     </Card>
   </form>
@@ -49,6 +60,9 @@ DocumentForm.propTypes = {
   onFieldChange: PropTypes.func.isRequired,
   values: fieldsPropType,
   errors: fieldsPropType,
+  title: PropTypes.string,
+  buttonText: PropTypes.string,
+  onCancel: PropTypes.func,
 };
 
 export default DocumentForm;

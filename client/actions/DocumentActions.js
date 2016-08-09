@@ -4,6 +4,7 @@ import {
   DOCUMENTS_REQUEST, DOCUMENTS_SUCCESS, DOCUMENTS_FAILURE,
   DOCUMENTS_ADD_REQUEST, DOCUMENTS_ADD_SUCCESS, DOCUMENTS_ADD_FAILURE,
   DOCUMENT_GET_REQUEST, DOCUMENT_GET_SUCCESS, DOCUMENT_GET_FAILURE,
+  DOCUMENT_UPDATE_REQUEST, DOCUMENT_UPDATE_SUCCESS, DOCUMENT_UPDATE_FAILURE,
 } from './ActionTypes';
 
 export function fetchDocuments() {
@@ -26,6 +27,26 @@ export function addDocument(doc) {
         .post('/api/documents')
         .set('X-Access-Token', getState().authenticatedUser.token)
         .send(doc),
+      schema: Schemas.DOCUMENT,
+    },
+  });
+}
+
+export function editDocument(documentId, values) {
+  return (dispatch, getState) => dispatch({
+    [API]: {
+      types: [
+        DOCUMENT_UPDATE_REQUEST,
+        DOCUMENT_UPDATE_SUCCESS,
+        DOCUMENT_UPDATE_FAILURE,
+      ],
+      payload: request => request
+        .put(`/api/documents/${documentId}`)
+        .set(
+          'X-Access-Token',
+          getState().authenticatedUser && getState().authenticatedUser.token
+        )
+        .send(values),
       schema: Schemas.DOCUMENT,
     },
   });

@@ -2,6 +2,7 @@ import {
   DOCUMENTS_REQUEST, DOCUMENTS_SUCCESS, DOCUMENTS_FAILURE,
   DOCUMENTS_ADD_REQUEST, DOCUMENTS_ADD_SUCCESS, DOCUMENTS_ADD_FAILURE,
   DOCUMENT_GET_REQUEST, DOCUMENT_GET_SUCCESS, DOCUMENT_GET_FAILURE,
+  DOCUMENT_UPDATE_REQUEST, DOCUMENT_UPDATE_SUCCESS, DOCUMENT_UPDATE_FAILURE,
 } from 'app/actions/ActionTypes';
 
 export function documentList(state = { documents: [], error: null,
@@ -80,6 +81,28 @@ export function documentPage(state = { document: null, error: null,
     case DOCUMENT_GET_FAILURE:
       return {
         document: null,
+        error: action.error,
+        loading: false,
+      };
+    default:
+      return state;
+  }
+}
+
+export function editDocument(state = { error: null, loading: false }, action) {
+  switch (action.type) {
+    case DOCUMENT_UPDATE_REQUEST:
+      return {
+        error: null,
+        loading: true,
+      };
+    case DOCUMENT_UPDATE_SUCCESS:
+      return {
+        error: null,
+        loading: false,
+      };
+    case DOCUMENT_UPDATE_FAILURE:
+      return {
         error: action.error,
         loading: false,
       };
