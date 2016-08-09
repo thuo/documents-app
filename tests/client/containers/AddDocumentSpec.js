@@ -17,11 +17,12 @@ describe('AddDocument', () => {
   });
 
   describe('submit', () => {
-    it('logs in user and redirects to', (done) => {
+    it('adds document', (done) => {
       const context = {
         props: {
           addDocument: sinon.spy(() => Promise.resolve()),
           pushToHistory: sinon.spy(() => Promise.resolve()),
+          document: 1,
         },
       };
       const values = {
@@ -33,7 +34,7 @@ describe('AddDocument', () => {
           context.props.addDocument.withArgs(values).calledOnce
         ).to.be.true;
         expect(
-          context.props.pushToHistory.withArgs('/').calledOnce
+          context.props.pushToHistory.withArgs('/documents/1').calledOnce
         ).to.be.true;
       }).then(done, done);
     });

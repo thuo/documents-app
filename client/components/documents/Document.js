@@ -25,10 +25,14 @@ const Document = props => (
       at
       <strong>{` ${dateTimeLocaleString(props.createdAt)} `}</strong>
     </CardText>
-    <CardActions border>
-      <Button colored>Edit</Button>
-      <Button colored>Delete</Button>
-    </CardActions>
+    {(props.canEdit || props.canDelete) &&
+      <CardActions border>
+        {props.canEdit &&
+          <Button colored onClick={props.onEditClick}>Edit</Button>}
+        {props.canDelete &&
+          <Button colored>Delete</Button>}
+      </CardActions>
+    }
     <CardActions border style={{ padding: '0' }} />
     <CardText
       className="mdl-card--border"
@@ -47,6 +51,9 @@ Document.propTypes = {
     _id: PropTypes.string,
     name: PropTypes.object,
   }),
+  onEditClick: PropTypes.func.isRequired,
+  canEdit: PropTypes.bool,
+  canDelete: PropTypes.bool,
 };
 
 export default Document;

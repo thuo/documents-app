@@ -11,7 +11,7 @@ export const submit = (values, ctx) => new Promise((resolve, reject) => {
   props.addDocument(values).then(() => {
     const { error } = ctx.props;
     if (!error) {
-      props.pushToHistory('/');
+      props.pushToHistory(`/documents/${ctx.props.document}`);
       resolve();
     } else {
       ctx.showSnackbar(error.error);
