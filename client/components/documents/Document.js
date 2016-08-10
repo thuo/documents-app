@@ -28,9 +28,11 @@ const Document = props => (
     {(props.canEdit || props.canDelete) &&
       <CardActions border>
         {props.canEdit &&
-          <Button colored onClick={props.onEditClick}>Edit</Button>}
+          <Button colored onClick={props.onEditClick}>Edit</Button>
+        }
         {props.canDelete &&
-          <Button colored>Delete</Button>}
+          <Button colored onClick={props.onDeleteClick}>Delete</Button>
+        }
       </CardActions>
     }
     <CardActions border style={{ padding: '0' }} />
@@ -43,15 +45,16 @@ const Document = props => (
 );
 
 Document.propTypes = {
-  _id: PropTypes.string,
-  title: PropTypes.string,
-  content: PropTypes.string,
-  createdAt: PropTypes.string,
+  _id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
   owner: PropTypes.shape({
     _id: PropTypes.string,
     name: PropTypes.object,
-  }),
+  }).isRequired,
   onEditClick: PropTypes.func.isRequired,
+  onDeleteClick: PropTypes.func.isRequired,
   canEdit: PropTypes.bool,
   canDelete: PropTypes.bool,
 };
