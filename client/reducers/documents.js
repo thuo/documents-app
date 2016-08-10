@@ -3,6 +3,7 @@ import {
   DOCUMENTS_ADD_REQUEST, DOCUMENTS_ADD_SUCCESS, DOCUMENTS_ADD_FAILURE,
   DOCUMENT_GET_REQUEST, DOCUMENT_GET_SUCCESS, DOCUMENT_GET_FAILURE,
   DOCUMENT_UPDATE_REQUEST, DOCUMENT_UPDATE_SUCCESS, DOCUMENT_UPDATE_FAILURE,
+  DOCUMENT_DELETE_SUCCESS,
 } from 'app/actions/ActionTypes';
 
 export function documentList(state = { documents: [], error: null,
@@ -29,6 +30,12 @@ export function documentList(state = { documents: [], error: null,
     case DOCUMENTS_ADD_SUCCESS:
       return {
         documents: [action.response.result, ...state.documents],
+        error: state.error,
+        loading: state.loading,
+      };
+    case DOCUMENT_DELETE_SUCCESS:
+      return {
+        documents: state.documents.filter(id => id === action.documentId),
         error: state.error,
         loading: state.loading,
       };
