@@ -13,7 +13,13 @@ module.exports = {
         // the user in the token may have been deleted or their role updated;
         // by fetching the user from the database again we ensure their
         // authority is current and not as was when the token was issued.
-        User.findByIdWithRole(decoded._id, (userError, user) => {
+        let userId = null;
+        if (typeof decoded === 'string') {
+          userId = JSON.parse(decoded)._id;
+        } else if (typeof decoded === 'object') {
+          userId = decoded._id;
+        }
+        User.findByIdWithRole(userId, (userError, user) => {
           if (error.mongoose.send(userError, res)) return;
           req.decoded = user;
           next();
