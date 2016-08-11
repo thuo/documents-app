@@ -50,9 +50,16 @@ const Document = props => (
       <Menu
         target={`documents-${props._id}`}
         align="right">
-        <MenuItem>View</MenuItem>
-        <MenuItem>Edit</MenuItem>
-        <MenuItem>Delete</MenuItem>
+        <MenuItem
+          onClick={() => { props.onDocumentClick(props._id); }}>
+          View
+        </MenuItem>
+        {props.canEdit &&
+          <MenuItem onClick={props.onEditClick}>Edit</MenuItem>
+        }
+        {props.canDelete &&
+          <MenuItem onClick={props.onDeleteClick}>Delete</MenuItem>
+        }
       </Menu>
     </CardMenu>
   </Card>
@@ -62,6 +69,10 @@ Document.propTypes = {
   _id: PropTypes.string,
   title: PropTypes.string,
   content: PropTypes.string,
+  onEditClick: PropTypes.func.isRequired,
+  onDeleteClick: PropTypes.func.isRequired,
+  canEdit: PropTypes.bool,
+  canDelete: PropTypes.bool,
 };
 
 export default Document;
