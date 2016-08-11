@@ -23,3 +23,7 @@ a {
 .mdl-textfield {
   width: 100%;
 }
+
+.mdl-spinner {
+  line-height: 1rem;
+}
