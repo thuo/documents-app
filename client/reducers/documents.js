@@ -35,7 +35,7 @@ export function documentList(state = { documents: [], error: null,
       };
     case DOCUMENT_DELETE_SUCCESS:
       return {
-        documents: state.documents.filter(id => id === action.documentId),
+        documents: state.documents.filter(id => id !== action.documentId),
         error: state.error,
         loading: state.loading,
       };
