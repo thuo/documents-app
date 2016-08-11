@@ -61,8 +61,8 @@ export function deleteDocument(documentId) {
       payload: request => request
         .delete(`/api/documents/${documentId}`)
         .set('X-Access-Token', getTokenFromState(getState())),
-      documentId,
     },
+    documentId,
   });
 }
 

@@ -1,13 +1,16 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import mockStore from '../helpers/mockStore';
 import * as DocumentList from 'app/containers/documents/DocumentList';
 
 describe('DocumentList container', () => {
   describe('DocumentList', () => {
     it('renders documents', () => {
       const fetchDocuments = sinon.spy();
+      const store = mockStore({});
       const documents = [{
         _id: 1,
         title: 'doc',
@@ -21,10 +24,12 @@ describe('DocumentList container', () => {
         },
       }];
       mount(
-        <DocumentList.DocumentList
-          fetchDocuments={fetchDocuments}
-          documents={documents}
-        />
+        <Provider store={store}>
+          <DocumentList.DocumentList
+            fetchDocuments={fetchDocuments}
+            documents={documents}
+          />
+        </Provider>
       );
       expect(fetchDocuments.calledOnce).to.be.true;
     });

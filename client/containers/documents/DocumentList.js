@@ -5,6 +5,7 @@ import { FABButton, Icon } from 'react-mdl';
 import { fetchDocuments } from 'app/actions/DocumentActions';
 import DocumentListItem from 'app/components/documents/DocumentListItem';
 import AppError from 'app/components/error/AppError';
+import createDocumentView from './createDocumentView';
 
 export class DocumentList extends React.Component {
 
@@ -36,11 +37,13 @@ export class DocumentList extends React.Component {
     const style = {
       marginBottom: '6em',
     };
+    const DocumentView = createDocumentView(DocumentListItem);
     return (
       <div style={style}>
         {this.props.documents.map(doc =>
-          <DocumentListItem
-            {...doc}
+          <DocumentView
+            doc={doc}
+            onDeleteSuccess={() => {}}
             key={doc._id}
             onDocumentClick={this.handleDocumentClick}
           />

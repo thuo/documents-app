@@ -7,7 +7,7 @@ export default function entities(state = initialState, action) {
   switch (action.type) {
     case DOCUMENT_DELETE_SUCCESS:
       return Object.assign({}, state, {
-        documents: omit(state.entities, action.documentId),
+        documents: omit(state.documents, action.documentId),
       });
     default:
       if (action.response && action.response.entities) {
