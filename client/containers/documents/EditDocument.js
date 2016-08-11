@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
 import { editDocument } from 'app/actions/DocumentActions';
 import DocumentForm from 'app/components/documents/DocumentForm';
 import createForm from 'app/containers/util/createForm';
@@ -10,7 +9,6 @@ export const submit = (values, ctx) => new Promise((resolve, reject) => {
   props.editDocument(props.defaultValues._id, values).then(() => {
     const { error } = ctx.props;
     if (!error) {
-      props.onEditSuccess();
       resolve();
     } else {
       ctx.showSnackbar(error.error);
@@ -38,7 +36,6 @@ export const mapStateToProps = (state, ownProps) => {
 
 export default connect(
   mapStateToProps, {
-    pushToHistory: push,
     editDocument,
   }
 )(EditDocument);
