@@ -26,3 +26,7 @@ export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const LOGOUT = 'LOGOUT';
+
+export const USER_GET_REQUEST = 'USER_GET_REQUEST';
+export const USER_GET_SUCCESS = 'USER_GET_SUCCESS';
+export const USER_GET_FAILURE = 'USER_GET_FAILURE';

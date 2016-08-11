@@ -27,7 +27,9 @@ export class NavBar extends React.Component {
               {user.name.first}
             </Button>
             <Menu target="profile-menu" align="right">
-              <MenuItem>Profile</MenuItem>
+              <MenuItem>
+                <Link to={`/users/${user._id}`}>Profile</Link>
+              </MenuItem>
               <MenuItem onClick={() => dispatch(logOut())}>Logout</MenuItem>
             </Menu>
           </div>
