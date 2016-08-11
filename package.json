@@ -57,6 +57,7 @@
   },
   "devDependencies": {
     "async": "^2.0.0-rc.6",
+    "babel-cli": "^6.11.4",
     "babel-core": "^6.11.4",
     "babel-istanbul": "^0.11.0",
     "babel-loader": "^6.2.4",
@@ -94,7 +95,7 @@
     "webpack-hot-middleware": "^2.12.1"
   },
   "engines": {
-    "node": "6.2.1",
-    "npm": "3.9.3"
+    "node": "6.3.1",
+    "npm": "3.10.5"
   }
 }
