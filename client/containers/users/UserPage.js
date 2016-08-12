@@ -4,11 +4,16 @@ import { Spinner } from 'react-mdl';
 import { fetchUserIfNeeded } from 'app/actions/UserActions';
 import AppError from 'app/components/error/AppError';
 import User from 'app/components/users/User';
+import EditProfile from './EditProfile';
 
 export class UserPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isEditing: false,
+    };
+    this.handleEditStart = this.handleEditStart.bind(this);
+    this.handleEditStop = this.handleEditStop.bind(this);
   }
 
   componentDidMount() {
@@ -19,16 +24,39 @@ export class UserPage extends React.Component {
     fetchUser(userId);
   }
 
+  handleEditStart() {
+    this.setState({
+      isEditing: true,
+    });
+  }
+
+  handleEditStop() {
+    this.setState({
+      isEditing: false,
+    });
+  }
+
   render() {
     const { user, error, isAuthenticatedUser } = this.props;
+    const { isEditing } = this.state;
     if (!user) {
       return (<AppError>{error && error.error || <Spinner />}</AppError>);
+    }
+    if (isEditing) {
+      return (
+        <EditProfile
+          user={user}
+          onCancel={this.handleEditStop}
+          onEditSuccess={this.handleEditStop}
+        />
+      );
     }
     return (
       <User
         {...user}
         canEdit={isAuthenticatedUser}
-        canDelete={isAuthenticatedUser}
+        canDelete={false}
+        onEditClick={this.handleEditStart}
       />
     );
   }
