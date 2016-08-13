@@ -1,10 +1,8 @@
 import React, { PropTypes } from 'react';
 import {
-  CardText, Card, CardTitle, CardMenu, Menu, MenuItem, IconButton,
+  CardText, Card, CardTitle, CardMenu, Menu, MenuItem, IconButton, CardActions,
 } from 'react-mdl';
-import { Link } from 'react-router';
-import dateTimeLocaleString from 'app/utils/dateTimeLocaleString';
-import fullName from 'app/utils/fullName';
+import DocumentInfo from './DocumentInfo';
 
 const style = {
   margin: '0.75em',
@@ -25,21 +23,6 @@ const Document = props => (
     <CardTitle style={{ marginRight: '3em' }}>
       {props.title}
     </CardTitle>
-    <CardText>
-      By{' '}
-      <strong>
-        {props.owner
-          ?
-          <Link to={`/users/${props.owner._id}`}>
-            {`${fullName(props.owner.name)}`}
-          </Link>
-          :
-          '[deleted]'
-        }
-      </strong>{' '}
-      at
-      <strong>{` ${dateTimeLocaleString(props.createdAt)} `}</strong>
-    </CardText>
     <CardText
       className="pointer"
       title="Click to view entire document"
@@ -49,6 +32,10 @@ const Document = props => (
         props.onDocumentClick(props._id);
       }}>
       <p>{trim(props.content, 200)}</p>
+    </CardText>
+    <CardActions border style={{ padding: '0' }} />
+    <CardText>
+      <DocumentInfo {...props} />
     </CardText>
     <CardMenu>
       <IconButton name="more_vert" id={`documents-${props._id}`} />

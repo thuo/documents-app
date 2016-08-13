@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 import { CardText, Card, CardTitle, CardActions, Button } from 'react-mdl';
-import { Link } from 'react-router';
-import dateTimeLocaleString from 'app/utils/dateTimeLocaleString';
-import fullName from 'app/utils/fullName';
+import DocumentInfo from './DocumentInfo';
 
 const style = {
   margin: '0.75em',
@@ -15,23 +13,12 @@ const Document = props => (
     <CardTitle>
       {props.title}
     </CardTitle>
+    <CardActions border style={{ padding: '0' }} />
     <CardText>
-      By{' '}
-      <strong>
-        {props.owner
-          ?
-          <Link to={`/users/${props.owner._id}`}>
-            {`${fullName(props.owner.name)}`}
-          </Link>
-          :
-          '[deleted]'
-        }
-      </strong>{' '}
-      at
-      <strong>{` ${dateTimeLocaleString(props.createdAt)} `}</strong>
+      <DocumentInfo {...props} />
     </CardText>
     {(props.canEdit || props.canDelete) &&
-      <CardActions border>
+      <CardActions>
         {props.canEdit &&
           <Button colored onClick={props.onEditClick}>Edit</Button>
         }
@@ -53,11 +40,6 @@ Document.propTypes = {
   _id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
-  createdAt: PropTypes.string.isRequired,
-  owner: PropTypes.shape({
-    _id: PropTypes.string,
-    name: PropTypes.object,
-  }),
   onEditClick: PropTypes.func.isRequired,
   onDeleteClick: PropTypes.func.isRequired,
   canEdit: PropTypes.bool,
