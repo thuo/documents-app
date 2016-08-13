@@ -6,7 +6,8 @@ import {
 const DocumentForm = props => (
   <form onSubmit={props.onSubmit}>
     <Card shadow={0}>
-      <CardTitle>{props.title || 'Add document'}</CardTitle>
+      <CardTitle>{props.title || 'Add Document'}</CardTitle>
+      <CardActions border style={{ padding: '0' }} />
       <CardText>
         <Grid>
           <Cell col={12}>
@@ -30,9 +31,36 @@ const DocumentForm = props => (
               error={props.errors.content}
             />
           </Cell>
+          <Cell col={6}>
+            <label htmlFor="read-access">
+              Who can read?
+            </label>
+            <select
+              required
+              id="read-access"
+              onChange={props.onFieldChange('readAccess')}
+              defaultValue={props.values.readAccess || 'public'}>
+              <option value="public">Public</option>
+              <option value="authenticated">Logged In Users</option>
+              <option value="private">Only Me</option>
+            </select>
+          </Cell>
+          <Cell col={6}>
+            <label htmlFor="write-access">
+              Who can edit?
+            </label>
+            <select
+              required
+              id="write-access"
+              onChange={props.onFieldChange('writeAccess')}
+              defaultValue={props.values.writeAccess || 'private'}>
+              <option value="authenticated">Logged In Users</option>
+              <option value="private">Only Me</option>
+            </select>
+          </Cell>
         </Grid>
       </CardText>
-      <CardActions>
+      <CardActions border>
         <Button colored onClick={props.onSubmit}>
           {props.buttonText || 'Save'}
         </Button>

@@ -114,7 +114,7 @@ const createDocumentView = Component => {
 
     const canDelete = doc && state.authenticatedUser &&
       (doc.owner && doc.owner._id === state.authenticatedUser._id ||
-      state.authenticatedUser.role === 'admin');
+      state.authenticatedUser.role.title === 'admin');
 
     return {
       doc,

@@ -1,4 +1,5 @@
 import { bindActionCreators } from 'redux';
+import humps from 'humps';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { addDocument } from 'app/actions/DocumentActions';
@@ -7,11 +8,11 @@ import createForm from 'app/containers/util/createForm';
 import authenticate from 'app/containers/util/authenticate';
 
 export const submit = (values, ctx) => new Promise((resolve, reject) => {
-  const props = ctx.props;
-  props.addDocument(values).then(() => {
-    const { error } = ctx.props;
+  const { addDocument: boundAddDocument } = ctx.props;
+  boundAddDocument(humps.decamelizeKeys(values)).then(() => {
+    const { error, pushToHistory, document: doc } = ctx.props;
     if (!error) {
-      props.pushToHistory(`/documents/${ctx.props.document}`);
+      pushToHistory(`/documents/${doc}`);
       resolve();
     } else {
       ctx.showSnackbar(error.error);
