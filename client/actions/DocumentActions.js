@@ -9,13 +9,15 @@ import {
 } from './ActionTypes';
 
 export function fetchDocuments() {
-  return {
+  return (dispatch, getState) => dispatch({
     [API]: {
       types: [DOCUMENTS_REQUEST, DOCUMENTS_SUCCESS, DOCUMENTS_FAILURE],
-      payload: (request) => request.get('/api/documents'),
+      payload: request => request
+        .get('/api/documents')
+        .set('X-Access-Token', getTokenFromState(getState())),
       schema: Schemas.DOCUMENT_ARRAY,
     },
-  };
+  });
 }
 
 export function addDocument(doc) {
