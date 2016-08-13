@@ -1,4 +1,3 @@
-export default isoString => {
-  const date = new Date(isoString);
-  return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-};
+import moment from 'moment';
+
+export default date => moment(date).format('Do MMM YYYY, h:mm a');

@@ -22,6 +22,7 @@ describe('DocumentList container', () => {
             last: 'Name',
           },
         },
+        access: {},
       }];
       mount(
         <Provider store={store}>
