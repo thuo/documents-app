@@ -61,6 +61,17 @@ NavBar.propTypes = {
   dispatch: PropTypes.func,
 };
 
+const mapStateToProps = state => {
+  const { entities: { users }, authenticatedUser } = state;
+  // The data in state.entities.users will always be fresh unlike
+  // state.authenticatedUser which might be stale. However, state.entities.users
+  // may not have data for the logged in user in case that user only logged in
+  // which doesn't update enitities because it returns only a token.
+  return {
+    user: users[authenticatedUser._id] || authenticatedUser,
+  };
+};
+
 export default connect(
-  state => ({ user: state.authenticatedUser })
+  mapStateToProps
 )(NavBar);
