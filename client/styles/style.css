@@ -27,3 +27,8 @@ a {
 .mdl-spinner {
   line-height: 1rem;
 }
+
+select {
+  display: block;
+  margin: 1em 0;
+}

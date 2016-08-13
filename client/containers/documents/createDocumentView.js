@@ -110,11 +110,11 @@ const createDocumentView = Component => {
 
     const canEdit = doc && state.authenticatedUser &&
       (doc.access.write === 'authenticated' ||
-      doc.owner._id === state.authenticatedUser._id);
+      doc.owner && doc.owner._id === state.authenticatedUser._id);
 
     const canDelete = doc && state.authenticatedUser &&
-      (doc.owner._id === state.authenticatedUser._id ||
-      state.authenticatedUser.role === 'admin');
+      (doc.owner && doc.owner._id === state.authenticatedUser._id ||
+      state.authenticatedUser.role.title === 'admin');
 
     return {
       doc,

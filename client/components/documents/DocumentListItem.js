@@ -28,9 +28,14 @@ const Document = props => (
     <CardText>
       By{' '}
       <strong>
-        <Link to={`/users/${props.owner._id}`}>
-          {`${fullName(props.owner.name)}`}
-        </Link>
+        {props.owner
+          ?
+          <Link to={`/users/${props.owner._id}`}>
+            {`${fullName(props.owner.name)}`}
+          </Link>
+          :
+          '[deleted]'
+        }
       </strong>{' '}
       at
       <strong>{` ${dateTimeLocaleString(props.createdAt)} `}</strong>
