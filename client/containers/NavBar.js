@@ -67,8 +67,9 @@ const mapStateToProps = state => {
   // state.authenticatedUser which might be stale. However, state.entities.users
   // may not have data for the logged in user in case that user only logged in
   // which doesn't update enitities because it returns only a token.
+  const userId = authenticatedUser && authenticatedUser._id;
   return {
-    user: users[authenticatedUser._id] || authenticatedUser,
+    user: users[userId] || authenticatedUser,
   };
 };
 
