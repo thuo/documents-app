@@ -6,7 +6,6 @@ import {
 } from 'app/actions/DocumentActions';
 import Document from 'app/components/documents/Document';
 import AppError from 'app/components/error/AppError';
-import createDocumentView from './createDocumentView';
 
 export class DocumentPage extends React.Component {
 
@@ -28,9 +27,8 @@ export class DocumentPage extends React.Component {
     if (!doc) {
       return <AppError>{(error && error.error) || 'Loading...'}</AppError>;
     }
-    const DocumentView = createDocumentView(Document);
     return (
-      <DocumentView
+      <Document
         doc={doc}
         onDeleteSuccess={this.handleDeleteSuccess}
       />

@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { CardText, Card, CardTitle, CardActions, Button } from 'react-mdl';
+import createDocumentView from 'app/containers/util/createDocumentView';
 import DocumentInfo from './DocumentInfo';
 
 const style = {
@@ -46,4 +47,4 @@ Document.propTypes = {
   canDelete: PropTypes.bool,
 };
 
-export default Document;
+export default createDocumentView(Document);
