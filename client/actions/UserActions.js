@@ -1,22 +1,21 @@
 import { API, Schemas } from 'app/middleware/api';
-import getTokenFromState from 'app/utils/getTokenFromState';
 import {
   USER_GET_REQUEST, USER_GET_SUCCESS, USER_GET_FAILURE,
   USER_UPDATE_REQUEST, USER_UPDATE_SUCCESS, USER_UPDATE_FAILURE,
 } from './ActionTypes';
 
 function fetchUser(userId) {
-  return (dispatch, getState) => dispatch({
+  return {
     [API]: {
       types: [
         USER_GET_REQUEST, USER_GET_SUCCESS, USER_GET_FAILURE,
       ],
-      payload: request => request
+      payload: (request, getToken) => request
         .get(`/api/users/${userId}`)
-        .set('X-Access-Token', getTokenFromState(getState())),
+        .set('X-Access-Token', getToken()),
       schema: Schemas.USER,
     },
-  });
+  };
 }
 
 function shouldFetchUser(state, userId) {
@@ -33,18 +32,18 @@ export function fetchUserIfNeeded(userId) {
 }
 
 export function editUser(userId, values) {
-  return (dispatch, getState) => dispatch({
+  return {
     [API]: {
       types: [
         USER_UPDATE_REQUEST,
         USER_UPDATE_SUCCESS,
         USER_UPDATE_FAILURE,
       ],
-      payload: request => request
+      payload: (request, getToken) => request
         .put(`/api/users/${userId}`)
-        .set('X-Access-Token', getTokenFromState(getState()))
+        .set('X-Access-Token', getToken())
         .send(values),
       schema: Schemas.USER,
     },
-  });
+  };
 }
