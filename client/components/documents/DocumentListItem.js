@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import {
   CardText, Card, CardTitle, CardMenu, Menu, MenuItem, IconButton, CardActions,
 } from 'react-mdl';
+import createDocumentView from 'app/containers/util/createDocumentView';
 import DocumentInfo from './DocumentInfo';
 
 const style = {
@@ -18,7 +19,7 @@ const trim = (string, maxLength) => {
   return string;
 };
 
-const Document = props => (
+const DocumentListItem = props => (
   <Card shadow={0} style={style}>
     <CardTitle style={{ marginRight: '3em' }}>
       {props.title}
@@ -57,7 +58,7 @@ const Document = props => (
   </Card>
 );
 
-Document.propTypes = {
+DocumentListItem.propTypes = {
   _id: PropTypes.string,
   title: PropTypes.string,
   content: PropTypes.string,
@@ -67,4 +68,4 @@ Document.propTypes = {
   canDelete: PropTypes.bool,
 };
 
-export default Document;
+export default createDocumentView(DocumentListItem);

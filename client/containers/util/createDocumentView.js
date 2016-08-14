@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Button, Dialog, DialogContent, DialogActions } from 'react-mdl';
 import { deleteDocument } from 'app/actions/DocumentActions';
-import EditDocument from './EditDocument';
+import EditDocument from 'app/containers/documents/EditDocument';
 import omit from 'lodash/omit';
 
 const createDocumentView = Component => {
