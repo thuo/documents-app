@@ -30,7 +30,7 @@ export const Schemas = {
 
 export const API = Symbol('API Request');
 
-export default () => next => action => {
+export default store => next => action => {
   const apiRequest = action[API];
 
   if (typeof apiRequest === 'undefined') {
@@ -60,7 +60,12 @@ export default () => next => action => {
 
   next(actionWith({ type: requestType }));
 
-  const promise = payload(request);
+  const getToken = () => {
+    const state = store.getState();
+    return state.authenticatedUser && state.authenticatedUser.token;
+  };
+
+  const promise = payload(request, getToken);
   if (typeof promise.then !== 'function') {
     throw new Error('Expected payload to return a promise');
   }

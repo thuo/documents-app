@@ -1,5 +1,4 @@
 import { API, Schemas } from 'app/middleware/api';
-import getTokenFromState from 'app/utils/getTokenFromState';
 import {
   DOCUMENTS_REQUEST, DOCUMENTS_SUCCESS, DOCUMENTS_FAILURE,
   DOCUMENTS_ADD_REQUEST, DOCUMENTS_ADD_SUCCESS, DOCUMENTS_ADD_FAILURE,
@@ -9,77 +8,77 @@ import {
 } from './ActionTypes';
 
 export function fetchDocuments() {
-  return (dispatch, getState) => dispatch({
+  return {
     [API]: {
       types: [DOCUMENTS_REQUEST, DOCUMENTS_SUCCESS, DOCUMENTS_FAILURE],
-      payload: request => request
+      payload: (request, getToken) => request
         .get('/api/documents')
-        .set('X-Access-Token', getTokenFromState(getState())),
+        .set('X-Access-Token', getToken()),
       schema: Schemas.DOCUMENT_ARRAY,
     },
-  });
+  };
 }
 
 export function addDocument(doc) {
-  return (dispatch, getState) => dispatch({
+  return {
     [API]: {
       types: [
         DOCUMENTS_ADD_REQUEST, DOCUMENTS_ADD_SUCCESS, DOCUMENTS_ADD_FAILURE,
       ],
-      payload: request => request
+      payload: (request, getToken) => request
         .post('/api/documents')
-        .set('X-Access-Token', getTokenFromState(getState()))
+        .set('X-Access-Token', getToken())
         .send(doc),
       schema: Schemas.DOCUMENT,
     },
-  });
+  };
 }
 
 export function editDocument(documentId, values) {
-  return (dispatch, getState) => dispatch({
+  return {
     [API]: {
       types: [
         DOCUMENT_UPDATE_REQUEST,
         DOCUMENT_UPDATE_SUCCESS,
         DOCUMENT_UPDATE_FAILURE,
       ],
-      payload: request => request
+      payload: (request, getToken) => request
         .put(`/api/documents/${documentId}`)
-        .set('X-Access-Token', getTokenFromState(getState()))
+        .set('X-Access-Token', getToken())
         .send(values),
       schema: Schemas.DOCUMENT,
     },
-  });
+  };
 }
 
 export function deleteDocument(documentId) {
-  return (dispatch, getState) => dispatch({
+  return {
     [API]: {
       types: [
         DOCUMENT_DELETE_REQUEST,
         DOCUMENT_DELETE_SUCCESS,
         DOCUMENT_DELETE_FAILURE,
       ],
-      payload: request => request
+      payload: (request, getToken) => request
         .delete(`/api/documents/${documentId}`)
-        .set('X-Access-Token', getTokenFromState(getState())),
+        .set('X-Access-Token', getToken()),
     },
     documentId,
-  });
+  };
 }
 
 export function fetchDocument(documentId) {
-  return (dispatch, getState) => dispatch({
+  return {
     [API]: {
       types: [
         DOCUMENT_GET_REQUEST, DOCUMENT_GET_SUCCESS, DOCUMENT_GET_FAILURE,
       ],
-      payload: request => request
+      payload: (request, getToken) => request
         .get(`/api/documents/${documentId}`)
-        .set('X-Access-Token', getTokenFromState(getState())),
+        .set('X-Access-Token', getToken()),
       schema: Schemas.DOCUMENT,
     },
-  });
+  };
 }
 
 function shouldFetchDocument(state, documentId) {
