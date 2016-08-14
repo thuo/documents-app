@@ -2,6 +2,7 @@ import { API, Schemas } from 'app/middleware/api';
 import {
   USER_GET_REQUEST, USER_GET_SUCCESS, USER_GET_FAILURE,
   USER_UPDATE_REQUEST, USER_UPDATE_SUCCESS, USER_UPDATE_FAILURE,
+  USER_DOCUMENTS_REQUEST, USER_DOCUMENTS_SUCCESS, USER_DOCUMENTS_FAILURE,
 } from './ActionTypes';
 
 function fetchUser(userId) {
@@ -45,5 +46,22 @@ export function editUser(userId, values) {
         .send(values),
       schema: Schemas.USER,
     },
+  };
+}
+
+export function fetchUsersDocuments(userId) {
+  return {
+    [API]: {
+      types: [
+        USER_DOCUMENTS_REQUEST,
+        USER_DOCUMENTS_SUCCESS,
+        USER_DOCUMENTS_FAILURE,
+      ],
+      payload: (request, getToken) => request
+        .get(`/api/users/${userId}/documents`)
+        .set('X-Access-Token', getToken()),
+      schema: Schemas.DOCUMENT_ARRAY,
+    },
+    userId,
   };
 }
