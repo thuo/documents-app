@@ -4,7 +4,7 @@ import {
   documentList, addDocument, documentPage, editDocument,
 } from './documents';
 import { signUp, authenticatedUser, logIn } from './auth';
-import { userPage, editProfile } from './users';
+import { userPage, editProfile, documentsByUser } from './users';
 import entities from './entities';
 
 export default combineReducers({
@@ -18,5 +18,6 @@ export default combineReducers({
   authenticatedUser,
   userPage,
   editProfile,
+  documentsByUser,
   routing,
 });

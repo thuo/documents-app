@@ -5,6 +5,7 @@ import { fetchUserIfNeeded } from 'app/actions/UserActions';
 import AppError from 'app/components/error/AppError';
 import User from 'app/components/users/User';
 import EditProfile from './EditProfile';
+import UserDocumentList from './UserDocumentList';
 
 export class UserPage extends React.Component {
   constructor(props) {
@@ -14,6 +15,7 @@ export class UserPage extends React.Component {
     };
     this.handleEditStart = this.handleEditStart.bind(this);
     this.handleEditStop = this.handleEditStop.bind(this);
+    this.renderProfile = this.renderProfile.bind(this);
   }
 
   componentDidMount() {
@@ -36,12 +38,9 @@ export class UserPage extends React.Component {
     });
   }
 
-  render() {
-    const { user, error, isAuthenticatedUser } = this.props;
+  renderProfile() {
+    const { user, isAuthenticatedUser } = this.props;
     const { isEditing } = this.state;
-    if (!user) {
-      return (<AppError>{error && error.error || <Spinner />}</AppError>);
-    }
     if (isEditing) {
       return (
         <EditProfile
@@ -58,6 +57,22 @@ export class UserPage extends React.Component {
         canDelete={false}
         onEditClick={this.handleEditStart}
       />
+    );
+  }
+
+  render() {
+    const { user, error, isAuthenticatedUser } = this.props;
+    if (!user) {
+      return (<AppError>{error && error.error || <Spinner />}</AppError>);
+    }
+    return (
+      <div>
+        {this.renderProfile()}
+        <h3 style={{ textAlign: 'center', marginTop: '2em' }}>
+          {isAuthenticatedUser ? 'My' : `${user.name.first}'s`} Documents
+        </h3>
+        <UserDocumentList userId={user._id} />
+      </div>
     );
   }
 }
