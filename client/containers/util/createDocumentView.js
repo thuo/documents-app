@@ -63,6 +63,7 @@ const createDocumentView = Component => {
           <EditDocument
             document={doc}
             onCancel={this.handleEditStop}
+            onEditSuccess={this.handleEditStop}
           />
       );
       }

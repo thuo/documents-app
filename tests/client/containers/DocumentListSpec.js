@@ -10,13 +10,14 @@ describe('DocumentList container', () => {
   describe('DocumentList', () => {
     it('renders documents', () => {
       const fetchDocuments = sinon.spy();
+      const pushToHistory = sinon.spy();
       const store = mockStore({});
       const documents = [{
-        _id: 1,
+        _id: '1',
         title: 'doc',
         content: 'document',
         owner: {
-          _id: 1,
+          _id: '1',
           name: {
             first: 'Name',
             last: 'Name',
@@ -29,6 +30,7 @@ describe('DocumentList container', () => {
           <DocumentList.DocumentList
             fetchDocuments={fetchDocuments}
             documents={documents}
+            pushToHistory={pushToHistory}
           />
         </Provider>
       );
@@ -50,7 +52,7 @@ describe('DocumentList container', () => {
   describe('mapStateToProps', () => {
     it('maps state to props', () => {
       const state = {
-        documentList: { documents: [1], error: null },
+        documentList: { documents: [1], error: null, loading: false },
         entities: {
           documents: {
             1: {
@@ -77,6 +79,7 @@ describe('DocumentList container', () => {
           },
         }],
         error: null,
+        loading: false,
       };
       expect(DocumentList.mapStateToProps(state)).to.eql(expectedProps);
     });
