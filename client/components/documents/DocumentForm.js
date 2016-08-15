@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import {
   CardText, Card, CardTitle, CardActions, Button, Textfield, Grid, Cell,
 } from 'react-mdl';
+import { getTextColorClass } from 'react-mdl/lib/utils/palette';
 
 const DocumentForm = props => (
   <form onSubmit={props.onSubmit}>
@@ -32,7 +33,7 @@ const DocumentForm = props => (
             />
           </Cell>
           <Cell col={6}>
-            <label htmlFor="read-access">
+            <label htmlFor="read-access" className={getTextColorClass('teal')}>
               Who can read?
             </label>
             <select
@@ -46,7 +47,7 @@ const DocumentForm = props => (
             </select>
           </Cell>
           <Cell col={6}>
-            <label htmlFor="write-access">
+            <label htmlFor="write-access" className={getTextColorClass('teal')}>
               Who can edit?
             </label>
             <select
