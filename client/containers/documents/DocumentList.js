@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { FABButton, Icon } from 'react-mdl';
+import { FABButton, Icon, Spinner } from 'react-mdl';
 import { fetchDocuments } from 'app/actions/DocumentActions';
 import DocumentListItem from 'app/components/documents/DocumentListItem';
 import AppError from 'app/components/error/AppError';
@@ -22,10 +22,9 @@ export class DocumentList extends React.Component {
   }
 
   render() {
-    if (this.props.error) {
-      return (
-        <AppError>{this.props.error}</AppError>
-      );
+    const { error, loading } = this.props;
+    if (error || loading) {
+      return (<AppError>{this.props.error || <Spinner />}</AppError>);
     }
     const fabStyle = {
       position: 'fixed',
@@ -69,14 +68,16 @@ export const mapStateToProps = state => {
     doc.owner = entities.users[doc.owner];
     return doc;
   });
-  const error = documentList.error;
-  return { documents, error };
+  const { loading } = documentList;
+  const error = documentList.error && documentList.error.error;
+  return { documents, error, loading };
 };
 
 
 DocumentList.propTypes = {
   documents: PropTypes.array,
   error: PropTypes.string,
+  loading: PropTypes.bool,
   fetchDocuments: PropTypes.func.isRequired,
   pushToHistory: PropTypes.func.isRequired,
 };

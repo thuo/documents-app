@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import { Spinner } from 'react-mdl';
 import { fetchUsersDocuments } from 'app/actions/UserActions';
 import DocumentListItem from 'app/components/documents/DocumentListItem';
 import AppError from 'app/components/error/AppError';
@@ -21,10 +22,9 @@ export class DocumentList extends React.Component {
   }
 
   render() {
-    if (this.props.error) {
-      return (
-        <AppError>{this.props.error}</AppError>
-      );
+    const { error, loading } = this.props;
+    if (error || loading) {
+      return (<AppError>{error || <Spinner />}</AppError>);
     }
     return (
       <div>
@@ -44,6 +44,7 @@ export class DocumentList extends React.Component {
 DocumentList.propTypes = {
   documents: PropTypes.array,
   error: PropTypes.string,
+  loading: PropTypes.bool,
   userId: PropTypes.string,
   fetchUsersDocuments: PropTypes.func.isRequired,
   pushHistory: PropTypes.func.isRequired,
@@ -60,8 +61,8 @@ export const mapStateToProps = (state, ownProps) => {
     doc.owner = entities.users[doc.owner];
     return doc;
   });
-  const error = userDocuments.error;
-  const loading = userDocuments.loading;
+  const { loading } = userDocuments;
+  const error = userDocuments.error && userDocuments.error;
   return { documents, error, loading };
 };
 

@@ -1,4 +1,3 @@
-import { bindActionCreators } from 'redux';
 import humps from 'humps';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
@@ -39,12 +38,9 @@ export const AddDocument = authenticate(createForm(
 
 export const mapStateToProps = state => state.addDocument;
 
-export const mapDispatchToProps = dispatch => bindActionCreators({
-  pushToHistory: push,
-  addDocument,
-}, dispatch);
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps, {
+    pushToHistory: push,
+    addDocument,
+  }
 )(AddDocument);

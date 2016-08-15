@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Spinner } from 'react-mdl';
 import { push } from 'react-router-redux';
 import {
   fetchDocumentIfNeeded, deleteDocument,
@@ -23,9 +24,9 @@ export class DocumentPage extends React.Component {
   }
 
   render() {
-    const { doc, error } = this.props;
-    if (!doc) {
-      return <AppError>{(error && error.error) || 'Loading...'}</AppError>;
+    const { doc, error, loading } = this.props;
+    if (error || loading || !doc) {
+      return <AppError>{error || <Spinner />}</AppError>;
     }
     return (
       <Document
@@ -45,18 +46,19 @@ export const mapStateToProps = (state, ownProps) => {
     doc = Object.assign({}, entities.documents[documentId]);
     doc.owner = entities.users[doc.owner];
   }
-  const error = documentPage.error;
+  const { loading } = documentPage;
+  const error = documentPage.error && documentPage.error.error;
   return {
     doc,
     error,
+    loading,
   };
 };
 
 DocumentPage.propTypes = {
   doc: PropTypes.object,
-  error: PropTypes.shape({
-    error: PropTypes.string,
-  }),
+  error: PropTypes.string,
+  loading: PropTypes.bool,
   fetchDocumentIfNeeded: PropTypes.func.isRequired,
   pushToHistory: PropTypes.func.isRequired,
   params: PropTypes.shape({

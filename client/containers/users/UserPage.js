@@ -61,9 +61,9 @@ export class UserPage extends React.Component {
   }
 
   render() {
-    const { user, error, isAuthenticatedUser } = this.props;
-    if (!user) {
-      return (<AppError>{error && error.error || <Spinner />}</AppError>);
+    const { user, error, loading, isAuthenticatedUser } = this.props;
+    if (error || loading || !user) {
+      return (<AppError>{error || <Spinner />}</AppError>);
     }
     return (
       <div>
@@ -79,9 +79,8 @@ export class UserPage extends React.Component {
 
 UserPage.propTypes = {
   user: PropTypes.object,
-  error: PropTypes.shape({
-    error: PropTypes.string,
-  }),
+  error: PropTypes.string,
+  loading: PropTypes.bool,
   fetchUserIfNeeded: PropTypes.func.isRequired,
   params: PropTypes.shape({
     userId: PropTypes.string,
@@ -96,12 +95,14 @@ export const mapStateToProps = (state, ownProps) => {
   const { entities, userPage } = state;
   const { params: { userId } } = ownProps;
   const user = entities.users[userId];
-  const error = userPage.error;
   const isAuthenticatedUser = state.authenticatedUser &&
     userId === state.authenticatedUser._id;
+  const { loading } = userPage;
+  const error = userPage.error && userPage.error.error;
   return {
     user,
     error,
+    loading,
     isAuthenticatedUser,
   };
 };
