@@ -1,17 +1,26 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import mockStore from '../../helpers/mockStore';
-import * as DocumentList from 'app/containers/documents/DocumentList';
+import {
+  DocumentList,
+  mapStateToProps,
+  __RewireAPI__ as DocumentListRewireAPI,
+} from 'app/containers/documents/DocumentList';
 
 describe('DocumentList container', () => {
   describe('DocumentList', () => {
+    before(() => {
+      DocumentListRewireAPI.__Rewire__('DocumentListItem', () => <div></div>);
+    });
+
+    after(() => {
+      DocumentListRewireAPI.__ResetDependency__('DocumentListItem');
+    });
+
     it('renders documents', () => {
       const fetchDocuments = sinon.spy();
       const pushToHistory = sinon.spy();
-      const store = mockStore({});
       const documents = [{
         _id: '1',
         title: 'doc',
@@ -26,13 +35,11 @@ describe('DocumentList container', () => {
         access: {},
       }];
       mount(
-        <Provider store={store}>
-          <DocumentList.DocumentList
-            fetchDocuments={fetchDocuments}
-            documents={documents}
-            pushToHistory={pushToHistory}
-          />
-        </Provider>
+        <DocumentList
+          fetchDocuments={fetchDocuments}
+          documents={documents}
+          pushToHistory={pushToHistory}
+        />
       );
       expect(fetchDocuments.calledOnce).to.be.true;
     });
@@ -40,7 +47,7 @@ describe('DocumentList container', () => {
     it('renders error', () => {
       const fetchDocuments = sinon.spy();
       mount(
-        <DocumentList.DocumentList
+        <DocumentList
           fetchDocuments={fetchDocuments}
           error="Oops!"
         />
@@ -85,7 +92,7 @@ describe('DocumentList container', () => {
         loading: false,
         accessFilter: '', searchFilter: '',
       };
-      expect(DocumentList.mapStateToProps(state)).to.eql(expectedProps);
+      expect(mapStateToProps(state)).to.eql(expectedProps);
     });
   });
 });

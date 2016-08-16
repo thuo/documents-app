@@ -97,7 +97,7 @@ const createDocumentView = Component => {
   }
 
   const displayName = Component.displayName || Component.name || 'Component';
-  DocumentView.displayName = `Authenticate(${displayName})`;
+  DocumentView.displayName = `DocumentView(${displayName})`;
 
   DocumentView.propTypes = {
     doc: PropTypes.object.isRequired,

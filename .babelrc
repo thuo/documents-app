@@ -6,7 +6,8 @@
         ["babel-plugin-webpack-alias", {
           "config": "webpack.base.config.js",
           "findConfig": true
-        }]
+        }],
+        "rewire"
       ]
     }
   }
