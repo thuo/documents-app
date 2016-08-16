@@ -1,10 +1,6 @@
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
 import { Grid, Cell, Textfield, Button } from 'react-mdl';
 import { getTextColorClass } from 'react-mdl/lib/utils/palette';
-import {
-  setDocumentsAccessFilter, setDocumentsSearchFilter,
-} from 'app/actions/DocumentActions';
 
 class DocumentFilter extends React.Component {
 
@@ -16,17 +12,17 @@ class DocumentFilter extends React.Component {
   }
 
   handleSearchChange(event) {
-    this.props.setDocumentsSearchFilter(event.target.value);
+    this.props.setSearchFilter(event.target.value);
   }
 
   handleAccessChange(event) {
-    this.props.setDocumentsAccessFilter(event.target.value);
+    this.props.setAccessFilter(event.target.value);
   }
 
   handleClear(event) {
     event.preventDefault();
-    this.props.setDocumentsAccessFilter('');
-    this.props.setDocumentsSearchFilter('');
+    this.props.setAccessFilter('');
+    this.props.setSearchFilter('');
   }
 
   render() {
@@ -77,20 +73,10 @@ class DocumentFilter extends React.Component {
 }
 
 DocumentFilter.propTypes = {
-  setDocumentsAccessFilter: PropTypes.func.isRequired,
-  setDocumentsSearchFilter: PropTypes.func.isRequired,
+  setAccessFilter: PropTypes.func.isRequired,
+  setSearchFilter: PropTypes.func.isRequired,
   accessFilter: PropTypes.string.isRequired,
   searchFilter: PropTypes.string.isRequired,
 };
 
-export const mapStateToProps = state => {
-  const { documentList: { accessFilter, searchFilter } } = state;
-  return { accessFilter, searchFilter };
-};
-
-export default connect(
-  mapStateToProps, {
-    setDocumentsAccessFilter,
-    setDocumentsSearchFilter,
-  }
-)(DocumentFilter);
+export default DocumentFilter;
