@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import { Link } from 'react-router';
-import mockStore from '../helpers/mockStore';
+import mockStore from '../../helpers/mockStore';
 import authenticate from 'app/containers/util/authenticate';
 
 

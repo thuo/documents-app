@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import mockStore from '../helpers/mockStore';
+import mockStore from '../../helpers/mockStore';
 import * as DocumentList from 'app/containers/documents/DocumentList';
 
 describe('DocumentList container', () => {
