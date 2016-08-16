@@ -22,6 +22,7 @@ const UserSchema = new Schema({
   username: {
     type: String,
     unique: true,
+    required: true,
     validate: {
       validator: (value) => /^\w+$/.test(value),
       message: 'A username can only contain alphanumeric characters ' +

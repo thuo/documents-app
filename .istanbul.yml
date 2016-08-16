@@ -1,0 +1,2 @@
+instrumentation:
+  excludes: ['webpack.*.config.js']

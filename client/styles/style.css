@@ -1,0 +1,66 @@
+.app-container {
+  width: 98%;
+  max-width: 892px;
+  display: block;
+  margin: 0 auto;
+  padding: 0.75em 1%;
+}
+
+.app-container .mdl-card,
+.app-container .app-content {
+  width: 95%;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.pointer:hover {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+.mdl-textfield {
+  width: 100%;
+}
+
+.mdl-spinner {
+  line-height: 1rem;
+}
+
+select {
+  display: block;
+  border-radius: 0;
+  box-shadow: none;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  background-color: transparent;
+  color: inherit;
+  font-size: 1.2rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.mdl-dialog__container {
+  display: none;
+  background: rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+}
+
+.mdl-dialog__container .mdl-dialog {
+  background-color: #fff;
+}
+
+.mdl-dialog__container.visible {
+  display: flex;
+}

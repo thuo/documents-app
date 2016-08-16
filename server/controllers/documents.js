@@ -42,6 +42,11 @@ module.exports = {
     const doc = req.document;
     doc.title = req.body.title || doc.title;
     doc.content = req.body.content || doc.content;
+    // only the owner can update access settings
+    if (req.decoded._id.equals(req.document.owner._id)) {
+      doc.access.read = req.body.read_access || doc.access.read;
+      doc.access.write = req.body.write_access || doc.access.write;
+    }
     doc.save((saveError) =>
       error.mongoose.send(saveError, res) || res.json(doc)
     );

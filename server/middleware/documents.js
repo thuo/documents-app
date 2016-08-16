@@ -83,6 +83,9 @@ function findDocument(req, res, next) {
         error.callbacks.resourceNotFound(req, res);
         return;
       }
+      if (!doc.owner) {
+        doc.owner = {};
+      }
       req.document = doc;
       next();
     });
