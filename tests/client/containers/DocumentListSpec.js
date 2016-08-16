@@ -52,7 +52,10 @@ describe('DocumentList container', () => {
   describe('mapStateToProps', () => {
     it('maps state to props', () => {
       const state = {
-        documentList: { documents: [1], error: null, loading: false },
+        documentList: {
+          documents: [1], error: null, loading: false,
+          accessFilter: '', searchFilter: '',
+        },
         entities: {
           documents: {
             1: {
@@ -80,6 +83,7 @@ describe('DocumentList container', () => {
         }],
         error: null,
         loading: false,
+        accessFilter: '', searchFilter: '',
       };
       expect(DocumentList.mapStateToProps(state)).to.eql(expectedProps);
     });

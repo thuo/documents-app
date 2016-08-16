@@ -4,8 +4,10 @@ import * as reducers from 'app/reducers/documents';
 
 describe('Documents reducers', () => {
   describe('documentList reducer', () => {
-    const initialState = { documents: [], error: null, loading: false };
-
+    const initialState = {
+      documents: [], error: null, loading: false,
+      accessFilter: '', searchFilter: '',
+    };
     it('returns the initial state', () => {
       expect(reducers.documentList(undefined, {})).to.eql(initialState);
     });
@@ -15,7 +17,10 @@ describe('Documents reducers', () => {
       expect(reducers.documentList(initialState, {
         type: types.DOCUMENTS_SUCCESS,
         response,
-      })).to.eql({ documents: response.result, error: null, loading: false });
+      })).to.eql({
+        documents: response.result, error: null, loading: false,
+        accessFilter: '', searchFilter: '',
+      });
     });
 
     it('handles DOCUMENTS_FAILURE', () => {
@@ -25,12 +30,17 @@ describe('Documents reducers', () => {
       }, {
         type: types.DOCUMENTS_FAILURE,
         error,
-      })).to.eql({ documents: [], error: 'error', loading: false });
+      })).to.eql({
+        documents: [], error: 'error', loading: false,
+      });
     });
 
     it('handles DOCUMENTS_ADD_SUCCESS', () => {
       const response = { result: 1 };
-      const state = { documents: [1], error: null, loading: false };
+      const state = {
+        documents: [1], error: null, loading: false,
+        accessFilter: '', searchFilter: '',
+      };
       expect(reducers.documentList(state, {
         type: types.DOCUMENTS_ADD_SUCCESS,
         response,
@@ -38,6 +48,7 @@ describe('Documents reducers', () => {
         documents: [response.result, ...state.documents],
         error: state.error,
         loading: state.loading,
+        accessFilter: '', searchFilter: '',
       });
     });
   });
