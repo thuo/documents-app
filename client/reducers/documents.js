@@ -4,41 +4,69 @@ import {
   DOCUMENT_GET_REQUEST, DOCUMENT_GET_SUCCESS, DOCUMENT_GET_FAILURE,
   DOCUMENT_UPDATE_REQUEST, DOCUMENT_UPDATE_SUCCESS, DOCUMENT_UPDATE_FAILURE,
   DOCUMENT_DELETE_SUCCESS,
+  SET_DOCUMENTS_ACCESS_FILTER, SET_DOCUMENTS_SEARCH_FILTER,
 } from 'app/actions/ActionTypes';
 
-export function documentList(state = { documents: [], error: null,
-  loading: false }, action) {
+export function accessFilter(state = '', action) {
+  switch (action.type) {
+    case SET_DOCUMENTS_ACCESS_FILTER:
+      return action.accessFilter;
+    default:
+      return state;
+  }
+}
+
+export function searchFilter(state = '', action) {
+  switch (action.type) {
+    case SET_DOCUMENTS_SEARCH_FILTER:
+      return action.searchFilter;
+    default:
+      return state;
+  }
+}
+
+const DOCUMENT_LIST_INITIAL_STATE = {
+  documents: [],
+  error: null,
+  loading: false,
+  accessFilter: '',
+  searchFilter: '',
+};
+
+export function documentList(state = DOCUMENT_LIST_INITIAL_STATE, action) {
   switch (action.type) {
     case DOCUMENTS_REQUEST:
-      return {
+      return Object.assign({}, state, {
         documents: [],
         error: null,
         loading: true,
-      };
+      });
     case DOCUMENTS_SUCCESS:
-      return {
+      return Object.assign({}, state, {
         documents: action.response.result,
         error: null,
         loading: false,
-      };
+      });
     case DOCUMENTS_FAILURE:
-      return {
+      return Object.assign({}, state, {
         documents: [],
         error: action.error.error,
         loading: false,
-      };
+      });
     case DOCUMENTS_ADD_SUCCESS:
-      return {
+      return Object.assign({}, state, {
         documents: [action.response.result, ...state.documents],
-        error: state.error,
-        loading: state.loading,
-      };
+      });
     case DOCUMENT_DELETE_SUCCESS:
-      return {
+      return Object.assign({}, state, {
         documents: state.documents.filter(id => id !== action.documentId),
-        error: state.error,
-        loading: state.loading,
-      };
+      });
+    case SET_DOCUMENTS_ACCESS_FILTER:
+    case SET_DOCUMENTS_SEARCH_FILTER:
+      return Object.assign({}, state, {
+        accessFilter: accessFilter(state.accessFilter, action),
+        searchFilter: searchFilter(state.searchFilter, action),
+      });
     default:
       return state;
   }

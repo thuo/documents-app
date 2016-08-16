@@ -5,6 +5,7 @@ import { FABButton, Icon, Spinner } from 'react-mdl';
 import { fetchDocuments } from 'app/actions/DocumentActions';
 import DocumentListItem from 'app/components/documents/DocumentListItem';
 import AppError from 'app/components/error/AppError';
+import DocumentFilter from './DocumentFilter';
 
 export class DocumentList extends React.Component {
 
@@ -37,6 +38,7 @@ export class DocumentList extends React.Component {
     };
     return (
       <div style={style}>
+        <DocumentFilter />
         {this.props.documents.map(doc =>
           <DocumentListItem
             doc={doc}
@@ -63,10 +65,22 @@ export class DocumentList extends React.Component {
 
 export const mapStateToProps = state => {
   const { documentList, entities } = state;
+  const { accessFilter, searchFilter } = documentList;
   const documents = documentList.documents.map(docId => {
     const doc = Object.assign({}, entities.documents[docId]);
     doc.owner = entities.users[doc.owner];
     return doc;
+  }).filter(doc => {
+    let matchesSearchFilter = true;
+    if (searchFilter) {
+      const regex = new RegExp(searchFilter, 'ig');
+      matchesSearchFilter = regex.test(doc.title) || regex.test(doc.content);
+    }
+    let matchesAccessFilter = true;
+    if (accessFilter) {
+      matchesAccessFilter = doc.access.read === accessFilter;
+    }
+    return matchesAccessFilter && matchesSearchFilter;
   });
   const { loading } = documentList;
   const error = documentList.error && documentList.error.error;
