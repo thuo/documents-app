@@ -5,6 +5,7 @@ import {
   DOCUMENT_GET_REQUEST, DOCUMENT_GET_SUCCESS, DOCUMENT_GET_FAILURE,
   DOCUMENT_UPDATE_REQUEST, DOCUMENT_UPDATE_SUCCESS, DOCUMENT_UPDATE_FAILURE,
   DOCUMENT_DELETE_REQUEST, DOCUMENT_DELETE_SUCCESS, DOCUMENT_DELETE_FAILURE,
+  SET_DOCUMENTS_SEARCH_FILTER, SET_DOCUMENTS_ACCESS_FILTER,
 } from './ActionTypes';
 
 export function fetchDocuments() {
@@ -91,5 +92,19 @@ export function fetchDocumentIfNeeded(documentId) {
       return dispatch(fetchDocument(documentId));
     }
     return Promise.resolve();
+  };
+}
+
+export function setDocumentsAccessFilter(accessFilter) {
+  return {
+    type: SET_DOCUMENTS_ACCESS_FILTER,
+    accessFilter,
+  };
+}
+
+export function setDocumentsSearchFilter(searchFilter) {
+  return {
+    type: SET_DOCUMENTS_SEARCH_FILTER,
+    searchFilter,
   };
 }
