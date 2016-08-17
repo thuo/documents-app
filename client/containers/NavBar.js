@@ -18,7 +18,7 @@ export class NavBar extends React.Component {
   }
 
   renderLinks() {
-    const { user, dispatch } = this.props;
+    const { user, logOut: boundLogOut } = this.props;
     if (user) {
       return (
         <Navigation>
@@ -30,7 +30,7 @@ export class NavBar extends React.Component {
               <MenuItem>
                 <Link to={`/users/${user._id}`}>Profile</Link>
               </MenuItem>
-              <MenuItem onClick={() => dispatch(logOut())}>Logout</MenuItem>
+              <MenuItem onClick={boundLogOut}>Logout</MenuItem>
             </Menu>
           </div>
         </Navigation>
@@ -58,10 +58,10 @@ export class NavBar extends React.Component {
 
 NavBar.propTypes = {
   user: PropTypes.object,
-  dispatch: PropTypes.func,
+  logOut: PropTypes.func,
 };
 
-const mapStateToProps = state => {
+export const mapStateToProps = state => {
   const { entities: { users }, authenticatedUser } = state;
   // The data in state.entities.users will always be fresh unlike
   // state.authenticatedUser which might be stale. However, state.entities.users
@@ -74,5 +74,7 @@ const mapStateToProps = state => {
 };
 
 export default connect(
-  mapStateToProps
+  mapStateToProps, {
+    logOut,
+  }
 )(NavBar);
