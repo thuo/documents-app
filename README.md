@@ -1,11 +1,11 @@
 # Documents App
 
 [![Build Status](https://travis-ci.org/andela-hthuo/documents-app.svg?branch=develop)](https://travis-ci.org/andela-hthuo/documents-app)
-[![codecov](https://codecov.io/gh/andela-hthuo/documents-api/branch/develop/graph/badge.svg)](https://codecov.io/gh/andela-hthuo/documents-api/branch/develop)
+[![codecov](https://codecov.io/gh/andela-hthuo/documents-app/branch/develop/graph/badge.svg)](https://codecov.io/gh/andela-hthuo/documents-app/branch/develop)
 [![Code Climate](https://codeclimate.com/github/andela-hthuo/documents-app/badges/gpa.svg)](https://codeclimate.com/github/andela-hthuo/documents-app)
 [![Dependency Status](https://david-dm.org/andela-hthuo/documents-app.svg)](https://david-dm.org/andela-hthuo/documents-app)
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/andela-hthuo/documents-api/tree/develop)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/andela-hthuo/documents-app/tree/develop)
 
  Document management app.
 
