@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "webpack -p --config webpack.prod.config.js",
-    "prestart": "npm run build",
+    "postinstall": "npm run build",
     "start": "node index.js",
     "start-dev": "nodemon -w server -w index.js -w webpack.base.config.js -w webpack.dev.config.js index.js",
     "lint": "eslint client server index.js --fix",
