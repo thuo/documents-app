@@ -7,7 +7,7 @@ import {
   SET_DOCUMENTS_ACCESS_FILTER, SET_DOCUMENTS_SEARCH_FILTER,
 } from 'app/actions/ActionTypes';
 
-export function accessFilter(state = '', action) {
+function accessFilter(state = '', action) {
   switch (action.type) {
     case SET_DOCUMENTS_ACCESS_FILTER:
       return action.accessFilter;
@@ -16,7 +16,7 @@ export function accessFilter(state = '', action) {
   }
 }
 
-export function searchFilter(state = '', action) {
+function searchFilter(state = '', action) {
   switch (action.type) {
     case SET_DOCUMENTS_SEARCH_FILTER:
       return action.searchFilter;
@@ -79,7 +79,7 @@ export function addDocument(state = { error: null, loading: false,
       return {
         error: null,
         loading: true,
-        addDocument: null,
+        document: null,
       };
     case DOCUMENTS_ADD_SUCCESS:
       return {

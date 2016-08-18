@@ -11,6 +11,15 @@ describe('Auth reducers', () => {
       expect(reducers.signUp(undefined, {})).to.eql(initialState);
     });
 
+    it('handles SIGN_UP_REQUEST', () => {
+      expect(reducers.signUp({ error: 'error' }, {
+        type: types.SIGN_UP_REQUEST,
+      })).to.eql({
+        error: null,
+        loading: true,
+      });
+    });
+
     it('handles SIGN_UP_SUCCESS', () => {
       expect(reducers.signUp({ error: 'error' }, {
         type: types.SIGN_UP_SUCCESS,
@@ -35,6 +44,15 @@ describe('Auth reducers', () => {
 
     it('returns the initial state', () => {
       expect(reducers.logIn(undefined, {})).to.eql(initialState);
+    });
+
+    it('handles LOGIN_SUCCESS', () => {
+      expect(reducers.logIn({ error: 'error' }, {
+        type: types.LOGIN_REQUEST,
+      })).to.eql({
+        error: null,
+        loading: true,
+      });
     });
 
     it('handles LOGIN_SUCCESS', () => {
