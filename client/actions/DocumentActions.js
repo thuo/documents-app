@@ -61,14 +61,14 @@ export function deleteDocument(documentId) {
         DOCUMENT_DELETE_FAILURE,
       ],
       payload: (request, getToken) => request
-        .delete(`/api/documents/${documentId}`)
+        .del(`/api/documents/${documentId}`)
         .set('X-Access-Token', getToken()),
     },
     documentId,
   };
 }
 
-export function fetchDocument(documentId) {
+function fetchDocument(documentId) {
   return {
     [API]: {
       types: [
