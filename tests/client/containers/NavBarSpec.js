@@ -28,11 +28,13 @@ describe('NavBar container', () => {
       const props = {
         user: { _id: '1', name: { first: 'Foo', last: 'Bar' } },
         logOut: sinon.spy(),
+        push: sinon.spy(),
       };
       const wrapper = mount(<NavBar {...props} />);
       const links = wrapper.find('Link');
       expect(links.at(0).prop('to')).to.equal('/');
-      expect(links.at(1).prop('to')).to.equal('/users/1');
+      wrapper.find('MenuItem').at(0).simulate('click');
+      expect(props.push.withArgs('/users/1').calledOnce).to.be.true;
       wrapper.find('MenuItem').at(1).simulate('click');
       expect(props.logOut.calledOnce).to.be.true;
     });
