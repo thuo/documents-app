@@ -58,7 +58,7 @@ export const createDocumentView = Component => {
 
 
     render() {
-      const { doc, canEdit, canDelete } = this.props;
+      const { doc } = this.props;
       if (this.state.isEditing) {
         return (
           <EditDocument
@@ -74,9 +74,7 @@ export const createDocumentView = Component => {
             {...doc}
             onEditClick={this.handleEditStart}
             onDeleteClick={this.handleOpenDeleteDialog}
-            canEdit={canEdit}
-            canDelete={canDelete}
-            {...omit(this.props, ['doc', 'canEdit', 'canDelete'])}
+            {...omit(this.props, 'doc')}
           />
           <Dialog open={this.state.openDeleteDialog}>
             <DialogContent>
@@ -108,6 +106,7 @@ export const createDocumentView = Component => {
     onDeleteSuccess: PropTypes.func.isRequired,
     canEdit: PropTypes.bool,
     canDelete: PropTypes.bool,
+    canEditAccess: PropTypes.bool,
   };
 
   return DocumentView;
@@ -124,10 +123,14 @@ export const mapStateToProps = (state, ownProps) => {
     (doc.owner && doc.owner._id === state.authenticatedUser._id ||
     state.authenticatedUser.role.title === 'admin');
 
+  const canEditAccess = doc && state.authenticatedUser &&
+    doc.owner && doc.owner._id === state.authenticatedUser._id;
+
   return {
     doc,
     canEdit,
     canDelete,
+    canEditAccess,
   };
 };
 

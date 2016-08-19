@@ -32,34 +32,42 @@ const DocumentForm = props => (
               error={props.errors.content}
             />
           </Cell>
-          <Cell col={6}>
-            <label htmlFor="read-access" className={getTextColorClass('teal')}>
-              Who can read?
-            </label>
-            <select
-              required
-              id="read-access"
-              onChange={props.onFieldChange('readAccess')}
-              defaultValue={props.values.readAccess || 'public'}>
-              <option value="public">Public</option>
-              <option value="authenticated">Logged In Users</option>
-              <option value="private">Only Me</option>
-            </select>
-          </Cell>
-          <Cell col={6}>
-            <label htmlFor="write-access" className={getTextColorClass('teal')}>
-              Who can edit?
-            </label>
-            <select
-              required
-              id="write-access"
-              onChange={props.onFieldChange('writeAccess')}
-              defaultValue={props.values.writeAccess || 'private'}>
-              <option value="authenticated">Logged In Users</option>
-              <option value="private">Only Me</option>
-            </select>
-          </Cell>
         </Grid>
+        {props.canEditAccess &&
+          <Grid>
+            <Cell col={6}>
+              <label
+                htmlFor="read-access"
+                className={getTextColorClass('teal')}>
+                Who can read?
+              </label>
+              <select
+                required
+                id="read-access"
+                onChange={props.onFieldChange('readAccess')}
+                defaultValue={props.values.readAccess || 'public'}>
+                <option value="public">Public</option>
+                <option value="authenticated">Logged In Users</option>
+                <option value="private">Only Me</option>
+              </select>
+            </Cell>
+            <Cell col={6}>
+              <label
+                htmlFor="write-access"
+                className={getTextColorClass('teal')}>
+                Who can edit?
+              </label>
+              <select
+                required
+                id="write-access"
+                onChange={props.onFieldChange('writeAccess')}
+                defaultValue={props.values.writeAccess || 'private'}>
+                <option value="authenticated">Logged In Users</option>
+                <option value="private">Only Me</option>
+              </select>
+            </Cell>
+          </Grid>
+        }
       </CardText>
       <CardActions border>
         <Button colored onClick={props.onSubmit}>
