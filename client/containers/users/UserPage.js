@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Spinner } from 'react-mdl';
+import { push } from 'react-router-redux';
+import { Spinner, FABButton, Icon } from 'react-mdl';
 import { fetchUserIfNeeded } from 'app/actions/UserActions';
 import AppError from 'app/components/error/AppError';
 import User from 'app/components/users/User';
@@ -61,10 +62,22 @@ export class UserPage extends React.Component {
   }
 
   render() {
-    const { user, error, loading, isAuthenticatedUser } = this.props;
+    const {
+      user,
+      error,
+      loading,
+      isAuthenticatedUser,
+      push: boundPush,
+    } = this.props;
     if (error || loading || !user) {
       return (<AppError>{error || <Spinner />}</AppError>);
     }
+    const fabStyle = {
+      position: 'fixed',
+      right: '1em',
+      bottom: '1em',
+      zIndex: 2,
+    };
     return (
       <div>
         {this.renderProfile()}
@@ -72,6 +85,17 @@ export class UserPage extends React.Component {
           {isAuthenticatedUser ? 'My' : `${user.name.first}'s`} Documents
         </h3>
         <UserDocumentList userId={user._id} />
+        <FABButton
+          ripple
+          colored
+          accent
+          className="mdl-shadow--4dp"
+          id="add"
+          style={fabStyle}
+          onClick={() => { boundPush('/documents/add'); }}>
+          <Icon name="add" />
+          <span className="visuallyhidden">Add</span>
+        </FABButton>
       </div>
     );
   }
@@ -82,6 +106,7 @@ UserPage.propTypes = {
   error: PropTypes.string,
   loading: PropTypes.bool,
   fetchUserIfNeeded: PropTypes.func.isRequired,
+  push: PropTypes.func.isRequired,
   params: PropTypes.shape({
     userId: PropTypes.string,
   }),
@@ -110,5 +135,6 @@ export const mapStateToProps = (state, ownProps) => {
 export default connect(
   mapStateToProps, {
     fetchUserIfNeeded,
+    push,
   }
 )(UserPage);
