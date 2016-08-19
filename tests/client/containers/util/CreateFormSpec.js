@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { Snackbar } from 'react-mdl';
 import createForm from 'app/containers/util/createForm';
 
 describe('createForm higher-order component', () => {
@@ -26,7 +25,7 @@ describe('createForm higher-order component', () => {
   it('renders the component and a snackbar', () => {
     const wrapper = mount(<Form />);
     const component = wrapper.find(Component);
-    const snackbar = wrapper.find(Snackbar);
+    const snackbar = wrapper.find('Snackbar');
     const { onFieldChange, onSubmit, errors, values } = component.props();
     const { active, onTimeout } = snackbar.props();
     expect(onFieldChange).to.be.a('function');
@@ -111,7 +110,7 @@ describe('createForm higher-order component', () => {
   it('handle snackbar timeout', () => {
     const handleTimeout = sinon.spy(Form.prototype, 'handleTimeoutSnackbar');
     const wrapper = mount(<Form />);
-    wrapper.find(Snackbar).props().onTimeout();
+    wrapper.find('Snackbar').props().onTimeout();
     expect(handleTimeout.calledOnce).to.be.true;
   });
 });

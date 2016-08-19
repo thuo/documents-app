@@ -2,11 +2,12 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import { Link } from 'react-router';
-import mockStore from '../helpers/mockStore';
-import authenticate from 'app/containers/util/authenticate';
+import {
+  authenticate, mapStateToProps,
+} from 'app/containers/util/authenticate';
 
 
-describe('createForm higher-order component', () => {
+describe('authenticate higher-order component', () => {
   const Component = () => (<div></div>);
   let Authenticated;
 
@@ -17,9 +18,7 @@ describe('createForm higher-order component', () => {
   it('renders the component', () => {
     const props = {
       route: { path: '/documents' },
-      store: mockStore({
-        authenticatedUser: { username: 'user' },
-      }),
+      user: { username: 'user' },
     };
     const wrapper = mount(<Authenticated {...props} />);
     const component = wrapper.find(Component);
@@ -29,12 +28,27 @@ describe('createForm higher-order component', () => {
   it('renders the login required message', () => {
     const props = {
       route: { path: '/documents' },
-      store: mockStore({}),
+      user: null,
     };
     const wrapper = mount(<Authenticated {...props} />);
-    const component = wrapper.find('h2');
-    const link = component.find(Link);
-    expect(component).to.have.length(1);
+    const h2 = wrapper.find('h2');
+    const link = h2.find(Link);
+    expect(h2).to.have.length(1);
     expect(link).to.have.length(2);
+  });
+
+  describe('mapStateToProps', () => {
+    it('maps state to props', () => {
+      const state = {
+        authenticatedUser: {
+          _id: '1',
+          username: 'user',
+        },
+      };
+      const expectedProps = {
+        user: state.authenticatedUser,
+      };
+      expect(mapStateToProps(state)).to.eql(expectedProps);
+    });
   });
 });
