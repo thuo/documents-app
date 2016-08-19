@@ -34,6 +34,7 @@ describe('createDocumentView higher-order component', () => {
       doc: { _id: '1' },
       canEdit: true,
       canDelete: true,
+      canEditAccess: true,
     };
     const wrapper = mount(<DocumentView {...props} />);
     const component = wrapper.find(Component);
@@ -49,6 +50,7 @@ describe('createDocumentView higher-order component', () => {
       doc: { _id: '1' },
       canEdit: true,
       canDelete: true,
+      canEditAccess: true,
     };
     const wrapper = mount(<DocumentView {...props} />);
     const component = wrapper.find(Component);
@@ -73,6 +75,7 @@ describe('createDocumentView higher-order component', () => {
       doc: { _id: '1' },
       canEdit: true,
       canDelete: true,
+      canEditAccess: true,
       deleteDocument: sinon.spy(() => Promise.resolve()),
     };
     const wrapper = mount(<DocumentView {...props} />);
@@ -103,6 +106,7 @@ describe('createDocumentView higher-order component', () => {
         doc: ownProps.doc,
         canEdit: true,
         canDelete: true,
+        canEditAccess: true,
       };
       expect(mapStateToProps(state, ownProps)).to.eql(expectedProps);
     });
@@ -118,6 +122,7 @@ describe('createDocumentView higher-order component', () => {
         doc: ownProps.doc,
         canEdit: true,
         canDelete: false,
+        canEditAccess: false,
       };
       expect(mapStateToProps(state, ownProps)).to.eql(expectedProps);
     });
@@ -133,6 +138,7 @@ describe('createDocumentView higher-order component', () => {
         doc: ownProps.doc,
         canEdit: false,
         canDelete: true,
+        canEditAccess: false,
       };
       expect(mapStateToProps(state, ownProps)).to.eql(expectedProps);
     });
