@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 import { Header, Navigation, Menu, MenuItem, Button } from 'react-mdl';
 import { Link } from 'react-router';
 import { logOut } from 'app/actions/AuthActions';
@@ -18,7 +19,7 @@ export class NavBar extends React.Component {
   }
 
   renderLinks() {
-    const { user, logOut: boundLogOut } = this.props;
+    const { user, logOut: boundLogOut, push: boundPush } = this.props;
     if (user) {
       return (
         <Navigation>
@@ -27,8 +28,8 @@ export class NavBar extends React.Component {
               {user.name.first}
             </Button>
             <Menu target="profile-menu" align="right">
-              <MenuItem>
-                <Link to={`/users/${user._id}`}>Profile</Link>
+              <MenuItem onClick={() => boundPush(`/users/${user._id}`)}>
+                Profile
               </MenuItem>
               <MenuItem onClick={boundLogOut}>Logout</MenuItem>
             </Menu>
@@ -59,6 +60,7 @@ export class NavBar extends React.Component {
 NavBar.propTypes = {
   user: PropTypes.object,
   logOut: PropTypes.func,
+  push: PropTypes.func,
 };
 
 export const mapStateToProps = state => {
@@ -76,5 +78,6 @@ export const mapStateToProps = state => {
 export default connect(
   mapStateToProps, {
     logOut,
+    push,
   }
 )(NavBar);
