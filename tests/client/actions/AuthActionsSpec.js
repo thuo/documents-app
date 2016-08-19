@@ -97,7 +97,7 @@ describe('Auth action creators', () => {
   });
 
   describe('logOut()', () => {
-    it('creates an action to log out', () => {
+    it('creates LOGOUT', () => {
       const expectedAction = {
         type: types.LOGOUT,
       };

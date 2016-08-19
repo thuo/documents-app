@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import AppError from 'app/components/error/AppError';
 
-const authenticate = Component => {
+export const authenticate = Component => {
   const Authenticate = props => {
     if (props.user) {
       return (<Component {...props} />);
@@ -26,13 +26,11 @@ const authenticate = Component => {
   const displayName = Component.displayName || Component.name || 'Component';
   Authenticate.displayName = `Authenticate(${displayName})`;
 
-  const mapStateToProps = state => (
-    { user: state.authenticatedUser }
-  );
-
-  return connect(
-    mapStateToProps
-  )(Authenticate);
+  return Authenticate;
 };
 
-export default authenticate;
+export const mapStateToProps = state => (
+  { user: state.authenticatedUser }
+);
+
+export default Component => connect(mapStateToProps)(authenticate(Component));

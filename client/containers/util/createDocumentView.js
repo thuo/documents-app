@@ -6,7 +6,7 @@ import { deleteDocument } from 'app/actions/DocumentActions';
 import EditDocument from 'app/containers/documents/EditDocument';
 import omit from 'lodash/omit';
 
-const createDocumentView = Component => {
+export const createDocumentView = Component => {
   class DocumentView extends React.Component {
     constructor(props) {
       super(props);
@@ -83,10 +83,13 @@ const createDocumentView = Component => {
               Delete the document <strong>{doc.title}</strong>
             </DialogContent>
             <DialogActions>
-              <Button colored onClick={this.handleDelete}>
+              <Button colored id="btn-delete" onClick={this.handleDelete}>
                 Delete
               </Button>
-              <Button colored onClick={this.handleCloseDeleteDialog}>
+              <Button
+                colored
+                id="btn-cancel"
+                onClick={this.handleCloseDeleteDialog}>
                 Cancel
               </Button>
             </DialogActions>
@@ -97,7 +100,7 @@ const createDocumentView = Component => {
   }
 
   const displayName = Component.displayName || Component.name || 'Component';
-  DocumentView.displayName = `Authenticate(${displayName})`;
+  DocumentView.displayName = `DocumentView(${displayName})`;
 
   DocumentView.propTypes = {
     doc: PropTypes.object.isRequired,
@@ -107,27 +110,27 @@ const createDocumentView = Component => {
     canDelete: PropTypes.bool,
   };
 
-  const mapStateToProps = (state, ownProps) => {
-    const { doc } = ownProps;
-
-    const canEdit = doc && state.authenticatedUser &&
-      (doc.access.write === 'authenticated' ||
-      doc.owner && doc.owner._id === state.authenticatedUser._id);
-
-    const canDelete = doc && state.authenticatedUser &&
-      (doc.owner && doc.owner._id === state.authenticatedUser._id ||
-      state.authenticatedUser.role.title === 'admin');
-
-    return {
-      doc,
-      canEdit,
-      canDelete,
-    };
-  };
-
-  return connect(mapStateToProps, {
-    deleteDocument,
-  })(DocumentView);
+  return DocumentView;
 };
 
-export default createDocumentView;
+export const mapStateToProps = (state, ownProps) => {
+  const { doc } = ownProps;
+
+  const canEdit = doc && state.authenticatedUser &&
+    (doc.access.write === 'authenticated' ||
+    doc.owner && doc.owner._id === state.authenticatedUser._id);
+
+  const canDelete = doc && state.authenticatedUser &&
+    (doc.owner && doc.owner._id === state.authenticatedUser._id ||
+    state.authenticatedUser.role.title === 'admin');
+
+  return {
+    doc,
+    canEdit,
+    canDelete,
+  };
+};
+
+export default Component => connect(mapStateToProps, {
+  deleteDocument,
+})(createDocumentView(Component));
