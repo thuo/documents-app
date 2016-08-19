@@ -31,12 +31,14 @@ describe('NavBar container', () => {
         push: sinon.spy(),
       };
       const wrapper = mount(<NavBar {...props} />);
+      expect(wrapper.find('#profile-menu').text()).to.equal('Foo');
       const links = wrapper.find('Link');
       expect(links.at(0).prop('to')).to.equal('/');
       wrapper.find('MenuItem').at(0).simulate('click');
       expect(props.push.withArgs('/users/1').calledOnce).to.be.true;
       wrapper.find('MenuItem').at(1).simulate('click');
       expect(props.logOut.calledOnce).to.be.true;
+      expect(props.push.withArgs('/').calledOnce).to.be.true;
     });
   });
 

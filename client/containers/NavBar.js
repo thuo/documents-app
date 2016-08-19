@@ -31,7 +31,9 @@ export class NavBar extends React.Component {
               <MenuItem onClick={() => boundPush(`/users/${user._id}`)}>
                 Profile
               </MenuItem>
-              <MenuItem onClick={boundLogOut}>Logout</MenuItem>
+              <MenuItem onClick={() => { boundLogOut(); boundPush('/'); }}>
+                Logout
+              </MenuItem>
             </Menu>
           </div>
         </Navigation>
