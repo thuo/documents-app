@@ -10,7 +10,8 @@
     "no-underscore-dangle": ["error", { "allow": [
       "_id",
       "__Rewire__",
-      "__ResetDependency__"
+      "__ResetDependency__",
+      "__html"
     ]}],
     "no-param-reassign": ["error", { "props": false }],
     "no-unused-expressions": "off",
