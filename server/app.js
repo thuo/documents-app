@@ -5,8 +5,9 @@ const morgan = require('morgan');
 const router = require('./routes')(express);
 const config = require('./config');
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// MongoDB document size limit is 16MB. Same limit will apply to request bodies
+app.use(bodyParser.json({ limit: '16mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '16mb' }));
 
 if (!config.env.testing) {
   app.use(morgan('dev'));
