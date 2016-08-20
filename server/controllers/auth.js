@@ -24,8 +24,10 @@ module.exports = {
       .exec((err, user) => {
         if (error.mongoose.send(err, res)) return;
         if (!user) {
+          const message = "Email doesn't match any user";
           error.send({
-            error: "Email doesn't match any user",
+            error: message,
+            messages: { email: message },
           }, res, 401);
           return;
         }

@@ -30,17 +30,24 @@ describe('EditDocument', () => {
       const context = {
         props: {
           editDocument: sinon.spy(() => Promise.resolve()),
-          error: { error: 'error' },
+          error: {
+            error: 'error',
+          },
           defaultValues: { _id: 1 },
         },
         showSnackbar: sinon.spy(),
+        setState: sinon.spy(),
+        state: { errors: {} },
       };
       const values = {
         title: 'title',
         content: 'content',
       };
       submit(values, context).catch(() => {
-        expect(context.showSnackbar.calledOnce).to.be.true;
+        expect(context.showSnackbar.withArgs('error').calledOnce).to.be.true;
+        expect(
+          context.setState.calledOnce
+        ).to.be.true;
       }).then(done, done);
     });
   });

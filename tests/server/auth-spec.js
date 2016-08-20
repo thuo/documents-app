@@ -75,7 +75,7 @@ describe('Login API endpoint', () => {
         .end((err, res) => {
           expect(res.status).to.equal(405);
           expect(res.body.error)
-            .to.contain('Method `DELETE` not allowed on resource');
+            .to.contain('Method Not Allowed');
           done();
         });
     });

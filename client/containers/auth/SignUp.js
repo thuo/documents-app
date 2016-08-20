@@ -18,6 +18,9 @@ export const submit = (values, ctx) => new Promise((resolve, reject) => {
       });
     } else {
       ctx.showSnackbar(error.error);
+      ctx.setState({
+        errors: Object.assign({}, ctx.state.errors, error.messages),
+      });
       reject(error.error);
     }
   });

@@ -16,13 +16,15 @@ function preprocessMongooseError(err) {
     // Convert a message like "E11000 duplicate key error collection:
     // documents.documents index: title_1 dup key: { : "Title" }" into
     // "The title `Title` is already in use"
-    const error = err.message.replace(
-      /(.+)\s+index:.*\W(\w+)_\d+\s+dup key:\s+{\s+:\s+"(.+)"\s+}/,
-      'The $2 `$3` is already in use'
-    );
+    const regex = /(.+)\s+index:.*\W(\w+)_\d+\s+dup key:\s+{\s+:\s+"(.+)"\s+}/;
+    const error = err.message.replace(regex, '$3 is already in use');
+    const field = err.message.replace(regex, '$2');
+    const messages = {
+      [field]: error,
+    };
     return {
       status: 409,
-      body: { error },
+      body: { error, messages },
     };
   }
   if (err.name === 'ValidationError') {
@@ -36,14 +38,18 @@ function preprocessMongooseError(err) {
     return {
       status: 400,
       body: {
-        error: err.message,
+        error: 'Invalid input',
         messages,
       },
     };
   }
   if (err.name === 'CastError') {
-    const type = err.kind === 'ObjectId' ? 'resource id' : err.kind;
-    const error = `\`${err.value}\` is not a valid ${type}`;
+    let error;
+    if (err.kind === 'ObjectId') {
+      error = 'Not Found';
+    } else {
+      error = `${err.value} is not a valid ${err.kind}`;
+    }
     return { status: 400, body: { error } };
   }
   if (err.name === 'CustomError') {
@@ -63,13 +69,12 @@ const unauthorized = { send(errorMessage, res) {
 const callbacks = {
   methodNotAllowed(req, res) {
     res.status(405).json({
-      error: `Method \`${req.method}\` `
-        + `not allowed on resource \`${req.originalUrl}\``,
+      error: 'Method Not Allowed',
     });
   },
   resourceNotFound(req, res) {
     res.status(404).json({
-      error: `Resource \`${req.originalUrl}\` not found`,
+      error: 'Not Found',
     });
   },
 };

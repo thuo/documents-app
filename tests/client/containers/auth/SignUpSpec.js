@@ -77,13 +77,18 @@ describe('SignUp', () => {
           error: { error: 'error' },
         },
         showSnackbar: sinon.spy(),
+        setState: sinon.spy(),
+        state: {
+          errors: {},
+        },
       };
       const values = {};
-      SignUp.submit(values, context).catch(() => {
+      SignUp.submit(values, context).then(() => {}, () => {
         expect(context.props.signUp.withArgs(values).calledOnce).to.be.true;
         expect(
           context.showSnackbar.withArgs(context.props.error.error).calledOnce
         ).to.be.true;
+        expect(context.setState.calledOnce).to.be.true;
       }).then(done, done);
     });
   });

@@ -38,11 +38,11 @@ module.exports = {
       // were able to get a token from the request but that token was not valid
       // which is why req.decoded was never set.
       error.send({
-        error: 'Failed to authenticate token.',
+        error: 'Invalid login token.',
       }, res, 401);
     } else {
       error.send({
-        error: 'No token provided.',
+        error: 'Login required.',
       }, res, 401);
     }
   },

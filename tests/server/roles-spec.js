@@ -110,7 +110,7 @@ describe('Roles', () => {
           .get(`/api/roles/${users[0]._id}`)
           .end((err, res) => {
             expect(res.status).to.equal(404);
-            expect(res.body.error).to.contain('not found');
+            expect(res.body.error).to.contain('Not Found');
             done();
           });
       });
@@ -151,7 +151,7 @@ describe('Roles', () => {
           .end((err, res) => {
             expect(res.status).to.equal(404);
             expect(res.body.error).to
-              .contain('576fbef00d0186116ecad619` not found');
+              .contain('Not Found');
             done();
           });
       });
