@@ -7,6 +7,7 @@ import {
 } from 'app/actions/DocumentActions';
 import Document from 'app/components/documents/Document';
 import AppError from 'app/components/error/AppError';
+import checkDocumentAccess from 'app/utils/checkDocumentAccess';
 
 export class DocumentPage extends React.Component {
 
@@ -46,16 +47,20 @@ export class DocumentPage extends React.Component {
 }
 
 export const mapStateToProps = (state, ownProps) => {
-  const { entities, documentPage } = state;
+  const { entities, documentPage, authenticatedUser } = state;
   const { params: { documentId } } = ownProps;
 
+  let error = documentPage.error && documentPage.error.error;
   let doc = null;
   if (entities.documents[documentId]) {
     doc = Object.assign({}, entities.documents[documentId]);
     doc.owner = entities.users[doc.owner];
   }
+  if (doc && !checkDocumentAccess(authenticatedUser)(doc)) {
+    error = 'Access Denied';
+    doc = null;
+  }
   const { loading } = documentPage;
-  const error = documentPage.error && documentPage.error.error;
   return {
     doc,
     error,

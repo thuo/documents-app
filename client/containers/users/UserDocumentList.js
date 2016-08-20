@@ -5,6 +5,7 @@ import { Spinner } from 'react-mdl';
 import { fetchUsersDocuments } from 'app/actions/UserActions';
 import DocumentListItem from 'app/components/documents/DocumentListItem';
 import AppError from 'app/components/error/AppError';
+import checkDocumentAccess from 'app/utils/checkDocumentAccess';
 
 export class DocumentList extends React.Component {
 
@@ -52,7 +53,11 @@ DocumentList.propTypes = {
 
 export const mapStateToProps = (state, ownProps) => {
   const { userId } = ownProps;
-  const { documentsByUser: { [userId]: userDocuments }, entities } = state;
+  const {
+    documentsByUser: { [userId]: userDocuments },
+    entities,
+    authenticatedUser,
+  } = state;
   if (!userDocuments) {
     return { documents: [], error: null, loading: false };
   }
@@ -60,7 +65,7 @@ export const mapStateToProps = (state, ownProps) => {
     const doc = Object.assign({}, entities.documents[docId]);
     doc.owner = entities.users[doc.owner];
     return doc;
-  });
+  }).filter(checkDocumentAccess(authenticatedUser));
   const { loading } = userDocuments;
   const error = userDocuments.error && userDocuments.error;
   return { documents, error, loading };
