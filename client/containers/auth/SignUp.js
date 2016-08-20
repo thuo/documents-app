@@ -38,7 +38,7 @@ export const validate = values => {
   if (!(values.firstName && values.firstName.trim())) {
     errors.firstName = 'Required';
   }
-  if (!(values.lastName && values.firstName.trim())) {
+  if (!(values.lastName && values.lastName.trim())) {
     errors.lastName = 'Required';
   }
   if (!values.password) {
