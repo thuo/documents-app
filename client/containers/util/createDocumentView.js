@@ -65,6 +65,7 @@ export const createDocumentView = Component => {
             document={doc}
             onCancel={this.handleEditStop}
             onEditSuccess={this.handleEditStop}
+            {...omit(this.props, 'doc')}
           />
       );
       }

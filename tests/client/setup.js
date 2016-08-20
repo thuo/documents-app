@@ -11,5 +11,6 @@ global.window = document.defaultView;
 global.navigator = global.window.navigator;
 global.Element = global.window.Element;
 global.Event = global.window.Event;
+global.CustomEvent = global.window.CustomEvent;
 
 requireUncached('react-mdl/extra/material');
