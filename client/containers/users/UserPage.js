@@ -20,11 +20,16 @@ export class UserPage extends React.Component {
   }
 
   componentDidMount() {
-    const {
-      params: { userId },
-      fetchUserIfNeeded: fetchUser,
-    } = this.props;
-    fetchUser(userId);
+    const { params: { userId } } = this.props;
+    this.props.fetchUserIfNeeded(userId);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { params: { userId } } = this.props;
+    const { params: { userId: nextUserId } } = nextProps;
+    if (userId !== nextUserId) {
+      this.props.fetchUserIfNeeded(nextUserId);
+    }
   }
 
   handleEditStart() {
@@ -65,39 +70,38 @@ export class UserPage extends React.Component {
     const {
       user,
       error,
-      loading,
       isAuthenticatedUser,
       push: boundPush,
     } = this.props;
-    if (error || loading || !user) {
-      return (<AppError>{error || <Spinner />}</AppError>);
+    if (user) {
+      const fabStyle = {
+        position: 'fixed',
+        right: '1em',
+        bottom: '1em',
+        zIndex: 2,
+      };
+      return (
+        <div>
+          {this.renderProfile()}
+          <h3 style={{ textAlign: 'center', marginTop: '2em' }}>
+            {isAuthenticatedUser ? 'My' : `${user.name.first}'s`} Documents
+          </h3>
+          <UserDocumentList userId={user._id} />
+          <FABButton
+            ripple
+            colored
+            accent
+            className="mdl-shadow--4dp"
+            id="add"
+            style={fabStyle}
+            onClick={() => { boundPush('/documents/add'); }}>
+            <Icon name="add" />
+            <span className="visuallyhidden">Add</span>
+          </FABButton>
+        </div>
+      );
     }
-    const fabStyle = {
-      position: 'fixed',
-      right: '1em',
-      bottom: '1em',
-      zIndex: 2,
-    };
-    return (
-      <div>
-        {this.renderProfile()}
-        <h3 style={{ textAlign: 'center', marginTop: '2em' }}>
-          {isAuthenticatedUser ? 'My' : `${user.name.first}'s`} Documents
-        </h3>
-        <UserDocumentList userId={user._id} />
-        <FABButton
-          ripple
-          colored
-          accent
-          className="mdl-shadow--4dp"
-          id="add"
-          style={fabStyle}
-          onClick={() => { boundPush('/documents/add'); }}>
-          <Icon name="add" />
-          <span className="visuallyhidden">Add</span>
-        </FABButton>
-      </div>
-    );
+    return (<AppError>{error || <Spinner />}</AppError>);
   }
 }
 
