@@ -8,6 +8,7 @@ const DocumentSchema = new Schema({
     unique: true,
     trim: true,
     required: [true, 'Title is required'],
+    maxlength: [100, 'Title is too long'],
   },
   content: {
     type: String,
