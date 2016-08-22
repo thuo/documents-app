@@ -19,21 +19,29 @@ export class DocumentPage extends React.Component {
     this.props.fetchDocumentIfNeeded(this.props.params.documentId);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { params: { documentId } } = this.props;
+    const { params: { documentId: nextDocumentId } } = nextProps;
+    if (documentId !== nextDocumentId) {
+      this.props.fetchDocumentIfNeeded(nextDocumentId);
+    }
+  }
+
   handleDeleteSuccess() {
     this.props.pushToHistory('/');
   }
 
   render() {
-    const { doc, error, loading } = this.props;
-    if (error || loading || !doc) {
-      return <AppError>{error || <Spinner />}</AppError>;
+    const { doc, error } = this.props;
+    if (doc) {
+      return (
+        <Document
+          doc={doc}
+          onDeleteSuccess={this.handleDeleteSuccess}
+        />
+      );
     }
-    return (
-      <Document
-        doc={doc}
-        onDeleteSuccess={this.handleDeleteSuccess}
-      />
-    );
+    return <AppError>{error || <Spinner />}</AppError>;
   }
 }
 

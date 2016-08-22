@@ -76,7 +76,9 @@ export default store => next => action => {
     })),
     error => next(actionWith({
       type: failureType,
-      error: error.response.body,
+      error: error.response.body || {
+        error: error.message || 'Something went wrong',
+      },
     }))
   );
 };
