@@ -100,6 +100,11 @@ DocumentForm.propTypes = {
   title: PropTypes.string,
   buttonText: PropTypes.string,
   onCancel: PropTypes.func,
+  canEditAccess: PropTypes.bool,
+};
+
+DocumentForm.defaultProps = {
+  canEditAccess: true,
 };
 
 export default DocumentForm;
