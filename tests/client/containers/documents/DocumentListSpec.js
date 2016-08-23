@@ -137,11 +137,13 @@ describe('DocumentList container', () => {
               _id: 1,
               title: 'title',
               owner: 1,
+              access: { read: 'public' },
             },
             2: {
               _id: 2,
               title: 'lorem',
               owner: 1,
+              access: { read: 'public' },
             },
           },
           users: {
@@ -156,6 +158,7 @@ describe('DocumentList container', () => {
         documents: [{
           _id: 1,
           title: 'title',
+          access: { read: 'public' },
           owner: {
             _id: 1,
             username: 'user',

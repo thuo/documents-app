@@ -83,11 +83,13 @@ describe('DocumentPage container', () => {
               _id: 1,
               title: 'title',
               owner: 1,
+              access: { read: 'public' },
             },
             2: {
               _id: 2,
               title: 'lorem',
               owner: 1,
+              access: { read: 'public' },
             },
           },
           users: {
@@ -109,6 +111,7 @@ describe('DocumentPage container', () => {
             _id: 1,
             username: 'user',
           },
+          access: { read: 'public' },
         },
         error: null,
         loading: false,

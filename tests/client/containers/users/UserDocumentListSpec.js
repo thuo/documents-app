@@ -83,6 +83,7 @@ describe('UserDocumentList container', () => {
               _id: 1,
               title: 'title',
               owner: 1,
+              access: { read: 'public' },
             },
           },
           users: {
@@ -104,6 +105,7 @@ describe('UserDocumentList container', () => {
             _id: 1,
             username: 'user',
           },
+          access: { read: 'public' },
         }],
         error: null,
         loading: false,
