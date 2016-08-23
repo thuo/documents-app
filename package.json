@@ -8,21 +8,20 @@
   },
   "scripts": {
     "build": "webpack -p --config webpack.prod.config.js",
-    "postinstall": "npm run build",
+    "heroku-postbuild": "npm run build",
     "start": "node index.js",
     "start-dev": "nodemon -w server -w index.js -w webpack.base.config.js -w webpack.dev.config.js index.js",
     "lint": "eslint client server index.js --fix",
     "mocha": "NODE_ENV=testing mocha --compilers js:babel-core/register --recursive --require tests/client/setup",
-    "test": "npm run mocha -- \"tests/**/*[Ss]pec.js\"",
+    "istanbul": "NODE_ENV=testing babel-node node_modules/.bin/babel-istanbul cover node_modules/.bin/_mocha -- --compilers js:babel-core/register --recursive --require tests/client/setup",
+    "test": "npm run istanbul -- \"tests/**/*[Ss]pec.js\"",
     "test-server": "npm run mocha -- \"tests/server/**/*[Ss]pec.js\"",
     "test-client": "npm run mocha -- \"tests/client/**/*[Ss]pec.js\"",
     "test-client-watch": "npm run test-client -- --watch",
-    "istanbul": "NODE_ENV=testing babel-node node_modules/.bin/babel-istanbul cover node_modules/.bin/_mocha -- --compilers js:babel-core/register --recursive --require tests/client/setup",
     "cover-server": "npm run istanbul -- \"tests/server/**/*[Ss]pec.js\"",
     "cover-client": "npm run istanbul -- \"tests/client/**/*[Ss]pec.js\"",
-    "cover": "npm run istanbul -- \"tests/**/*[Ss]pec.js\"",
-    "codeclimate": "npm run cover && codeclimate-test-reporter < coverage/lcov.info",
-    "codecov": "npm run cover && cat coverage/lcov.info | codecov"
+    "codeclimate": "codeclimate-test-reporter < coverage/lcov.info",
+    "codecov": "cat coverage/lcov.info | codecov"
   },
   "repository": {
     "type": "git",
