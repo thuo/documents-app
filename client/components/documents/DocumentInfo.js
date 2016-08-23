@@ -5,26 +5,28 @@ import fullName from 'app/utils/fullName';
 
 const DocumentInfo = props => (
   <div>
-    {'Created by '}
-    <strong>
-      {props.owner
-        ?
-        <Link to={`/users/${props.owner._id}`}>
-          {`${fullName(props.owner.name)}`}
-        </Link>
-        :
-        '[deleted]'
+    <div className="doc-owner-and-date">
+      {'Created by '}
+      <strong>
+        {props.owner
+          ?
+          <Link to={`/users/${props.owner._id}`}>
+            {`${fullName(props.owner.name)}`}
+          </Link>
+          :
+          '[deleted]'
+        }
+      </strong>
+      {' at '}
+      <strong>{`${dateTimeLocaleString(props.createdAt)}`}</strong>
+      {props.createdAt !== props.updatedAt &&
+        <span>
+          {'; edited '}
+          <strong>{`${dateTimeLocaleString(props.updatedAt)} `}</strong>
+        </span>
       }
-    </strong>
-    {' at '}
-    <strong>{` ${dateTimeLocaleString(props.createdAt)}`}</strong>
-    {props.createdAt !== props.updatedAt &&
-      <span>
-        {'; edited '}
-        <strong>{` ${dateTimeLocaleString(props.updatedAt)} `}</strong>
-      </span>
-    }
-    <div style={{ paddingTop: '0.5em' }}>
+    </div>
+    <div style={{ paddingTop: '0.5em' }} className="doc-access-details">
       {'Visible to '}
       <strong>
         {props.access.read === 'public' && 'Public'}

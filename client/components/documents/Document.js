@@ -9,7 +9,7 @@ const style = {
   overflow: 'visible',
 };
 
-const Document = props => (
+export const Document = props => (
   <Card shadow={0} style={style}>
     <CardTitle>
       {props.title}

@@ -19,7 +19,7 @@ const trim = (string, maxLength) => {
   return string;
 };
 
-const DocumentListItem = props => (
+export const DocumentListItem = props => (
   <Card shadow={0} style={style}>
     <CardTitle style={{ marginRight: '3em' }}>
       {props.title}
