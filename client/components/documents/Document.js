@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
-import { CardText, Card, CardTitle, CardActions, Button } from 'react-mdl';
+import Button from 'react-mdl/lib/Button';
+import { CardText, Card, CardTitle, CardActions } from 'react-mdl/lib/Card';
 import marked from 'marked';
 import createDocumentView from 'app/containers/util/createDocumentView';
 import DocumentInfo from './DocumentInfo';

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Snackbar } from 'react-mdl';
+import Snackbar from 'react-mdl/lib/Snackbar';
 
 const createForm = (submit, validate) => Component => {
   const Form = class extends React.Component {

@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
-import { Grid, Cell, Textfield, Button } from 'react-mdl';
+import Button from 'react-mdl/lib/Button';
+import Textfield from 'react-mdl/lib/Textfield';
+import Grid, { Cell } from 'react-mdl/lib/Grid';
 import { getTextColorClass } from 'react-mdl/lib/utils/palette';
 
 class DocumentFilter extends React.Component {

@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react';
 import {
-  CardText, Card, CardTitle, CardMenu, Menu, MenuItem, IconButton, CardActions,
-} from 'react-mdl';
+  CardText, Card, CardTitle, CardActions, CardMenu,
+} from 'react-mdl/lib/Card';
+import Menu, { MenuItem } from 'react-mdl/lib/Menu';
+import IconButton from 'react-mdl/lib/IconButton';
 import marked from 'marked';
 import createDocumentView from 'app/containers/util/createDocumentView';
 import DocumentInfo from './DocumentInfo';

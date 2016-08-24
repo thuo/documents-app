@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { FABButton, Icon, Spinner } from 'react-mdl';
+import FABButton from 'react-mdl/lib/FABButton';
+import Icon from 'react-mdl/lib/Icon';
+import Spinner from 'react-mdl/lib/Spinner';
 import {
   fetchDocuments, setDocumentsAccessFilter, setDocumentsSearchFilter,
 } from 'app/actions/DocumentActions';
