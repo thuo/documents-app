@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import {
   CardText, Card, CardTitle, CardMenu, Menu, MenuItem, IconButton, CardActions,
 } from 'react-mdl';
+import marked from 'marked';
 import createDocumentView from 'app/containers/util/createDocumentView';
 import DocumentInfo from './DocumentInfo';
 
@@ -21,19 +22,19 @@ const trim = (string, maxLength) => {
 
 export const DocumentListItem = props => (
   <Card shadow={0} style={style}>
-    <CardTitle style={{ marginRight: '3em' }}>
-      {props.title}
-    </CardTitle>
-    <CardText
-      className="pointer"
+    <CardTitle
+      style={{ marginRight: '3em', position: 'relative' }}
       title="Click to view entire document"
-      style={{ position: 'relative' }}
+      className="pointer"
       onClick={e => {
         e.preventDefault();
         props.onDocumentClick(props._id);
       }}>
-      <p>{trim(props.content, 200)}</p>
-    </CardText>
+      {props.title}
+    </CardTitle>
+    <CardText
+      dangerouslySetInnerHTML={{ __html: marked(trim(props.content, 200)) }}
+    />
     <CardActions border style={{ padding: '0' }} />
     <CardText>
       <DocumentInfo {...props} />

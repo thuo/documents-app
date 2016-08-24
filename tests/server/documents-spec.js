@@ -155,7 +155,7 @@ describe('Documents API endpoints', () => {
         })
         .end((err, res) => {
           expect(res.status).to.equal(401);
-          expect(res.body.error).to.equal('No token provided.');
+          expect(res.body.error).to.equal('Login required.');
           done();
         });
     });
@@ -167,7 +167,7 @@ describe('Documents API endpoints', () => {
         .send({})
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body.error).to.contain('Document validation failed');
+          expect(res.body.error).to.contain('Invalid input');
           expect(res.body.messages).to.contain.all.keys('title', 'content');
           expect(res.body.messages.title).to.contain('Title is required');
           expect(res.body.messages.content).to.contain('Content is required');
@@ -186,7 +186,7 @@ describe('Documents API endpoints', () => {
         .end((err, res) => {
           expect(res.status).to.equal(409);
           expect(res.body.error).to
-            .contain(`The title \`${documents[0].title}\` is already in use`);
+            .contain(`${documents[0].title} is already in use`);
           done();
         });
     });
@@ -255,8 +255,7 @@ describe('Documents API endpoints', () => {
         .set('X-Access-Token', tokens.user)
         .end((err, res) => {
           expect(res.status).to.equal(404);
-          expect(res.body.error).to
-            .contain('576dd108a16fb32a30eeb609` not found');
+          expect(res.body.error).to.contain('Not Found');
           done();
         });
     });
@@ -269,7 +268,7 @@ describe('Documents API endpoints', () => {
         .send({ title: 'New title' })
         .end((err, res) => {
           expect(res.status).to.equal(401);
-          expect(res.body.error).to.contain('No token provided.');
+          expect(res.body.error).to.contain('Login required.');
           done();
         });
     });

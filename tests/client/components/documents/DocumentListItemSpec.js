@@ -2,17 +2,34 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-import { DocumentListItem } from 'app/components/documents/DocumentListItem';
+import {
+  DocumentListItem,
+  __RewireAPI__ as RewireAPI,
+} from 'app/components/documents/DocumentListItem';
 
 describe('DocumentListItem', () => {
+  const marked = markdown => markdown;
+
+  before(() => {
+    RewireAPI.__Rewire__('marked', marked);
+  });
+
+  after(() => {
+    RewireAPI.__ResetDependency__('marked');
+  });
+
   it('renders the title', () => {
     const props = {
+      _id: 1,
       title: 'Lorem',
       content: 'ipsum',
+      onDocumentClick: sinon.spy(),
     };
     const wrapper = shallow(<DocumentListItem {...props} />);
     const title = wrapper.find('CardTitle');
     expect(title.children().text()).to.equal(props.title);
+    title.simulate('click', { preventDefault: () => {} });
+    expect(props.onDocumentClick.withArgs(1).calledOnce).to.be.true;
   });
 
   it('renders the document info', () => {
@@ -27,16 +44,13 @@ describe('DocumentListItem', () => {
 
   it('renders the content', () => {
     const props = {
-      _id: 1,
       title: 'Lorem',
       content: 'ipsum',
-      onDocumentClick: sinon.spy(),
     };
     const wrapper = shallow(<DocumentListItem {...props} />);
     const content = wrapper.find('CardText').at(0);
-    expect(content.children().text()).to.equal(props.content);
-    content.simulate('click', { preventDefault: sinon.spy() });
-    expect(props.onDocumentClick.withArgs(1).calledOnce).to.be.true;
+    const text = content.prop('dangerouslySetInnerHTML').__html;
+    expect(text).to.equal(props.content);
   });
 
   it('trims the content', () => {
@@ -46,7 +60,9 @@ describe('DocumentListItem', () => {
     };
     const wrapper = shallow(<DocumentListItem {...props} />);
     const content = wrapper.find('CardText').at(0);
-    expect(content.children().text()).to.have.length(203);
+    const text = content.prop('dangerouslySetInnerHTML').__html;
+    expect(text).to.have.length(203);
+    expect(text).to.match(/\.\.\.$/);
   });
 
   it('renders the menu', () => {

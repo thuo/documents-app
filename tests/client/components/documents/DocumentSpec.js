@@ -2,9 +2,22 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-import { Document } from 'app/components/documents/Document';
+import {
+  Document,
+  __RewireAPI__ as RewireAPI,
+} from 'app/components/documents/Document';
 
 describe('Document', () => {
+  const marked = markdown => markdown;
+
+  before(() => {
+    RewireAPI.__Rewire__('marked', marked);
+  });
+
+  after(() => {
+    RewireAPI.__ResetDependency__('marked');
+  });
+
   it('renders the title', () => {
     const props = {
       title: 'Lorem',
@@ -32,7 +45,8 @@ describe('Document', () => {
     };
     const wrapper = shallow(<Document {...props} />);
     const content = wrapper.find('CardText').at(1);
-    expect(content.children().text()).to.equal(props.content);
+    const text = content.prop('dangerouslySetInnerHTML').__html;
+    expect(text).to.equal(props.content);
   });
 
   it('renders the edit button', () => {

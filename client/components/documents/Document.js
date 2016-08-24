@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { CardText, Card, CardTitle, CardActions, Button } from 'react-mdl';
+import marked from 'marked';
 import createDocumentView from 'app/containers/util/createDocumentView';
 import DocumentInfo from './DocumentInfo';
 
@@ -31,9 +32,9 @@ export const Document = props => (
     <CardActions border style={{ padding: '0' }} />
     <CardText
       className="mdl-card--border"
-      style={{ position: 'relative' }}>
-      <p>{props.content}</p>
-    </CardText>
+      style={{ position: 'relative' }}
+      dangerouslySetInnerHTML={{ __html: marked(props.content) }}
+    />
   </Card>
 );
 

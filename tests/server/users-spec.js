@@ -105,7 +105,7 @@ describe('Users API endpoints', () => {
         })
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body.error).to.contain('User validation failed');
+          expect(res.body.error).to.contain('Invalid input');
           expect(res.body.messages).to.contain.all.keys('email', 'username');
           expect(res.body.messages.email).to
             .contain('not a valid email address');
@@ -137,7 +137,7 @@ describe('Users API endpoints', () => {
         .get('/api/users/1')
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body.error).to.contain('is not a valid resource id');
+          expect(res.body.error).to.contain('Not Found');
           done();
         });
     });
@@ -148,7 +148,7 @@ describe('Users API endpoints', () => {
         .end((err, res) => {
           expect(res.status).to.equal(404);
           expect(res.body.error).to
-            .contain('576fbef00d0186116ecad619` not found');
+            .contain('Not Found');
           done();
         });
     });
@@ -205,7 +205,7 @@ describe('Users API endpoints', () => {
         .send({ old_password: 'raboof' })
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body.error).to.contain('User validation failed');
+          expect(res.body.error).to.contain('Invalid input');
           expect(res.body.messages).to.contain.all.keys('password');
           done();
         });

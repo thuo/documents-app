@@ -15,6 +15,9 @@ export const submit = (values, ctx) => new Promise((resolve, reject) => {
       resolve();
     } else {
       ctx.showSnackbar(error.error);
+      ctx.setState({
+        errors: Object.assign({}, ctx.state.errors, error.messages),
+      });
       reject(error.error);
     }
   });
@@ -24,9 +27,15 @@ export const validate = values => {
   const errors = {};
   if (!values.title) {
     errors.title = 'Required';
+  } else if (values.title.length > 100) {
+    errors.title = 'Title is too long';
   }
   if (!values.content) {
     errors.content = 'Required';
+  } else if (values.content.length > 10000000) {
+  // 10 million is a good estimate of where the text is pushing close to the
+  // 16mb limit by MongoDB
+    errors.content = 'Content is too long';
   }
   return errors;
 };
