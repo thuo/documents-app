@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Button, DialogContent, DialogActions } from 'react-mdl';
+import Button from 'react-mdl/lib/Button';
+import { DialogContent, DialogActions } from 'react-mdl/lib/Dialog';
 import Dialog from 'app/components/util/Dialog';
 import { deleteDocument } from 'app/actions/DocumentActions';
 import EditDocument from 'app/containers/documents/EditDocument';

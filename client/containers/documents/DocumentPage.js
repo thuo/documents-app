@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Spinner } from 'react-mdl';
+import Spinner from 'react-mdl/lib/Spinner';
 import { push } from 'react-router-redux';
 import {
   fetchDocumentIfNeeded, deleteDocument,

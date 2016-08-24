@@ -15,36 +15,14 @@ export const DevTools = createDevTools(
   </DockMonitor>
 );
 
-class Root extends React.Component {
-
-  renderDev() {
-    const { store, history } = this.props;
-    return (
-      <Provider store={store}>
-        <div>
-          <Router history={history} routes={routes} />
-          <DevTools />
-        </div>
-      </Provider>
-    );
-  }
-
-  renderProd() {
-    const { store, history } = this.props;
-    return (
-      <Provider store={store}>
-        <Router history={history} routes={routes} />
-      </Provider>
-    );
-  }
-
-  render() {
-    if (process.env.NODE_ENV === 'production') {
-      return this.renderProd();
-    }
-    return this.renderDev();
-  }
-}
+const Root = props => {
+  const { store, history } = props;
+  return (
+    <Provider store={store}>
+      <Router history={history} routes={routes} />
+    </Provider>
+  );
+};
 
 Root.propTypes = {
   store: PropTypes.object.isRequired,

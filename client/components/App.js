@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
-import { Layout, Content } from 'react-mdl';
+import Layout from 'react-mdl/lib/Layout/Layout';
+import Content from 'react-mdl/lib/Layout/Content';
 import NavBar from 'app/containers/NavBar';
 
 const App = props => (

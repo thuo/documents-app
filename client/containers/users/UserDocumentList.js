@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { Spinner } from 'react-mdl';
+import Spinner from 'react-mdl/lib/Spinner';
 import { fetchUsersDocuments } from 'app/actions/UserActions';
 import DocumentListItem from 'app/components/documents/DocumentListItem';
 import AppError from 'app/components/error/AppError';

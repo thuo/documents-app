@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { Spinner, FABButton, Icon } from 'react-mdl';
+import Spinner from 'react-mdl/lib/Spinner';
+import FABButton from 'react-mdl/lib/FABButton';
+import Icon from 'react-mdl/lib/Icon';
 import { fetchUserIfNeeded } from 'app/actions/UserActions';
 import AppError from 'app/components/error/AppError';
 import User from 'app/components/users/User';

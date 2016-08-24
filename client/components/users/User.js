@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
-import {
-  CardText, Card, CardTitle, CardActions, Button, Grid, Cell,
-} from 'react-mdl';
+import Button from 'react-mdl/lib/Button';
+import Grid, { Cell } from 'react-mdl/lib/Grid';
+import { CardText, Card, CardTitle, CardActions } from 'react-mdl/lib/Card';
 import fullName from 'app/utils/fullName';
 import { getTextColorClass } from 'react-mdl/lib/utils/palette';
 

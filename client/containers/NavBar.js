@@ -1,7 +1,10 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { Header, Navigation, Menu, MenuItem, Button } from 'react-mdl';
+import Button from 'react-mdl/lib/Button';
+import Header from 'react-mdl/lib/Layout/Header';
+import Navigation from 'react-mdl/lib/Layout/Navigation';
+import Menu, { MenuItem } from 'react-mdl/lib/Menu';
 import { Link } from 'react-router';
 import { logOut } from 'app/actions/AuthActions';
 
