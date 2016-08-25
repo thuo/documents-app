@@ -47,7 +47,7 @@ describe('EditProfile', () => {
         username: 'user',
         email: 'user@example.com',
       };
-      submit(values, context).then(() => {
+      submit.call(context, values).then(() => {
         expect(
           context.props.editUser.withArgs(1, values).calledOnce
         ).to.be.true;
@@ -68,7 +68,7 @@ describe('EditProfile', () => {
         username: 'user',
         email: 'user@example.com',
       };
-      submit(values, context).catch(() => {
+      submit.call(context, values).catch(() => {
         expect(context.showSnackbar.withArgs('error').calledOnce).to.be.true;
       }).then(done, done);
     });

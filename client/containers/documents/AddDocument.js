@@ -6,22 +6,24 @@ import DocumentForm from 'app/components/documents/DocumentForm';
 import createForm from 'app/containers/util/createForm';
 import authenticate from 'app/containers/util/authenticate';
 
-export const submit = (values, ctx) => new Promise((resolve, reject) => {
-  const { addDocument: boundAddDocument } = ctx.props;
-  boundAddDocument(humps.decamelizeKeys(values)).then(() => {
-    const { error, pushToHistory, document: doc } = ctx.props;
-    if (!error) {
-      pushToHistory(`/documents/${doc}`);
-      resolve();
-    } else {
-      ctx.showSnackbar(error.error);
-      ctx.setState({
-        errors: Object.assign({}, ctx.state.errors, error.messages),
-      });
-      reject(error.error);
-    }
+export function submit(values) {
+  return new Promise((resolve, reject) => {
+    const { addDocument: boundAddDocument } = this.props;
+    boundAddDocument(humps.decamelizeKeys(values)).then(() => {
+      const { error, pushToHistory, document: doc } = this.props;
+      if (!error) {
+        pushToHistory(`/documents/${doc}`);
+        resolve();
+      } else {
+        this.showSnackbar(error.error);
+        this.setState({
+          errors: Object.assign({}, this.state.errors, error.messages),
+        });
+        reject(error.error);
+      }
+    });
   });
-});
+}
 
 export const validate = values => {
   const errors = {};

@@ -6,7 +6,7 @@ import createForm from 'app/containers/util/createForm';
 
 describe('createForm higher-order component', () => {
   const Component = () => (<div></div>);
-  const submit = sinon.spy();
+  const submit = sinon.spy(() => Promise.resolve());
   const validate = sinon.spy(() => ({}));
   let Form;
 

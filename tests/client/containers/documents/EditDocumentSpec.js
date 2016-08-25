@@ -16,7 +16,7 @@ describe('EditDocument', () => {
         title: 'title',
         content: 'content',
       };
-      submit(values, context).then(() => {
+      submit.call(context, values).then(() => {
         expect(
           context.props.editDocument.withArgs(1, values).calledOnce
         ).to.be.true;
@@ -43,7 +43,7 @@ describe('EditDocument', () => {
         title: 'title',
         content: 'content',
       };
-      submit(values, context).catch(() => {
+      submit.call(context, values).catch(() => {
         expect(context.showSnackbar.withArgs('error').calledOnce).to.be.true;
         expect(
           context.setState.calledOnce

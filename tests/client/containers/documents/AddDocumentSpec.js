@@ -29,7 +29,7 @@ describe('AddDocument', () => {
         title: 'title',
         content: 'content',
       };
-      AddDocument.submit(values, context).then(() => {
+      AddDocument.submit.call(context, values).then(() => {
         expect(
           context.props.addDocument.withArgs(values).calledOnce
         ).to.be.true;
@@ -53,7 +53,7 @@ describe('AddDocument', () => {
         title: 'title',
         content: 'content',
       };
-      AddDocument.submit(values, context).catch(() => {
+      AddDocument.submit.call(context, values).catch(() => {
         expect(
           context.props.addDocument.withArgs(values).calledOnce
         ).to.be.true;
