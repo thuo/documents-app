@@ -6,24 +6,29 @@ import DocumentForm from 'app/components/documents/DocumentForm';
 import createForm from 'app/containers/util/createForm';
 import { validate } from './AddDocument';
 
-export const submit = (values, ctx) => new Promise((resolve, reject) => {
-  const { defaultValues: { _id }, editDocument: boundEditDocument } = ctx.props;
-  boundEditDocument(_id, humps.decamelizeKeys(values)).then(() => {
-    const { error, onEditSuccess } = ctx.props;
-    if (!error) {
-      // since on edit success is optional check if it is provided and it is a
-      // function before calling it
-      typeof onEditSuccess === 'function' && onEditSuccess();
-      resolve();
-    } else {
-      ctx.showSnackbar(error.error);
-      ctx.setState({
-        errors: Object.assign({}, ctx.state.errors, error.messages),
-      });
-      reject(error.error);
-    }
+export function submit(values) {
+  return new Promise((resolve, reject) => {
+    const {
+      defaultValues: { _id },
+      editDocument: boundEditDocument,
+    } = this.props;
+    boundEditDocument(_id, humps.decamelizeKeys(values)).then(() => {
+      const { error, onEditSuccess } = this.props;
+      if (!error) {
+        // since on edit success is optional check if it is provided and it is a
+        // function before calling it
+        typeof onEditSuccess === 'function' && onEditSuccess();
+        resolve();
+      } else {
+        this.showSnackbar(error.error);
+        this.setState({
+          errors: Object.assign({}, this.state.errors, error.messages),
+        });
+        reject(error.error);
+      }
+    });
   });
-});
+}
 
 export const EditDocument = createForm(
   submit,

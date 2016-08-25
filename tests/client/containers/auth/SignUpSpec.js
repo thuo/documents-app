@@ -56,7 +56,7 @@ describe('SignUp', () => {
         password: 'password',
         confirmPassword: 'password',
       };
-      SignUp.submit(values, context).then(() => {
+      SignUp.submit.call(context, values).then(() => {
         expect(
           context.props.signUp.withArgs(decamelizeKeys(values)).calledOnce
         ).to.be.true;
@@ -83,7 +83,7 @@ describe('SignUp', () => {
         },
       };
       const values = {};
-      SignUp.submit(values, context).then(() => {}, () => {
+      SignUp.submit.call(context, values).then(() => {}, () => {
         expect(context.props.signUp.withArgs(values).calledOnce).to.be.true;
         expect(
           context.showSnackbar.withArgs(context.props.error.error).calledOnce

@@ -5,21 +5,23 @@ import { editUser } from 'app/actions/UserActions';
 import ProfileForm from 'app/components/users/ProfileForm';
 import createForm from 'app/containers/util/createForm';
 
-export const submit = (values, ctx) => new Promise((resolve, reject) => {
-  const { defaultValues, editUser: boundEditUser } = ctx.props;
-  boundEditUser(defaultValues._id, humps.decamelizeKeys(values)).then(() => {
-    const { error, onEditSuccess } = ctx.props;
-    if (!error) {
-      // since on edit success is optional check if it is provided and it is a
-      // function before calling it
-      typeof onEditSuccess === 'function' && onEditSuccess();
-      resolve();
-    } else {
-      ctx.showSnackbar(error.error);
-      reject(error.error);
-    }
+export function submit(values) {
+  return new Promise((resolve, reject) => {
+    const { defaultValues, editUser: boundEditUser } = this.props;
+    boundEditUser(defaultValues._id, humps.decamelizeKeys(values)).then(() => {
+      const { error, onEditSuccess } = this.props;
+      if (!error) {
+        // since on edit success is optional check if it is provided and it is a
+        // function before calling it
+        typeof onEditSuccess === 'function' && onEditSuccess();
+        resolve();
+      } else {
+        this.showSnackbar(error.error);
+        reject(error.error);
+      }
+    });
   });
-});
+}
 
 export const validate = values => {
   const errors = {};

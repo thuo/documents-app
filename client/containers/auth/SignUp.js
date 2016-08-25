@@ -5,26 +5,28 @@ import SignUpForm from 'app/components/auth/SignUpForm';
 import createForm from 'app/containers/util/createForm';
 import humps from 'humps';
 
-export const submit = (values, ctx) => new Promise((resolve, reject) => {
-  const props = ctx.props;
-  props.signUp(humps.decamelizeKeys(values)).then(() => {
-    const { error, location } = ctx.props;
-    if (!error) {
-      const { email, password } = values;
-      props.logIn({ email, password }).then(() => {
-        const nextLocation = location.query.next || '/';
-        props.push(nextLocation);
-        resolve();
-      });
-    } else {
-      ctx.showSnackbar(error.error);
-      ctx.setState({
-        errors: Object.assign({}, ctx.state.errors, error.messages),
-      });
-      reject(error.error);
-    }
+export function submit(values) {
+  return new Promise((resolve, reject) => {
+    const props = this.props;
+    props.signUp(humps.decamelizeKeys(values)).then(() => {
+      const { error, location } = this.props;
+      if (!error) {
+        const { email, password } = values;
+        props.logIn({ email, password }).then(() => {
+          const nextLocation = location.query.next || '/';
+          props.push(nextLocation);
+          resolve();
+        });
+      } else {
+        this.showSnackbar(error.error);
+        this.setState({
+          errors: Object.assign({}, this.state.errors, error.messages),
+        });
+        reject(error.error);
+      }
+    });
   });
-});
+}
 
 export const validate = values => {
   const errors = {};

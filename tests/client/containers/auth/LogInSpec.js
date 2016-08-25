@@ -37,7 +37,7 @@ describe('LogIn', () => {
         email: 'email@example.com',
         password: 'password',
       };
-      LogIn.submit(values, context).then(() => {
+      LogIn.submit.call(context, values).then(() => {
         expect(context.props.logIn.withArgs(values).calledOnce).to.be.true;
         expect(context.props.push.withArgs(
           context.props.location.query.next
@@ -57,7 +57,7 @@ describe('LogIn', () => {
         email: 'email@example.com',
         password: 'password',
       };
-      LogIn.submit(values, context).catch(() => {
+      LogIn.submit.call(context, values).catch(() => {
         expect(context.props.logIn.withArgs(values).calledOnce).to.be.true;
         expect(
           context.showSnackbar.withArgs(context.props.error.error).calledOnce

@@ -4,20 +4,22 @@ import { logIn } from 'app/actions/AuthActions';
 import LogInForm from 'app/components/auth/LogInForm';
 import createForm from 'app/containers/util/createForm';
 
-export const submit = (values, ctx) => new Promise((resolve, reject) => {
-  const props = ctx.props;
-  props.logIn(values).then(() => {
-    const { error, location } = ctx.props;
-    if (!error) {
-      const nextLocation = location.query.next || '/';
-      props.push(nextLocation);
-      resolve();
-    } else {
-      ctx.showSnackbar(error.error);
-      reject(error);
-    }
+export function submit(values) {
+  return new Promise((resolve, reject) => {
+    const props = this.props;
+    props.logIn(values).then(() => {
+      const { error, location } = this.props;
+      if (!error) {
+        const nextLocation = location.query.next || '/';
+        props.push(nextLocation);
+        resolve();
+      } else {
+        this.showSnackbar(error.error);
+        reject(error);
+      }
+    });
   });
-});
+}
 
 export const validate = values => {
   const errors = {};

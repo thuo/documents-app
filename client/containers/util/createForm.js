@@ -40,7 +40,10 @@ const createForm = (submit, validate) => Component => {
     handleSubmit(event) {
       event.preventDefault();
       if (!this.hasErrors()) {
-        submit(this.state.values, this);
+        submit.call(this, this.state.values).catch(() => {
+          // if submits rejects the promise, do nothing. This is because all
+          // submit implementations should handle the error.
+        });
       } else {
         this.showSnackbar('There are some errors in the form');
       }
