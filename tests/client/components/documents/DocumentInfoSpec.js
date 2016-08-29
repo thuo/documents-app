@@ -29,8 +29,7 @@ describe('DocumentInfo', () => {
     };
     const wrapper = shallow(<DocumentInfo {...props} />);
     const ownerAndDate = wrapper.find('.doc-owner-and-date');
-    const createdAtRegex =
-      /at \d?\d(st|nd|rd|th) [A-Z][a-z][a-z] \d\d\d\d, \d?\d:\d\d(am|pm)/;
+    const createdAtRegex = /[A-Z][a-z][a-z] \d?\d, \d\d\d\d/;
     expect(ownerAndDate.text()).to.match(createdAtRegex);
     expect(ownerAndDate.text()).to.not.contain('edited');
   });
@@ -46,8 +45,7 @@ describe('DocumentInfo', () => {
     };
     const wrapper = shallow(<DocumentInfo {...props} />);
     const ownerAndDate = wrapper.find('.doc-owner-and-date');
-    const updatedAt =
-      /; edited \d?\d(st|nd|rd|th) [A-Z][a-z][a-z] \d\d\d\d, \d?\d:\d\d(am|pm)/;
+    const updatedAt = /[A-Z][a-z][a-z] \d?\d, \d\d\d\d/;
     expect(ownerAndDate.text()).to.match(updatedAt);
   });
 

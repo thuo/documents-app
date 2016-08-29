@@ -4,6 +4,7 @@ import { push } from 'react-router-redux';
 import FABButton from 'react-mdl/lib/FABButton';
 import Icon from 'react-mdl/lib/Icon';
 import Spinner from 'react-mdl/lib/Spinner';
+import Grid, { Cell } from 'react-mdl/lib/Grid';
 import {
   fetchDocuments, setDocumentsAccessFilter, setDocumentsSearchFilter,
 } from 'app/actions/DocumentActions';
@@ -57,14 +58,18 @@ export class DocumentList extends React.Component {
           setSearchFilter={setSearchFilter}
           setAccessFilter={setAccessFilter}
         />
+        <Grid>
         {documents.map(doc =>
-          <DocumentListItem
-            doc={doc}
-            onDeleteSuccess={() => {}}
-            key={doc._id}
-            onDocumentClick={this.handleDocumentClick}
-          />
+          <Cell col={4} key={doc._id}>
+            <DocumentListItem
+              useDialogToEdit
+              doc={doc}
+              onDeleteSuccess={() => {}}
+              onDocumentClick={this.handleDocumentClick}
+            />
+          </Cell>
         )}
+        </Grid>
         <FABButton
           ripple
           colored

@@ -6,10 +6,10 @@ import Menu, { MenuItem } from 'react-mdl/lib/Menu';
 import IconButton from 'react-mdl/lib/IconButton';
 import marked from 'marked';
 import createDocumentView from 'app/containers/util/createDocumentView';
-import DocumentInfo from './DocumentInfo';
+import ShortDocumentInfo from './ShortDocumentInfo';
 
 const style = {
-  margin: '0.75em',
+  marginBottom: '2em',
   minHeight: 'auto',
   overflow: 'visible',
   position: 'relative',
@@ -27,7 +27,7 @@ export const DocumentListItem = props => (
     <CardTitle
       style={{ marginRight: '3em', position: 'relative' }}
       title="Click to view entire document"
-      className="pointer"
+      className="pointer doclist-item__title"
       onClick={e => {
         e.preventDefault();
         props.onDocumentClick(props._id);
@@ -35,11 +35,15 @@ export const DocumentListItem = props => (
       {props.title}
     </CardTitle>
     <CardText
-      dangerouslySetInnerHTML={{ __html: marked(trim(props.content, 200)) }}
+      dangerouslySetInnerHTML={{
+        // strip html tags for preview
+        __html: marked(trim(props.content, 200)).replace(/<(?:.|\n)*?>/gm, ''),
+      }}
+      style={{ height: '9rem' }}
     />
     <CardActions border style={{ padding: '0' }} />
     <CardText>
-      <DocumentInfo {...props} />
+      <ShortDocumentInfo {...props} className="doclist-item__info" />
     </CardText>
     <CardMenu>
       <IconButton name="more_vert" id={`documents-${props._id}`} />

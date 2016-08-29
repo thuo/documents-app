@@ -7,7 +7,7 @@ import { getTextColorClass } from 'react-mdl/lib/utils/palette';
 
 const DocumentForm = props => (
   <form onSubmit={props.onSubmit}>
-    <Card shadow={0}>
+    <Card {...(props.showCardShadow ? { shadow: 0 } : {})}>
       <CardTitle>{props.title || 'Add Document'}</CardTitle>
       <CardActions border style={{ padding: '0' }} />
       <CardText>
@@ -106,6 +106,7 @@ DocumentForm.propTypes = {
 
 DocumentForm.defaultProps = {
   canEditAccess: true,
+  showCardShadow: true,
 };
 
 export default DocumentForm;

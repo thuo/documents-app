@@ -1,6 +1,6 @@
 .app-container {
   width: 98%;
-  max-width: 892px;
+  max-width: 1024px;
   display: block;
   margin: 0 auto;
   padding: 0.75em 1%;
@@ -59,8 +59,26 @@ select {
 
 .mdl-dialog__container .mdl-dialog {
   background-color: #fff;
+  max-height: 100%;
+  overflow: scroll;
+}
+
+.mdl-dialog__container.mdl-dialog__edit-document .mdl-dialog {
+  max-width: 1024px;
+  width: 95%;
+  margin: auto;
 }
 
 .mdl-dialog__container.visible {
   display: flex;
+}
+
+.doclist-item__title .mdl-card__title-text {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.doclist-item__info {
+  display: flex;
+  align-items: center;
 }

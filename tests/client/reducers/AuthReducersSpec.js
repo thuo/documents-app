@@ -46,7 +46,7 @@ describe('Auth reducers', () => {
       expect(reducers.logIn(undefined, {})).to.eql(initialState);
     });
 
-    it('handles LOGIN_SUCCESS', () => {
+    it('handles LOGIN_REQUEST', () => {
       expect(reducers.logIn({ error: 'error' }, {
         type: types.LOGIN_REQUEST,
       })).to.eql({
