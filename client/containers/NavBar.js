@@ -1,10 +1,11 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import Button from 'react-mdl/lib/Button';
+import IconButton from 'react-mdl/lib/IconButton';
 import Header from 'react-mdl/lib/Layout/Header';
 import Navigation from 'react-mdl/lib/Layout/Navigation';
 import Menu, { MenuItem } from 'react-mdl/lib/Menu';
+import Icon from 'react-mdl/lib/Icon';
 import { Link } from 'react-router';
 import { logOut } from 'app/actions/AuthActions';
 
@@ -27,12 +28,10 @@ export class NavBar extends React.Component {
       return (
         <Navigation>
           <div style={{ position: 'relative' }}>
-            <Button id="profile-menu" style={linkStyle}>
-              {user.name.first}
-            </Button>
+            <IconButton name="more_vert" id="profile-menu" />
             <Menu target="profile-menu" align="right">
               <MenuItem onClick={() => boundPush(`/users/${user._id}`)}>
-                Profile
+                My profile
               </MenuItem>
               <MenuItem onClick={() => { boundLogOut(); boundPush('/'); }}>
                 Logout
@@ -51,11 +50,17 @@ export class NavBar extends React.Component {
   }
 
   render() {
+    const { push: boundPush } = this.props;
     return (
       <Header
         title={<Link to="/" style={linkStyle}>Documents</Link>}
         className="mdl-shadow--2dp"
         scroll>
+        <div
+          className="mdl-layout__drawer-button"
+          onClick={() => { boundPush('/'); }}>
+          <Icon name="description" />
+        </div>
         {this.renderLinks()}
       </Header>
     );

@@ -82,3 +82,9 @@ select {
   display: flex;
   align-items: center;
 }
+
+@media screen and (min-width: 1025px) {
+  .mdl-layout__drawer-button {
+    line-height: 48px;
+  }
+}
