@@ -21,7 +21,7 @@ describe('DocumentListHeading', () => {
       setAccessFilter: sinon.spy(),
     };
     const wrapper = shallow(<DocumentListHeading {...props} />);
-    const access = wrapper.find('#access');
+    const access = wrapper.find('SelectField');
     expect(access.prop('value')).to.equal(props.accessFilter);
     const event = { preventDefault: () => {}, target: { value: 'private' } };
     access.simulate('change', event);

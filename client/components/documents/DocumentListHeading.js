@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { getTextColorClass } from 'react-mdl/lib/utils/palette';
+import SelectField from 'app/components/util/SelectField';
 
 class DocumentListHeading extends React.Component {
 
@@ -20,20 +20,17 @@ class DocumentListHeading extends React.Component {
           All documents
         </h5>
         <div style={{ display: 'inline-block', float: 'right' }}>
-          <label htmlFor="access" className={getTextColorClass('teal')}>
-            Access
-          </label>
-          <select
-            required
-            style={{ width: '100%' }}
-            onChange={this.handleAccessChange}
+          <SelectField
+            options={{
+              '': 'Any',
+              public: 'Public',
+              authenticated: 'Logged In Users',
+              private: 'Only Me',
+            }}
             value={accessFilter}
-            id="access">
-            <option value="">Any</option>
-            <option value="public">Public</option>
-            <option value="authenticated">Logged In Users</option>
-            <option value="private">Only Me</option>
-          </select>
+            label="Access"
+            onChange={this.handleAccessChange}
+          />
         </div>
       </div>
     );

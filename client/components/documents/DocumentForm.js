@@ -3,7 +3,7 @@ import Button from 'react-mdl/lib/Button';
 import Textfield from 'react-mdl/lib/Textfield';
 import Grid, { Cell } from 'react-mdl/lib/Grid';
 import { CardText, Card, CardTitle, CardActions } from 'react-mdl/lib/Card';
-import { getTextColorClass } from 'react-mdl/lib/utils/palette';
+import SelectField from 'app/components/util/SelectField';
 
 const DocumentForm = props => (
   <form onSubmit={props.onSubmit}>
@@ -37,40 +37,34 @@ const DocumentForm = props => (
         {props.canEditAccess &&
           <Grid>
             <Cell col={6}>
-              <label
-                htmlFor="read-access"
-                className={getTextColorClass('teal')}>
-                Who can read?
-              </label>
-              <select
-                required
-                id="read-access"
+              <SelectField
+                options={{
+                  public: 'Public',
+                  authenticated: 'Logged In Users',
+                  private: 'Only Me',
+                }}
+                value={props.values.readAccess || 'public'}
+                label="Who can read?"
                 onChange={props.onFieldChange('readAccess')}
-                defaultValue={props.values.readAccess || 'public'}>
-                <option value="public">Public</option>
-                <option value="authenticated">Logged In Users</option>
-                <option value="private">Only Me</option>
-              </select>
+                valign="top"
+              />
             </Cell>
             <Cell col={6}>
-              <label
-                htmlFor="write-access"
-                className={getTextColorClass('teal')}>
-                Who can edit?
-              </label>
-              <select
-                required
-                id="write-access"
+              <SelectField
+                options={{
+                  authenticated: 'Logged In Users',
+                  private: 'Only Me',
+                }}
+                value={props.values.writeAccess || 'private'}
+                label="Who can edit?"
                 onChange={props.onFieldChange('writeAccess')}
-                defaultValue={props.values.writeAccess || 'private'}>
-                <option value="authenticated">Logged In Users</option>
-                <option value="private">Only Me</option>
-              </select>
+                valign="top"
+              />
             </Cell>
           </Grid>
         }
       </CardText>
-      <CardActions border>
+      <CardActions border style={{ position: 'relative' }}>
         <Button colored onClick={props.onSubmit}>
           {props.buttonText || 'Save'}
         </Button>
