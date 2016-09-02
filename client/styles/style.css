@@ -88,3 +88,14 @@ select {
     line-height: 48px;
   }
 }
+
+.mdl-textfield.navbar__search {
+  width: auto;
+}
+
+
+.doclist__heading::after {
+  content: " ";
+  display: block;
+  clear: both;
+}

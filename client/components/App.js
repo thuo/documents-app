@@ -5,7 +5,7 @@ import NavBar from 'app/containers/NavBar';
 
 const App = props => (
   <Layout fixedHeader>
-    <NavBar />
+    <NavBar location={props.location.pathname} />
     <Content component="main" className="app-container">
       {props.children}
     </Content>
@@ -14,6 +14,9 @@ const App = props => (
 
 App.propTypes = {
   children: PropTypes.node,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
 };
 
 export default App;

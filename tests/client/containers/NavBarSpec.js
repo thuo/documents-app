@@ -57,11 +57,19 @@ describe('NavBar container', () => {
             },
           },
         },
+        documentList: {
+          searchFilter: 'ipsum',
+        },
+      };
+      const ownProps = {
+        location: '/',
       };
       const expectedProps = {
         user: state.entities.users[1],
+        searchFilter: 'ipsum',
+        location: '/',
       };
-      expect(mapStateToProps(state)).to.eql(expectedProps);
+      expect(mapStateToProps(state, ownProps)).to.eql(expectedProps);
     });
   });
 });
