@@ -59,8 +59,8 @@ export const createDocumentView = Component => {
 
 
     render() {
-      const { doc } = this.props;
-      if (this.state.isEditing) {
+      const { doc, useDialogToEdit } = this.props;
+      if (this.state.isEditing && !useDialogToEdit) {
         return (
           <EditDocument
             document={doc}
@@ -68,7 +68,7 @@ export const createDocumentView = Component => {
             onEditSuccess={this.handleEditStop}
             {...omit(this.props, 'doc')}
           />
-      );
+        );
       }
       return (
         <div>
@@ -94,6 +94,19 @@ export const createDocumentView = Component => {
               </Button>
             </DialogActions>
           </Dialog>
+          {useDialogToEdit &&
+            <Dialog
+              open={this.state.isEditing}
+              className="mdl-dialog__edit-document">
+              <EditDocument
+                document={doc}
+                onCancel={this.handleEditStop}
+                onEditSuccess={this.handleEditStop}
+                showCardShadow={false}
+                {...omit(this.props, 'doc')}
+              />
+            </Dialog>
+          }
         </div>
       );
     }
@@ -109,6 +122,7 @@ export const createDocumentView = Component => {
     canEdit: PropTypes.bool,
     canDelete: PropTypes.bool,
     canEditAccess: PropTypes.bool,
+    useDialogToEdit: PropTypes.bool,
   };
 
   return DocumentView;

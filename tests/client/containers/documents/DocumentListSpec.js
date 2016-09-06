@@ -48,7 +48,7 @@ describe('DocumentList container', () => {
       expect(wrapper.find('Spinner')).to.have.length(1);
     });
 
-    it('renders documents filter', () => {
+    it('renders heading', () => {
       const props = {
         fetchDocuments: sinon.spy(),
         documents: [
@@ -60,20 +60,12 @@ describe('DocumentList container', () => {
         setDocumentsAccessFilter: sinon.spy(),
       };
       const wrapper = mount(<DocumentList {...props} />);
-      expect(wrapper.find('DocumentFilter')).to.have.length(1);
-      expect(
-        wrapper.find('DocumentFilter').prop('accessFilter')
-      ).to.equal(props.accessFilter);
-      expect(
-        wrapper.find('DocumentFilter').prop('searchFilter')
-      ).to.equal(props.searchFilter);
-      wrapper.find('DocumentFilter').prop('setAccessFilter')('');
+      const heading = wrapper.find('DocumentListHeading');
+      expect(heading).to.have.length(1);
+      expect(heading.prop('accessFilter')).to.equal(props.accessFilter);
+      heading.prop('setAccessFilter')('');
       expect(
         props.setDocumentsAccessFilter.withArgs('').calledOnce
-      ).to.be.true;
-      wrapper.find('DocumentFilter').prop('setSearchFilter')('a');
-      expect(
-        props.setDocumentsSearchFilter.withArgs('a').calledOnce
       ).to.be.true;
     });
 
@@ -167,7 +159,6 @@ describe('DocumentList container', () => {
         error: null,
         loading: false,
         accessFilter: '',
-        searchFilter: 'title',
       };
       expect(mapStateToProps(state)).to.eql(expectedProps);
     });

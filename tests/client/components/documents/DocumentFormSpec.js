@@ -83,9 +83,9 @@ describe('DocumentForm', () => {
       canEditAccess: true,
     };
     const wrapper = shallow(<DocumentForm {...props} />);
-    const readAccess = wrapper.find('#read-access');
+    const readAccess = wrapper.find('SelectField').at(0);
     expect(readAccess).to.have.length(1);
-    expect(readAccess.prop('defaultValue')).to.equal(props.values.readAccess);
+    expect(readAccess.prop('value')).to.equal(props.values.readAccess);
     expect(props.onFieldChange.withArgs('readAccess').calledOnce).to.be.true;
   });
 
@@ -98,9 +98,9 @@ describe('DocumentForm', () => {
       canEditAccess: true,
     };
     const wrapper = shallow(<DocumentForm {...props} />);
-    const writeAccess = wrapper.find('#write-access');
+    const writeAccess = wrapper.find('SelectField').at(1);
     expect(writeAccess).to.have.length(1);
-    expect(writeAccess.prop('defaultValue')).to.equal(props.values.writeAccess);
+    expect(writeAccess.prop('value')).to.equal(props.values.writeAccess);
     expect(props.onFieldChange.withArgs('writeAccess').calledOnce).to.be.true;
   });
 

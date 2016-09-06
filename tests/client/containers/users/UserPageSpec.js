@@ -94,10 +94,9 @@ describe('UserPage container', () => {
         params: { userId: '1' },
       };
       const wrapper = mount(<UserPage {...props} />);
-      wrapper.setState({ isEditing: true });
       expect(wrapper.find(UserDocumentList)).to.have.length(1);
       expect(wrapper.find(UserDocumentList).prop('userId')).to.equal('1');
-      expect(wrapper.find('h3').text()).to.equal("lorem's Documents");
+      expect(wrapper.find('h5').text()).to.equal("lorem's documents");
     });
   });
 

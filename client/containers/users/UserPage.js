@@ -85,9 +85,9 @@ export class UserPage extends React.Component {
       return (
         <div>
           {this.renderProfile()}
-          <h3 style={{ textAlign: 'center', marginTop: '2em' }}>
-            {isAuthenticatedUser ? 'My' : `${user.name.first}'s`} Documents
-          </h3>
+          <h5 style={{ marginTop: '3em' }} className="app-content">
+            {isAuthenticatedUser ? 'My' : `${user.name.first}'s`} documents
+          </h5>
           <UserDocumentList userId={user._id} />
           <FABButton
             ripple

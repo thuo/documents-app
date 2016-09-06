@@ -4,12 +4,13 @@ import { push } from 'react-router-redux';
 import FABButton from 'react-mdl/lib/FABButton';
 import Icon from 'react-mdl/lib/Icon';
 import Spinner from 'react-mdl/lib/Spinner';
+import Grid, { Cell } from 'react-mdl/lib/Grid';
 import {
-  fetchDocuments, setDocumentsAccessFilter, setDocumentsSearchFilter,
+  fetchDocuments, setDocumentsAccessFilter,
 } from 'app/actions/DocumentActions';
 import DocumentListItem from 'app/components/documents/DocumentListItem';
 import AppError from 'app/components/error/AppError';
-import DocumentFilter from 'app/components/documents/DocumentFilter';
+import DocumentListHeading from 'app/components/documents/DocumentListHeading';
 import checkDocumentAccess from 'app/utils/checkDocumentAccess';
 
 export class DocumentList extends React.Component {
@@ -43,28 +44,28 @@ export class DocumentList extends React.Component {
     };
     const {
       accessFilter,
-      searchFilter,
-      setDocumentsSearchFilter: setSearchFilter,
       setDocumentsAccessFilter: setAccessFilter,
       documents,
       pushToHistory,
     } = this.props;
     return (
       <div style={style}>
-        <DocumentFilter
+        <DocumentListHeading
           accessFilter={accessFilter}
-          searchFilter={searchFilter}
-          setSearchFilter={setSearchFilter}
           setAccessFilter={setAccessFilter}
         />
+        <Grid>
         {documents.map(doc =>
-          <DocumentListItem
-            doc={doc}
-            onDeleteSuccess={() => {}}
-            key={doc._id}
-            onDocumentClick={this.handleDocumentClick}
-          />
+          <Cell col={4} key={doc._id}>
+            <DocumentListItem
+              useDialogToEdit
+              doc={doc}
+              onDeleteSuccess={() => {}}
+              onDocumentClick={this.handleDocumentClick}
+            />
+          </Cell>
         )}
+        </Grid>
         <FABButton
           ripple
           colored
@@ -104,7 +105,7 @@ export const mapStateToProps = state => {
   });
   const { loading } = documentList;
   const error = documentList.error && documentList.error.error;
-  return { documents, error, loading, accessFilter, searchFilter };
+  return { documents, error, loading, accessFilter };
 };
 
 
@@ -115,9 +116,7 @@ DocumentList.propTypes = {
   fetchDocuments: PropTypes.func.isRequired,
   pushToHistory: PropTypes.func.isRequired,
   setDocumentsAccessFilter: PropTypes.func.isRequired,
-  setDocumentsSearchFilter: PropTypes.func.isRequired,
   accessFilter: PropTypes.string.isRequired,
-  searchFilter: PropTypes.string.isRequired,
 };
 
 export default connect(
@@ -125,6 +124,5 @@ export default connect(
     pushToHistory: push,
     fetchDocuments,
     setDocumentsAccessFilter,
-    setDocumentsSearchFilter,
   }
 )(DocumentList);

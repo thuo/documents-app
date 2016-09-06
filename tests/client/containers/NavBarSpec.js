@@ -31,7 +31,7 @@ describe('NavBar container', () => {
         push: sinon.spy(),
       };
       const wrapper = mount(<NavBar {...props} />);
-      expect(wrapper.find('#profile-menu').text()).to.equal('Foo');
+      expect(wrapper.find('Icon').at(1).prop('name')).to.equal('more_vert');
       const links = wrapper.find('Link');
       expect(links.at(0).prop('to')).to.equal('/');
       wrapper.find('MenuItem').at(0).simulate('click');
@@ -57,11 +57,19 @@ describe('NavBar container', () => {
             },
           },
         },
+        documentList: {
+          searchFilter: 'ipsum',
+        },
+      };
+      const ownProps = {
+        location: '/',
       };
       const expectedProps = {
         user: state.entities.users[1],
+        searchFilter: 'ipsum',
+        location: '/',
       };
-      expect(mapStateToProps(state)).to.eql(expectedProps);
+      expect(mapStateToProps(state, ownProps)).to.eql(expectedProps);
     });
   });
 });

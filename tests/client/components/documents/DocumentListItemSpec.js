@@ -34,11 +34,12 @@ describe('DocumentListItem', () => {
 
   it('renders the document info', () => {
     const props = {
+      className: 'doclist-item__info',
       title: 'Lorem',
       content: 'ipsum',
     };
     const wrapper = shallow(<DocumentListItem {...props} />);
-    const info = wrapper.find('DocumentInfo');
+    const info = wrapper.find('ShortDocumentInfo');
     expect(info.props()).to.eql(props);
   });
 

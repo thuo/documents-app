@@ -6,6 +6,7 @@ import { fetchUsersDocuments } from 'app/actions/UserActions';
 import DocumentListItem from 'app/components/documents/DocumentListItem';
 import AppError from 'app/components/error/AppError';
 import checkDocumentAccess from 'app/utils/checkDocumentAccess';
+import Grid, { Cell } from 'react-mdl/lib/Grid';
 
 export class DocumentList extends React.Component {
 
@@ -28,16 +29,18 @@ export class DocumentList extends React.Component {
       return (<AppError>{error || <Spinner />}</AppError>);
     }
     return (
-      <div>
+      <Grid>
         {this.props.documents.map(doc =>
-          <DocumentListItem
-            key={doc._id}
-            doc={doc}
-            onDeleteSuccess={() => {}}
-            onDocumentClick={this.handleDocumentClick}
-          />
+          <Cell col={4} key={doc._id}>
+            <DocumentListItem
+              useDialogToEdit
+              doc={doc}
+              onDeleteSuccess={() => {}}
+              onDocumentClick={this.handleDocumentClick}
+            />
+          </Cell>
         )}
-      </div>
+      </Grid>
     );
   }
 }
