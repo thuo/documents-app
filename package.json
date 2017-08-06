@@ -25,14 +25,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/andela-hthuo/documents-app.git"
+    "url": "git+https://github.com/thuo/documents-app.git"
   },
   "author": "Humphrey Thuo",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/andela-hthuo/documents-app/issues"
+    "url": "https://github.com/thuo/documents-app/issues"
   },
-  "homepage": "https://github.com/andela-hthuo/documents-app#readme",
+  "homepage": "https://github.com/thuo/documents-app#readme",
   "dependencies": {
     "bcrypt": "^0.8.7",
     "body-parser": "^1.15.1",

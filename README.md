@@ -1,11 +1,11 @@
 # Documents App
 
-[![Build Status](https://travis-ci.org/andela-hthuo/documents-app.svg?branch=master)](https://travis-ci.org/andela-hthuo/documents-app)
-[![codecov](https://codecov.io/gh/andela-hthuo/documents-app/branch/master/graph/badge.svg)](https://codecov.io/gh/andela-hthuo/documents-app)
-[![Code Climate](https://codeclimate.com/github/andela-hthuo/documents-app/badges/gpa.svg)](https://codeclimate.com/github/andela-hthuo/documents-app)
-[![Dependency Status](https://david-dm.org/andela-hthuo/documents-app.svg)](https://david-dm.org/andela-hthuo/documents-app)
+[![Build Status](https://travis-ci.org/thuo/documents-app.svg?branch=master)](https://travis-ci.org/thuo/documents-app)
+[![codecov](https://codecov.io/gh/thuo/documents-app/branch/master/graph/badge.svg)](https://codecov.io/gh/thuo/documents-app)
+[![Code Climate](https://codeclimate.com/github/thuo/documents-app/badges/gpa.svg)](https://codeclimate.com/github/thuo/documents-app)
+[![Dependency Status](https://david-dm.org/thuo/documents-app.svg)](https://david-dm.org/thuo/documents-app)
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/andela-hthuo/documents-app)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/thuo/documents-app)
 
  Document management app.
 
@@ -19,7 +19,7 @@
 
 #### Clone the repo
 ```bash
-git clone https://github.com/andela-hthuo/documents-app.git
+git clone https://github.com/thuo/documents-app.git
 ```
 #### Install npm dependencies
 

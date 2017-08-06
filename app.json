@@ -1,7 +1,7 @@
 {
   "name": "Documents API",
   "description": "Document Management System API",
-  "repository": "https://github.com/andela-hthuo/documents-api",
+  "repository": "https://github.com/thuo/documents-api",
   "env": {
     "SECRET_TOKEN": {
       "description": "A secret key for verifying signed tokens.",
